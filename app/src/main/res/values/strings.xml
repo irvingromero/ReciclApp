@@ -9,4 +9,7 @@
     <string name="nocuenta">¿No tienes cuenta?</string>
     <string name="btnRegistro_inicio">Registrarse</string>
 
+    <!-- Registro usuarios -->
+    <string name="registroListo_rUsu">Listo</string>
+
 </resources>

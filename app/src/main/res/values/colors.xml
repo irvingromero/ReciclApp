@@ -9,4 +9,6 @@
     <color name="botonEntrar">#b1d3f4</color>
     <color name="botonRegistro">#498dd1</color>
 
+    <color name="fondoRegistroUsu">#bec2c6</color>
+
 </resources>

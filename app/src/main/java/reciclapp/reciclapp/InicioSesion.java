@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import reciclapp.reciclapp.Registro.RegistroUsuario;
+
 public class InicioSesion extends Fragment {
 
     private View vista;
@@ -35,7 +37,8 @@ public class InicioSesion extends Fragment {
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(getContext(), "Proximamente xD", Toast.LENGTH_SHORT).show();
+                String usuario = campoUsuario.getText().toString();
+                Toast.makeText(getContext(), usuario, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -48,12 +51,13 @@ public class InicioSesion extends Fragment {
                 RegistroUsuario registro = new RegistroUsuario();
                 android.support.v4.app.FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.inicioActivity,  registro, "fragment_meters");
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 ft.addToBackStack(null);
                 ft.commit();
                 getActivity().setTitle("Registro");
             }
         });
+
 
 
         return vista;
