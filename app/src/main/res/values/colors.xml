@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#22b2ef</color>
-    <color name="colorPrimaryDark">#1c9dd4</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorPrimary">#1cab36</color>
+    <color name="colorPrimaryDark">#0c81b3</color>
+    <color name="colorAccent">#071097</color>
 
-    <color name="fondo">#1cab36</color>
+    <color name="fondo">#21b33c</color>
+
+    <color name="botonEntrar">#b1d3f4</color>
+    <color name="botonRegistro">#498dd1</color>
+
 </resources>

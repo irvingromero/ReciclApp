@@ -1,11 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".InicioSesion"
-    android:background="@color/fondo">
+    android:background="@color/fondo"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
 
+    <ImageView
+        android:id="@+id/logo_inicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/logito"
+        android:layout_gravity="center"
+        />
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etUsuario_inicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Usuario o Correo"
+            android:layout_margin="10dp"
+            />
+    </android.support.design.widget.TextInputLayout>
 
-</FrameLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/etContra_inicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Contraseña"
+            android:inputType="textPassword" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnLogin_inicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Entrar_inicio"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/botonEntrar"
+        />
+
+    <ImageView
+        android:id="@+id/se"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/separador1"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/nocuenta"
+        android:gravity="bottom"
+        />
+
+    <Button
+        android:id="@+id/btnRegistro_inicio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/btnRegistro_inicio"
+        android:textAllCaps="false"
+        android:layout_gravity="bottom"
+        android:backgroundTint="@color/botonRegistro"
+        />
+
+</LinearLayout>
