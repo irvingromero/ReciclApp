@@ -97,7 +97,7 @@ public class RegistroRecicladora extends Fragment {
                     ContentValues cv = new ContentValues();
                     cv.put("usuario", usuario);
                     cv.put("correo", correo);
-                    cv.put("nombre", nombre);
+                    cv.put("contra", contra);
                     cv.put("telefono", telefono);
                     cv.put("calle", calle);
                     cv.put("calle2", calle2);

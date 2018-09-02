@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".InicioSesion"
+    tools:context=".Inicio.InicioSesion"
     android:background="@color/fondo"
     android:orientation="vertical"
     android:gravity="center"
@@ -21,14 +21,14 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etUsuario_inicio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Usuario o Correo"
             android:layout_margin="10dp"
-            android:inputType="text"
-            />
+            android:hint="Usuario"
+            android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout

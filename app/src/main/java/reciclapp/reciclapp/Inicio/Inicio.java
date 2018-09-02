@@ -1,10 +1,11 @@
-package reciclapp.reciclapp;
+package reciclapp.reciclapp.Inicio;
 
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import reciclapp.reciclapp.Interfaces.InterInicio;
+import reciclapp.reciclapp.R;
 
 public class Inicio extends AppCompatActivity implements InterInicio {
 

@@ -133,6 +133,15 @@ public class RegistroUsuario extends Fragment {
             existe = false;
         }
         bd.close();
+
+        BaseDeDatos basededatos2 = new BaseDeDatos(getContext(), "Recicladoras", null , 1);
+        SQLiteDatabase bd2 = basededatos2.getWritableDatabase();
+        Cursor consultaRecicla = bd2.rawQuery("select usuario from Recicladoras where usuario ='"+usuario+"'",null);
+        if(consultaRecicla.moveToFirst())
+        {
+            existe = false;
+        }
+        bd2.close();
         return existe;
     }
 

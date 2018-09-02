@@ -16,4 +16,19 @@
     <string name="registroRecicla">Registro de Recicladora</string>
     <string name="registrarReci">Registrar</string>
 
+    <!-- Registro Recicicladora -->
+    <string name="title_activity_sesion_recicladora">SesionRecicladora</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="agregarImagen">Agregar imagen</string>
+    <string name="modificarDatos">Modificar datos</string>
+    <string name="agregarUbicacion">Agregar ubicacion</string>
+    <string name="agregarHorario">Agregar horario</string>
+    <string name="agregarRecicladora">Agregar recicladora</string>
+    <string name="cerrarSesion">Cerrar Sesion</string>
 </resources>
