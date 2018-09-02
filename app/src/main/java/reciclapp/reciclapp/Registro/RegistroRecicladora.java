@@ -23,12 +23,9 @@ public class RegistroRecicladora extends Fragment {
     private View vista;
     private Button registrar;
     private ImageButton back;
-    private EditText campoUsuario, campoCorreo, campoContra, campoConfirContra,
-            campoNombre, campoTelefono, campoCalle, campoCalle2, campoColonia, campoNumeroInt;
+    private EditText campoUsuario, campoCorreo, campoContra, campoConfirContra, campoNombre;
 
-    public RegistroRecicladora() {
-        // Required empty public constructor
-    }
+    public RegistroRecicladora() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -40,11 +37,6 @@ public class RegistroRecicladora extends Fragment {
         campoContra = vista.findViewById(R.id.etContra_registroRecicla);
         campoConfirContra = vista.findViewById(R.id.etConfirContra_registroRecicla);
         campoNombre = vista.findViewById(R.id.etNombreNegocio_registroRecicla);
-        campoTelefono = vista.findViewById(R.id.etTelefono_registroRecicla);
-        campoCalle = vista.findViewById(R.id.etCalle_registroRecicla);
-        campoCalle2 = vista.findViewById(R.id.etCalle2_registroRecicla);
-        campoColonia = vista.findViewById(R.id.etColonia_registroRecicla);
-        campoNumeroInt = vista.findViewById(R.id.etNumeroInt_registroRecicla);
 
         registrar = vista.findViewById(R.id.btnRegistrar_registroRecicla);
         registrar.setOnClickListener(new View.OnClickListener()
@@ -75,14 +67,8 @@ public class RegistroRecicladora extends Fragment {
         String contra = campoContra.getText().toString();
         String confirContra = campoConfirContra.getText().toString();
         String nombre = campoNombre.getText().toString();
-        String telefono = campoTelefono.getText().toString();
-        String calle = campoCalle.getText().toString();
-        String calle2 = campoCalle2.getText().toString();
-        String colonia = campoColonia.getText().toString();
-        String numeroInt = campoNumeroInt.getText().toString();
 
-        if(!usuario.isEmpty() && !correo.isEmpty() && !contra.isEmpty() && !confirContra.isEmpty() && !nombre.isEmpty() &&
-           !telefono.isEmpty() && !calle.isEmpty() && !colonia.isEmpty() && !numeroInt.isEmpty())
+        if(!usuario.isEmpty() && !correo.isEmpty() && !contra.isEmpty() && !confirContra.isEmpty() && !nombre.isEmpty())
         {
             boolean noExiste = validaUsuario(usuario);
             boolean contraCorrecta = validaContra(contra, confirContra);
@@ -90,14 +76,18 @@ public class RegistroRecicladora extends Fragment {
             switch (noExiste + "-" + contraCorrecta)
             {
                 case "true-true":
-                    if(calle2.isEmpty())
-                    {
-                        calle2 = "";
-                    }
+                    String telefono = "No especificado";
+                    String calle = "No especificado";
+                    String calle2 = "No especificado";
+                    String colonia = "No espeificado";
+                    int numeroInt = 0;
+
                     ContentValues cv = new ContentValues();
                     cv.put("usuario", usuario);
                     cv.put("correo", correo);
                     cv.put("contra", contra);
+                    cv.put("nombre", nombre);
+
                     cv.put("telefono", telefono);
                     cv.put("calle", calle);
                     cv.put("calle2", calle2);

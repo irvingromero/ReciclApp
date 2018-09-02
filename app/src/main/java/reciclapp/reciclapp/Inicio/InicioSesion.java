@@ -28,9 +28,7 @@ public class InicioSesion extends Fragment {
     private Button entrar, registrarse;
     private EditText campoUsuario, campoContra;
 
-    public InicioSesion() {
-        // Required empty public constructor
-    }
+    public InicioSesion() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -88,22 +86,6 @@ public class InicioSesion extends Fragment {
                     }
                 });
                 ventana.create().show();
-                    /*
-                new AlertDialog.Builder(getActivity()).setTitle("¿Como quieres registrarte?")
-//                        .setMessage("¿stas seguro de eliminar item?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        }).setIcon(android.R.drawable.ic_dialog_alert).show();
-                */
             }
         });
         return vista;

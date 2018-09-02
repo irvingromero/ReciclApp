@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/imagenes_SesionRe"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/agregarImagen" />
+        <item
+            android:id="@+id/modificarDatos_SesionRe"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/modificarDatos" />
+        <item
+            android:id="@+id/ubicacion_SesionRe"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/agregarUbicacion" />
+        <item
+            android:id="@+id/agregarHorario_re"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/agregarHorario" />
+        <item
+            android:id="@+id/agregarRecicladora_re"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/agregarRecicladora" />
+        <item
+            android:id="@+id/cerrarSesion_re"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/cerrarSesion" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/infoDesarrollador"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Info del desarrollador" />
+        </menu>
+    </item>
+
+</menu>

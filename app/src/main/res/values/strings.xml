@@ -27,8 +27,14 @@
 
     <string name="agregarImagen">Agregar imagen</string>
     <string name="modificarDatos">Modificar datos</string>
-    <string name="agregarUbicacion">Agregar ubicacion</string>
-    <string name="agregarHorario">Agregar horario</string>
+    <string name="agregarUbicacion">Ubicacion</string>
+    <string name="agregarHorario">Horario</string>
     <string name="agregarRecicladora">Agregar recicladora</string>
     <string name="cerrarSesion">Cerrar Sesion</string>
+
+    <!-- Registro Recicicladora -->
+    <string name="textoModifRe">Modificar datos</string>
+
+    <!-- Modificar recicladora  -->
+    <string name="actualizarRecicla">Actualizar datos</string>
 </resources>

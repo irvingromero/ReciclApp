@@ -124,97 +124,11 @@
                 android:inputType="text"/>
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/etTelefono_registroRecicla"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Telefono"
-                android:layout_margin="5dp"
-                android:inputType="number"/>
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/lyCalles_registroReci"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lyNombreYtelefono_regisRecicla"
-        android:orientation="horizontal"
-        android:layout_margin="10dp">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/etCalle_registroRecicla"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Calle"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/etCalle2_registroRecicla"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Entre calle (opcional)"
-                android:layout_margin="5dp"
-                android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/lyColonia_registroReci"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lyCalles_registroReci"
-        android:orientation="horizontal"
-        android:layout_margin="10dp">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/etColonia_registroRecicla"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Colonia"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/etNumeroInt_registroRecicla"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Numero Interior"
-                android:layout_margin="5dp"
-                android:inputType="number"/>
-        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
     <Button
         android:id="@+id/btnRegistrar_registroRecicla"
-        android:layout_below="@id/lyColonia_registroReci"
+        android:layout_below="@id/lyNombreYtelefono_regisRecicla"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registrarReci"
