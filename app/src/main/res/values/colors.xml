@@ -4,11 +4,15 @@
     <color name="colorPrimaryDark">#0c81b3</color>
     <color name="colorAccent">#071097</color>
 
+    <!-- Inicio sesion -->
     <color name="fondo">#21b33c</color>
-
     <color name="botonEntrar">#b1d3f4</color>
     <color name="botonRegistro">#498dd1</color>
 
+    <!-- Registro usuario -->
     <color name="fondoRegistroUsu">#bec2c6</color>
+
+    <!-- Registro recicladora -->
+    <color name="fondoRegistroRecicladora">#d2ba2f</color>
 
 </resources>

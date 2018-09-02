@@ -1,14 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Registro.RegistroRecicladora">
+    tools:context=".Registro.RegistroRecicladora"
+    android:background="@color/fondoRegistroRecicladora">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_registroRecicla"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
 
-</FrameLayout>
+        <ImageButton
+            android:id="@+id/btnAtras_registroRecicla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:backgroundTint="@color/colorPrimaryDark"
+            />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registroRecicla"
+            android:textSize="18sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/lyUsuarioYcorreo_registroReci"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tb_registroRecicla"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etUsuario_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Usuario"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:inputType="text"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etCorreo_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Correo electronico"
+                android:layout_margin="5dp"
+                android:inputType="textEmailAddress"/>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lyContras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lyUsuarioYcorreo_registroReci"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etContra_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etConfirContra_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirma Contraseña"
+                android:layout_margin="5dp"
+                android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lyNombreYtelefono_regisRecicla"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lyContras"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etNombreNegocio_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre del negocio"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:inputType="text"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etTelefono_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Telefono"
+                android:layout_margin="5dp"
+                android:inputType="number"/>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lyCalles_registroReci"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lyNombreYtelefono_regisRecicla"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etCalle_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Calle"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:inputType="text"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etCalle2_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entre calle (opcional)"
+                android:layout_margin="5dp"
+                android:inputType="text"/>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lyColonia_registroReci"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lyCalles_registroReci"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etColonia_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Colonia"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:inputType="text"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etNumeroInt_registroRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Numero Interior"
+                android:layout_margin="5dp"
+                android:inputType="number"/>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnRegistrar_registroRecicla"
+        android:layout_below="@id/lyColonia_registroReci"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registrarReci"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/botonEntrar"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

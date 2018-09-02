@@ -12,4 +12,8 @@
     <!-- Registro usuarios -->
     <string name="registroListo_rUsu">Listo</string>
 
+    <!-- Registro Recicicladora -->
+    <string name="registroRecicla">Registro de Recicladora</string>
+    <string name="registrarReci">Registrar</string>
+
 </resources>

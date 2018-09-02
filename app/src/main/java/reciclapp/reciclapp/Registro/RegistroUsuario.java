@@ -1,5 +1,6 @@
 package reciclapp.reciclapp.Registro;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -70,23 +71,35 @@ public class RegistroUsuario extends Fragment {
 
         if(!usuario.isEmpty() && !correo.isEmpty() && !contra.isEmpty() && !confContra.isEmpty())
         {
-            boolean existe = validaUsuario(usuario);
-            boolean contraMal = validaContra(contra, confContra);
+            boolean noExiste = validaUsuario(usuario);
+            boolean contraCorrecta = validaContra(contra, confContra);
 
-            switch (existe + "-" + contraMal)
+            switch (noExiste + "-" + contraCorrecta)
             {
-                case "false-false":
-                    Snackbar.make(vista, "Registro completo", Snackbar.LENGTH_LONG).show();
+                case "true-true":
+                    ContentValues cv = new ContentValues();
+                    cv.put("usuario", usuario);
+                    cv.put("correo", correo);
+                    cv.put("contra", contra);
+
+                    BaseDeDatos bd = new BaseDeDatos(getContext(), "Usuarios", null , 1);
+                    SQLiteDatabase basededatos = bd.getWritableDatabase();
+                    basededatos.insert("Usuarios", null, cv);
+                    basededatos.close();
+
                     getActivity().getSupportFragmentManager().popBackStack();
+                    Snackbar.make(vista, "Registro completo", Snackbar.LENGTH_LONG).show();
                     break;
 
                 case "false-true":
-
+                    Toast.makeText(getContext(), "*Usuario ya registrado, porfavor elige otro", Toast.LENGTH_LONG).show();
                     break;
                 case "true-false":
-
-                case "true-true":
-
+                    Toast.makeText(getContext(), "*La contraseña no coinside", Toast.LENGTH_LONG).show();
+                    break;
+                case "false-false":
+                    Toast.makeText(getContext(), "*Usuario ya registrado, porfavor elige otro\n*La contraseña no coinside", Toast.LENGTH_LONG).show();
+                    break;
                 default:
 
             }
@@ -110,14 +123,14 @@ public class RegistroUsuario extends Fragment {
 
     private boolean validaUsuario(String usuario)
     {
-        boolean existe = false;
+        boolean existe = true;
         BaseDeDatos basededatos = new BaseDeDatos(getContext(), "Usuarios", null , 1);
         SQLiteDatabase bd = basededatos.getWritableDatabase();
 
         Cursor consultaUsuario = bd.rawQuery("select usuario from Usuarios where usuario ='"+usuario+"'",null);
         if(consultaUsuario.moveToFirst())
         {
-            existe = true;
+            existe = false;
         }
         bd.close();
         return existe;
