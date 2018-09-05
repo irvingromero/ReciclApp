@@ -1,7 +1,7 @@
 package reciclapp.reciclapp.Interfaces;
 
 
-import reciclapp.reciclapp.Inicio.InicioSesion;
+import reciclapp.reciclapp.InicioDeSesion.InicioSesion;
 import reciclapp.reciclapp.Registro.RegistroRecicladora;
 import reciclapp.reciclapp.Registro.RegistroUsuario;
 

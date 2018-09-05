@@ -10,8 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Inicio.Inicio"
+            android:name=".InicioDeSesion.Inicio"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".SesionRecicladora.SesionRecicladora"
+            android:label="@string/title_activity_sesion_recicladora"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SesionRecicladora.UbicacionRecicladora" />
+        <activity android:name=".SesionRecicladora.ModificarRecicladora" />
+        <activity android:name=".SesionRecicladora.HorarioRecicladora" />
+        <activity
+            android:name=".Inicio.InicioPrincipal"
+            android:label="@string/title_activity_inicio_principal"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,11 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SesionRecicladora.SesionRecicladora"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_sesion_recicladora"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

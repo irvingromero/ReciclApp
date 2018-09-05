@@ -4,8 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,24 +14,25 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-import reciclapp.reciclapp.Inicio.Inicio;
+import reciclapp.reciclapp.InicioDeSesion.Inicio;
+import reciclapp.reciclapp.Interfaces.InterRecicla;
 import reciclapp.reciclapp.R;
 
-public class SesionRecicladora extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
-    private FloatingActionButton fab;
+public class SesionRecicladora extends AppCompatActivity implements InterRecicla {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sesion_recicladora);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -49,9 +50,6 @@ public class SesionRecicladora extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        InicioSesionreci inicio = new InicioSesionreci();
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionRecicladora, inicio).commit();
     }
 
     @Override
@@ -66,8 +64,8 @@ public class SesionRecicladora extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
         int id = item.getItemId();
 
         if (id == R.id.imagenes_SesionRe)
@@ -75,30 +73,26 @@ public class SesionRecicladora extends AppCompatActivity
 
         } else if (id == R.id.modificarDatos_SesionRe)
         {
-            fab.hide();
+            ModificarRecicladora modificar = new ModificarRecicladora();
+            Intent i = new Intent(this, SesionRecicladora.class);
 
-            ModificarRecicladora mr = new ModificarRecicladora();
-            FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainSesionRecicladora,  mr, "fragment_meters");
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.addToBackStack(null);
-            ft.commit();
-            setTitle("Modificar datos");
-
+            startActivity(i);
 
         } else if (id == R.id.ubicacion_SesionRe)
         {
 
+
         } else if (id == R.id.agregarHorario_re)
         {
+            agregarHorario();
 
         } else if (id == R.id.agregarRecicladora_re)
         {
+            Toast.makeText(this, "Proximamente", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.cerrarSesion_re)
         {
             new AlertDialog.Builder(this).setTitle("¿Cerrar sesion?")
-//                    .setMessage("¿stas seguro de eliminar item?")
                     .setPositiveButton("Cerrar", new DialogInterface.OnClickListener()
                     {
                         public void onClick(DialogInterface dialog, int which)
@@ -120,5 +114,29 @@ public class SesionRecicladora extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void agregarHorario()
+    {
+        AlertDialog.Builder ventanita = new AlertDialog.Builder(this);
+        ventanita.setTitle("Horario del negocio");
+            //// CARGA EL LAYOUT DEL HORARIO ////
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.agregar_horario, null);
+        ventanita.setView(dialogView);
+
+        Spinner spin = findViewById(R.id.spLunHrAb);
+
+        ventanita.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        ventanita.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) { }});
+
+        ventanita.show();
     }
 }

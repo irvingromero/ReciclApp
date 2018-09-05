@@ -1,4 +1,4 @@
-package reciclapp.reciclapp.Inicio;
+package reciclapp.reciclapp.InicioDeSesion;
 
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;

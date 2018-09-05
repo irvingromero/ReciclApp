@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import reciclapp.reciclapp.R;
 
-public class ModificarRecicladora extends AppCompatActivity {
+public class UbicacionRecicladora extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modificar_recicladora);
+        setContentView(R.layout.activity_ubicacion_recicladora);
     }
 }

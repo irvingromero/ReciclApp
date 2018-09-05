@@ -1,4 +1,4 @@
-package reciclapp.reciclapp.Inicio;
+package reciclapp.reciclapp.InicioDeSesion;
 
 import android.content.DialogInterface;
 import android.content.Intent;
