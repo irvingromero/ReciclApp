@@ -5,17 +5,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/sesionRegistro_inicioPrin"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="@string/sesionRegistro_inicioPrin" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/buscarMaterial_inicioPrin"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="@string/material_inicioPrin" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/mejorPrecio_inicioPrin"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="@string/mejorPrecio" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
@@ -25,7 +25,7 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/programador_inicioPrin"
                 android:icon="@drawable/ic_menu_send"
                 android:title="@string/infoDesarrollador" />
         </menu>

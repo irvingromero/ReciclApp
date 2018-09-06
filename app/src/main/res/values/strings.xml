@@ -70,6 +70,9 @@
         <item>PM</item>
     </string-array>
 
-    <string name="title_activity_inicio_principal">InicioPrincipal</string>
+    <!-- Inicio principal  -->
+    <string name="sesionRegistro_inicioPrin">Iniciar sesion/Registrarse</string>
+    <string name="material_inicioPrin">Filtrar material</string>
+    <string name="mejorPrecio">Mejor precio</string>
 
 </resources>
