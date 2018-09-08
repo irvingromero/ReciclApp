@@ -7,13 +7,13 @@
     android:background="@color/fondoRegistroRecicladora">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_registroRecicla"
+        android:id="@+id/tb_modifRecicla"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark">
 
         <ImageButton
-            android:id="@+id/btnAtras_registroRecicla"
+            android:id="@+id/btnAtras_modifRecicla"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back"
@@ -29,10 +29,10 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
-        android:id="@+id/lyUsuarioYcorreo_registroReci"
+        android:id="@+id/lyCorreo_modifRecicla"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tb_registroRecicla"
+        android:layout_below="@id/tb_modifRecicla"
         android:orientation="horizontal"
         android:layout_margin="10dp">
 
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/etCorreo_registroRecicla"
+                android:id="@+id/etCorreo_modifRecicla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Correo electronico"
@@ -66,10 +66,10 @@
 
 
     <LinearLayout
-        android:id="@+id/lyContras"
+        android:id="@+id/lyContras_modifRecicla"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lyUsuarioYcorreo_registroReci"
+        android:layout_below="@id/lyCorreo_modifRecicla"
         android:orientation="horizontal"
         android:layout_margin="10dp">
 
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/etContra_registroRecicla"
+                android:id="@+id/etContra_modifRecicla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Contraseña"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/etConfirContra_registroRecicla"
+                android:id="@+id/etConfirContra_modifRecicla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirma Contraseña"
@@ -103,10 +103,10 @@
 
 
     <LinearLayout
-        android:id="@+id/lyNombreYtelefono_regisRecicla"
+        android:id="@+id/lyNombreYtelefono_modifRecicla"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lyContras"
+        android:layout_below="@id/lyContras_modifRecicla"
         android:orientation="horizontal"
         android:layout_margin="10dp">
 
@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/etNombreNegocio_registroRecicla"
+                android:id="@+id/etNombreNegocio_modifRecicla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nombre del negocio"
@@ -128,7 +128,7 @@
 
     <Button
         android:id="@+id/btnRegistrar_registroRecicla"
-        android:layout_below="@id/lyNombreYtelefono_regisRecicla"
+        android:layout_below="@id/lyNombreYtelefono_modifRecicla"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registrarReci"

@@ -1,6 +1,8 @@
 package reciclapp.reciclapp.Inicio;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import reciclapp.reciclapp.InicioDeSesion.Inicio;
 import reciclapp.reciclapp.R;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class InicioPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener , OnMapReadyCallback{
@@ -66,6 +70,7 @@ public class InicioPrincipal extends AppCompatActivity
         {
             Intent intent = new Intent(this, Inicio.class);
             startActivity(intent);
+            finish();
 
         } else if (id == R.id.buscarMaterial_inicioPrin)
         {
@@ -92,6 +97,24 @@ public class InicioPrincipal extends AppCompatActivity
 
         LatLng mexicali = new LatLng(32.6278100,  -115.4544600);
         mapa.moveCamera(CameraUpdateFactory.newLatLng(mexicali));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            //// SOLICITA PERMISO PARA LA UBICACION  ////
+            if ((checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
+            {
+                mapa.setMyLocationEnabled(true);
+            }
+            //// SI EL PERMISO NO FUE DADO, VUELVE A PREGUNTAR ////
+            if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION))
+            {
+                requestPermissions(new String[] {ACCESS_FINE_LOCATION}, 1);
+//                mapa.setMyLocationEnabled(true); error
+            }
+        }
+        else{
+            mapa.setMyLocationEnabled(true);
+        }
 
     }
 }

@@ -15,7 +15,7 @@
     <!-- Registro recicladora -->
     <color name="fondoRegistroRecicladora">#683684</color>
 
-    <!-- Modificar  -->
-    <color name="fondoModif">#8e2248</color>
+    <!-- Modificar recicladora-->
+    <color name="fondoModifRecicla">#8e2248</color>
 
 </resources>

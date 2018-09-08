@@ -33,10 +33,10 @@ public class RegistroRecicladora extends Fragment {
         vista = inflater.inflate(R.layout.fragment_registro_recicladora, container, false);
 
         campoUsuario = vista.findViewById(R.id.etUsuario_registroRecicla);
-        campoCorreo = vista.findViewById(R.id.etCorreo_registroRecicla);
-        campoContra = vista.findViewById(R.id.etContra_registroRecicla);
-        campoConfirContra = vista.findViewById(R.id.etConfirContra_registroRecicla);
-        campoNombre = vista.findViewById(R.id.etNombreNegocio_registroRecicla);
+        campoCorreo = vista.findViewById(R.id.etCorreo_modifRecicla);
+        campoContra = vista.findViewById(R.id.etContra_modifRecicla);
+        campoConfirContra = vista.findViewById(R.id.etConfirContra_modifRecicla);
+        campoNombre = vista.findViewById(R.id.etNombreNegocio_modifRecicla);
 
         registrar = vista.findViewById(R.id.btnRegistrar_registroRecicla);
         registrar.setOnClickListener(new View.OnClickListener()
@@ -48,7 +48,7 @@ public class RegistroRecicladora extends Fragment {
             }
         });
 
-        back = vista.findViewById(R.id.btnAtras_registroRecicla);
+        back = vista.findViewById(R.id.btnAtras_modifRecicla);
         back.setOnClickListener(new View.OnClickListener()
         {
             @Override

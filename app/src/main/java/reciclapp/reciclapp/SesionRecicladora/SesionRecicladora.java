@@ -59,6 +59,10 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+
+            Intent i = new Intent(SesionRecicladora.this, Inicio.class);
+            startActivity(i);
+            finish();
         }
     }
 
@@ -74,7 +78,7 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         } else if (id == R.id.modificarDatos_SesionRe)
         {
             ModificarRecicladora modificar = new ModificarRecicladora();
-            Intent i = new Intent(this, SesionRecicladora.class);
+            Intent i = new Intent(this, ModificarRecicladora.class);
 
             startActivity(i);
 
