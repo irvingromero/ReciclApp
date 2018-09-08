@@ -23,11 +23,16 @@ import reciclapp.reciclapp.R;
 
 public class SesionRecicladora extends AppCompatActivity implements InterRecicla {
 
+    private String logeado;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sesion_recicladora);
+
+        Bundle extras = getIntent().getExtras();
+        logeado = extras.getString("usuario");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,9 +65,19 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         } else {
             super.onBackPressed();
 
-            Intent i = new Intent(SesionRecicladora.this, Inicio.class);
-            startActivity(i);
-            finish();
+            new AlertDialog.Builder(this).setTitle("¿Cerrar sesion?")
+                    .setPositiveButton("Cerrar", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            Intent i = new Intent(SesionRecicladora.this, Inicio.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) { }
+            }).setIcon(android.R.drawable.ic_delete).show();
         }
     }
 
@@ -77,14 +92,17 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
 
         } else if (id == R.id.modificarDatos_SesionRe)
         {
-            ModificarRecicladora modificar = new ModificarRecicladora();
             Intent i = new Intent(this, ModificarRecicladora.class);
-
+            i.putExtra("usuario", logeado);
             startActivity(i);
+            finish();
 
         } else if (id == R.id.ubicacion_SesionRe)
         {
-
+            Intent i = new Intent(SesionRecicladora.this, UbicacionRecicladora.class);
+            i.putExtra("usuario", logeado);
+            startActivity(i);
+            finish();
 
         } else if (id == R.id.agregarHorario_re)
         {

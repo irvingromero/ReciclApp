@@ -107,10 +107,10 @@ public class RegistroRecicladora extends Fragment {
                     Toast.makeText(getContext(), "*Usuario ya registrado, porfavor elige otro", Toast.LENGTH_LONG).show();
                     break;
                 case "true-false":
-                    Toast.makeText(getContext(), "*La contraseña no coinside", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "*La contraseña no coincide", Toast.LENGTH_LONG).show();
                     break;
                 case "false-false":
-                    Toast.makeText(getContext(), "*Usuario ya registrado, porfavor elige otro\n*La contraseña no coinside", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "*Usuario ya registrado, porfavor elige otro\n*La contraseña no coincide", Toast.LENGTH_LONG).show();
                     break;
                 default:
 

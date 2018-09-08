@@ -79,4 +79,7 @@
     <string name="modificar_modifRecicla">Modificar datos</string>
     <string name="actealizar_modifRecicla">Actualizar datos</string>
 
+    <!-- ubicacion recicladora  -->
+    <string name="ubicacion_ubicacionReci">Ubicacion recicladora</string>
+    <string name="seleccionar_ubicacionReci">Seleccionar</string>
 </resources>

@@ -20,7 +20,8 @@
             android:label="@string/title_activity_sesion_recicladora"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SesionRecicladora.UbicacionRecicladora" />
+        <activity android:name=".SesionRecicladora.UbicacionRecicladora"
+                  android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SesionRecicladora.ModificarRecicladora"
                   android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SesionRecicladora.HorarioRecicladora" />

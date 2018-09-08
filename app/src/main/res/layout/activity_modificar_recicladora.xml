@@ -198,7 +198,7 @@
 
 
     <Button
-        android:id="@+id/btnRegistrar_registroRecicla"
+        android:id="@+id/btnActualizar_modifRecicla"
         android:layout_below="@id/lyColonia_modifRecicla"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
