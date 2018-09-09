@@ -25,10 +25,11 @@ public class Inicio extends AppCompatActivity implements InterInicio {
     public void onBackPressed()
     {
         super.onBackPressed();
-
+/*  cuando se esta en la pantalla de registro, salta hasta inicio principal :c
         Intent i = new Intent(Inicio.this, InicioPrincipal.class);
         startActivity(i);
         finish();
+*/
     }
 
     @Override

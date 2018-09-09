@@ -1,10 +1,15 @@
 package reciclapp.reciclapp.SesionRecicladora;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,8 +29,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.R;
-
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class UbicacionRecicladora extends AppCompatActivity implements OnMapReadyCallback
 {
@@ -87,9 +90,11 @@ public class UbicacionRecicladora extends AppCompatActivity implements OnMapRead
         flujo.close();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
+        boolean permisoActivado;
         mapa = googleMap;
         mapa.getUiSettings().setZoomControlsEnabled(true);
         mapa.setMinZoomPreference(11.0f);
@@ -99,19 +104,25 @@ public class UbicacionRecicladora extends AppCompatActivity implements OnMapRead
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
-            //// SOLICITA PERMISO PARA LA UBICACION  ////
-            if ((checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
+            permisoActivado = estadoPermiso();
+            if(permisoActivado == false)
+            {
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION))
+                {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+                else
+                {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+            }
+            else
             {
                 mapa.setMyLocationEnabled(true);
             }
-            //// SI EL PERMISO NO FUE DADO, VUELVE A PREGUNTAR ////
-            if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION))
-            {
-                requestPermissions(new String[] {ACCESS_FINE_LOCATION}, 1);
-//                mapa.setMyLocationEnabled(true); error
-            }
         }
-        else{
+        else
+        {
             mapa.setMyLocationEnabled(true);
         }
 
@@ -139,13 +150,38 @@ public class UbicacionRecicladora extends AppCompatActivity implements OnMapRead
 //                    MarkerOptions marker = new MarkerOptions().position(new LatLng(point.latitude, point.longitude));
                     mapa.clear();
                     mapa.addMarker(mo);
-                    //// SE GUARDAN LAS COORDENADAS DE DONDE SE COLOCÓ EL MARKER DE LA UBICACION DE LA RECI ////
 
                     //// BANDERA VALIDA QUE SI SE HAYA SELECCIONADO UNA UBICACION ////
                     seleccinado = true;
                 }
             }
         });
+    }
+
+    private boolean estadoPermiso()
+    {
+        int resultado = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if(resultado == PackageManager.PERMISSION_GRANTED)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(estadoPermiso())
+        {
+            mapa.setMyLocationEnabled(true);
+        }
+        else
+        { }
     }
 
     public boolean onCreateOptionsMenu(Menu menu)

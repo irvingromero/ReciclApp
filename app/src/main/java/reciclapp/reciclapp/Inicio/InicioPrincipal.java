@@ -1,12 +1,15 @@
 package reciclapp.reciclapp.Inicio;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -86,8 +89,12 @@ public class InicioPrincipal extends AppCompatActivity
         return true;
     }
 
+
+    @SuppressLint("MissingPermission")
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)
+    {
+        boolean permisoActivado;
         mapa = googleMap;
         mapa.getUiSettings().setZoomControlsEnabled(true);
         mapa.setMinZoomPreference(11.0f);
@@ -97,21 +104,55 @@ public class InicioPrincipal extends AppCompatActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
-            //// SOLICITA PERMISO PARA LA UBICACION  ////
-            if ((checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
+            permisoActivado = estadoPermiso();
+            if(permisoActivado == false)
+            {
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION))
+                {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+                else
+                {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+            }
+            else
             {
                 mapa.setMyLocationEnabled(true);
             }
-            //// SI EL PERMISO NO FUE DADO, VUELVE A PREGUNTAR ////
-            if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION))
-            {
-                requestPermissions(new String[] {ACCESS_FINE_LOCATION}, 1);
-//                mapa.setMyLocationEnabled(true); error
-            }
         }
-        else{
+        else
+        {
             mapa.setMyLocationEnabled(true);
         }
 
+
     }
+
+    private boolean estadoPermiso()
+    {
+        int resultado = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if(resultado == PackageManager.PERMISSION_GRANTED)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(estadoPermiso())
+        {
+            mapa.setMyLocationEnabled(true);
+        }
+        else
+        { }
+    }
+
 }
