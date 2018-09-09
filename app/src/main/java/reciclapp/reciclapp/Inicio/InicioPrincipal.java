@@ -1,10 +1,12 @@
 package reciclapp.reciclapp.Inicio;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,13 +26,12 @@ import reciclapp.reciclapp.R;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class InicioPrincipal extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener , OnMapReadyCallback{
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     private GoogleMap mapa;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_principal);
 
@@ -62,18 +63,15 @@ public class InicioPrincipal extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item)
-    {
+    public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.sesionRegistro_inicioPrin)
-        {
+        if (id == R.id.sesionRegistro_inicioPrin) {
             Intent intent = new Intent(this, Inicio.class);
             startActivity(intent);
             finish();
 
-        } else if (id == R.id.buscarMaterial_inicioPrin)
-        {
+        } else if (id == R.id.buscarMaterial_inicioPrin) {
 
         } else if (id == R.id.mejorPrecio_inicioPrin) {
 
@@ -89,13 +87,12 @@ public class InicioPrincipal extends AppCompatActivity
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
+    public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
         mapa.getUiSettings().setZoomControlsEnabled(true);
         mapa.setMinZoomPreference(11.0f);
 
-        LatLng mexicali = new LatLng(32.6278100,  -115.4544600);
+        LatLng mexicali = new LatLng(32.6278100, -115.4544600);
         mapa.moveCamera(CameraUpdateFactory.newLatLng(mexicali));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
