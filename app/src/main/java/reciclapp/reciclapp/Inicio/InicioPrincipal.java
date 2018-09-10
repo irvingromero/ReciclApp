@@ -78,13 +78,11 @@ public class InicioPrincipal extends AppCompatActivity
 
         } else if (id == R.id.mejorPrecio_inicioPrin) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.programador_inicioPrin) {
+        }  else if (id == R.id.programador_inicioPrin) {
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

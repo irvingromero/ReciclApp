@@ -1,7 +1,6 @@
 package reciclapp.reciclapp.SesionRecicladora;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -33,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.InicioDeSesion.Inicio;
@@ -44,12 +41,12 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
 
     private TextView mostrarUsuario;
     private String logeado;
-    private Bitmap bitmap;
-    private ImageView imageView;
+    private ImageView fotoPerfil;
     private boolean imagenSubida;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sesion_recicladora);
 
@@ -76,22 +73,26 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+            //// MODIFICAR LA CABECERA DEL MENU////
+        View cabecera = navigationView.getHeaderView(0);
+        mostrarUsuario = cabecera.findViewById(R.id.mostrarUsuario_sesionReci);
+        mostrarUsuario.setText("Usuario: "+logeado);
+        fotoPerfil = cabecera.findViewById(R.id.fotoPerfil_sesionReci);
+
         cargarFoto();
-        mostrarUsuario = findViewById(R.id.mostrarUsuario_sesionReci);
-//        mostrarUsuario.setText("Usuario: "+ logeado);
     }
 
-    private void cargarFoto() {
+    private void cargarFoto()
+    {
         BaseDeDatos baseDeDatos = new BaseDeDatos(this, "FotoRecicladora", null, 1);
         SQLiteDatabase ft = baseDeDatos.getWritableDatabase();
         Cursor consultaFoto = ft.rawQuery("select imagen from FotoRecicladora where usuario ='" + logeado + "'", null);
-        if (consultaFoto.moveToFirst()) {
-            /*
+        if (consultaFoto.moveToFirst())
+        {
+                //// CASTEA EL ARREGLO DE BYTES A BITMAP Y LUEGO A IMAGEVIEW ////
             byte [] arregloImagen = consultaFoto.getBlob(0);
-            Bitmap b = m.bm(arregloImagen);
-            iv.setImageBitmap(b);
-
-            */
+            Bitmap fotoBitmap = arreglobyteToBitmap(arregloImagen);
+            fotoPerfil.setImageBitmap(fotoBitmap);
             imagenSubida = true;
         }
         ft.close();
@@ -172,23 +173,55 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
     private void foto()
     {
         boolean permisoActivado;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if(imagenSubida == true)
         {
-
-            permisoActivado = estadoPermiso();
-            if (permisoActivado == false) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                permisoActivado = estadoPermiso();
+                if (permisoActivado == false)
+                {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE))
+                    {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
+                    }
+                    else
+                    {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
+                    }
+                }
+                else
+                {
+                    Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    gallery.setType("image/");
+                    startActivityForResult(gallery, 2);
                 }
             } else {
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                gallery.setType("image/");
+                startActivityForResult(gallery, 2);
+            }
+        }
+        else
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                permisoActivado = estadoPermiso();
+                if (permisoActivado == false) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                    } else {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                    }
+                } else {
+                    Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    gallery.setType("image/");
+                    startActivityForResult(gallery, 1);
+                }
+            } else {
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                gallery.setType("image/");
                 startActivityForResult(gallery, 1);
             }
-        } else {
-            Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(gallery, 1);
         }
     }
 
@@ -206,38 +239,49 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == 1)
         {
-            try
+            if(resultCode == RESULT_OK)
             {
-                Uri entrada = data.getData();
-                InputStream inputStream = getContentResolver().openInputStream(entrada);
-                bitmap = BitmapFactory.decodeStream(inputStream);
-                imageView.setImageBitmap(bitmap);
+                Uri path = data.getData();
+                fotoPerfil.setImageURI(path);
 
-                byte [] imagen = imageViewToByte(imageView);
+                byte [] imagen = imageViewToByte(fotoPerfil);
+
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", logeado);
+                cv.put("imagen", imagen);
 
                 BaseDeDatos bd = new BaseDeDatos(this, "FotoRecicladora", null, 1);
                 SQLiteDatabase db = bd.getWritableDatabase();
-
-                ContentValues foto = new ContentValues();
-                foto.put("usuario", logeado);
-                foto.put("imagen", imagen);
-
-                db.insert("FotoRecicladora", null, foto);
-                Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_LONG).show();
+                db.insert("FotoRecicladora", null, cv);
                 db.close();
-            } catch (Exception e) { }
+
+                Toast.makeText(this, "Imagen subida", Toast.LENGTH_LONG).show();
+            }
         }
 
         if(requestCode == 2)
         {
+            Uri entrada = data.getData();
+            fotoPerfil.setImageURI(entrada);
+            byte [] imagen = imageViewToByte(fotoPerfil);
 
+            ContentValues nuevo = new ContentValues();
+            nuevo.put("usuario", logeado);
+            nuevo.put("imagen", imagen);
+
+            BaseDeDatos bd = new BaseDeDatos(this, "FotoRecicladora", null, 1);
+            SQLiteDatabase flujo = bd.getWritableDatabase();
+            flujo.update("FotoRecicladora", nuevo, "usuario="+ "'"+logeado+"'", null);
+            flujo.close();
         }
     }
+
     private byte[] imageViewToByte(ImageView image) //// CASTEA UN IMAGEVIEW A UN ARREGLO DE BYTES ////
     {
         Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
@@ -246,14 +290,9 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         byte[] byteArray = stream.toByteArray();
         return byteArray;
     }
-/*
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    private Bitmap arreglobyteToBitmap(byte [] bytes)
     {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-
+        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return bmp;
     }
-*/
 }

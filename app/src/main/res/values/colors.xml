@@ -18,4 +18,6 @@
     <!-- Modificar recicladora-->
     <color name="fondoModifRecicla">#8e2248</color>
 
+    <color name="cabecera_inicioPrin">#000000</color>
+
 </resources>

@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
         <item
             android:id="@+id/imagenes_SesionRe"
             android:icon="@drawable/ic_menu_camera"
@@ -28,7 +27,6 @@
             android:id="@+id/cerrarSesion_re"
             android:icon="@drawable/ic_menu_share"
             android:title="@string/cerrarSesion" />
-    </group>
 
     <item android:title="Communicate">
         <menu>

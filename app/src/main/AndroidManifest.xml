@@ -12,30 +12,43 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:resizeableActivity="false"
-        android:supportsPictureInPicture="false"
-        android:screenOrientation="portrait">
+        android:resizeableActivity="false">
 
         <activity
             android:name=".InicioDeSesion.Inicio"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:supportsPictureInPicture="false"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".SesionRecicladora.SesionRecicladora"
             android:label="@string/title_activity_sesion_recicladora"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:supportsPictureInPicture="false"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".SesionRecicladora.UbicacionRecicladora"
-                  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".SesionRecicladora.UbicacionRecicladora"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:supportsPictureInPicture="false"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".SesionRecicladora.ModificarRecicladora"
-                  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".SesionRecicladora.ModificarRecicladora"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:supportsPictureInPicture="false"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".SesionRecicladora.HorarioRecicladora" />
+        <activity
+            android:name=".SesionRecicladora.HorarioRecicladora"
+            android:supportsPictureInPicture="false"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".Inicio.InicioPrincipal"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:supportsPictureInPicture="false"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
