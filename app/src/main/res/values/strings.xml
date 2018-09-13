@@ -15,7 +15,6 @@
     <string name="registroRecicla">Registro de Recicladora</string>
     <string name="registrarReci">Registrar</string>
 
-    <!-- Registro Recicicladora -->
     <string name="title_activity_sesion_recicladora">SesionRecicladora</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -37,15 +36,22 @@
     <!-- Modificar recicladora  -->
     <string name="actualizarRecicla">Actualizar datos</string>
 
-    <!-- Horario  -->
+    <!-- Horario  recicladora-->
     <string name="lunes_horario">Lunes-</string>
     <string name="martes_horario">Martes-</string>
     <string name="miercoles_horario">Miercoles-</string>
     <string name="jueves_horario">Jueves-</string>
     <string name="viernes_horario">Viernes-</string>
+    <string name="sabado_horario">Sabado-</string>
+    <string name="domingo_horario">Domingo-</string>
     <string name="abre_horario">Abre:</string>
     <string name="cierra_horario">Cierra:</string>
+
+    <string name="nombre_horarioRecicla">Horarios</string>
+    <string name="agregar_horarioRecicla">Añadir</string>
+
     <string-array name="hrs">
+        <item>---</item>
         <item>12</item>
         <item>1</item>
         <item>2</item>
@@ -60,12 +66,14 @@
         <item>11</item>
     </string-array>
     <string-array name="mins">
+        <item>---</item>
         <item>00</item>
         <item>15</item>
         <item>30</item>
         <item>45</item>
     </string-array>
     <string-array name="ampm">
+        <item>---</item>
         <item>AM</item>
         <item>PM</item>
     </string-array>

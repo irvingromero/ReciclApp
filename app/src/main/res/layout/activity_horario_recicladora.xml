@@ -1,9 +1,478 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SesionRecicladora.HorarioRecicladora">
+    android:layout_height="wrap_content"
+    android:id="@+id/rlAgrega_horario"
+    android:orientation="vertical"
+    android:gravity="center">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_horarioRecicla"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageButton
+            android:id="@+id/btnAtras_horarioRecicla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:backgroundTint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/tv_horarioRecicla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nombre_horarioRecicla"
+            android:textSize="18sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lunes_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lunes_horario" />
+        <TextView
+            android:id="@+id/abreL_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/abre_horario"/>
+
+        <Spinner
+            android:id="@+id/spLunHrAb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spLunMinAb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spAmPmAb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm">
+        </Spinner>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cierra_horario" />
+
+        <Spinner
+            android:id="@+id/spLunesHrCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spLunesMinCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spAmPmCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm">
+        </Spinner>
+    </LinearLayout>
+
+
+    <LinearLayout
+    android:layout_marginTop="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/martes_horario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/martes_horario" />
+
+    <TextView
+        android:id="@+id/abreM_horario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/abre_horario" />
+
+    <Spinner
+        android:id="@+id/spMartesHrAb_horarioReci"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/hrs"/>
+    <Spinner
+        android:id="@+id/spMartesMinAb_horarioReci"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/mins"/>
+    <Spinner
+        android:id="@+id/spMartesAmPmAb_horarioReci"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/ampm"/>
+</LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cierra_horario" />
+
+        <Spinner
+            android:id="@+id/spMartesHrCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spMartesMinCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spMartesAmPmCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm">
+        </Spinner>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/miercoles_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/miercoles_horario" />
+
+        <TextView
+            android:id="@+id/abreMir_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/abre_horario" />
+
+        <Spinner
+            android:id="@+id/spMierHrAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spMierMinAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spMierAmPmAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cierra_horario" />
+
+        <Spinner
+            android:id="@+id/spMierHrCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spMierMinCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spMierAmPmCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm">
+        </Spinner>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/jueves_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/jueves_horario" />
+
+        <TextView
+            android:id="@+id/abreJue_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/abre_horario" />
+
+        <Spinner
+            android:id="@+id/spJuevesHrAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spJuevesMinAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spJuevesAmPmAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cierra_horario" />
+
+        <Spinner
+            android:id="@+id/spJuevesHrCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spJuevesMinCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spJuevesAmPmCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm">
+        </Spinner>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/viernes_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/viernes_horario" />
+
+        <TextView
+            android:id="@+id/abreViernes_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/abre_horario" />
+
+        <Spinner
+            android:id="@+id/spViernesHrAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spViernessMinAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spViernesAmPmAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cierra_horario" />
+
+        <Spinner
+            android:id="@+id/spViernesHrCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spViernesMinCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spViernesAmPmCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm">
+        </Spinner>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sabado_horario" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/abre_horario" />
+
+        <Spinner
+            android:id="@+id/spSabadoHrAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spSabadoMinAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spSabadoAmPmAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cierra_horario" />
+
+        <Spinner
+            android:id="@+id/spSabadoHrCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spSabadoMinCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spSabadoAmPmCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm">
+        </Spinner>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/domingo_horario" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/abre_horario" />
+
+        <Spinner
+            android:id="@+id/spDomingoHrAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spDomingoMinAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spDomingoAmPmAb_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cierra_horario" />
+
+        <Spinner
+            android:id="@+id/sDomingoHrCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hrs"/>
+        <Spinner
+            android:id="@+id/spDomingoMinCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/mins"/>
+        <Spinner
+            android:id="@+id/spDomingoAmPmCi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ampm">
+        </Spinner>
+    </LinearLayout>
+</LinearLayout>

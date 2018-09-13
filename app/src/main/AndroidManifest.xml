@@ -41,6 +41,7 @@
 
         <activity
             android:name=".SesionRecicladora.HorarioRecicladora"
+            android:theme="@style/AppTheme.NoActionBar"
             android:supportsPictureInPicture="false"
             android:screenOrientation="portrait"/>
 

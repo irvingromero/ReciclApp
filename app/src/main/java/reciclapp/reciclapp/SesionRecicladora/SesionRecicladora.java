@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,7 +28,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +49,7 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
     private String logeado;
     private ImageView fotoPerfil;
     private boolean imagenSubida;
+    private EditText campo_material, campo_precio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,7 +67,7 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                agregarMaterial();
             }
         });
 
@@ -98,6 +105,106 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         ft.close();
     }
 
+    private void agregarMaterial()
+    {
+        BaseDeDatos bdUbicacion = new BaseDeDatos(this, "Ubicacion", null, 1);
+        SQLiteDatabase ubi = bdUbicacion.getWritableDatabase();
+
+        Cursor consultaUbi = ubi.rawQuery("select latitud, longitud from Ubicacion where usuario ='"+logeado+"'", null);
+        if(consultaUbi.moveToFirst())
+        {
+            ubi.close();
+            AlertDialog.Builder ventanita = new AlertDialog.Builder(this);
+            ventanita.setTitle("Ingrese los datos del material");
+            //// MOSTRAR SPINNER /////
+            Spinner sp = new Spinner(SesionRecicladora.this);
+            String[] unidades = new String[] {"Unidades:", "Toneladas", "Kilogramo", "Gramo", "Libra","Litro"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unidades);
+            sp.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            sp.setAdapter(adapter);
+
+            LinearLayout linearLayout = new LinearLayout(this);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+            campo_material = new EditText(this);
+            campo_precio = new EditText(this);
+            campo_material.setInputType(InputType.TYPE_CLASS_TEXT);
+            campo_precio.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
+            campo_precio.setRawInputType(Configuration.KEYBOARD_QWERTY);
+            campo_material.setHint("Material");
+            campo_precio.setHint("Precio");
+
+            linearLayout.addView(campo_material);
+            linearLayout.addView(campo_precio);
+            linearLayout.addView(sp);
+            ventanita.setView(linearLayout);
+
+            ventanita.setPositiveButton("Agregar", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    String material = campo_material.getText().toString();
+                    String validarPrecio = campo_precio.getText().toString();
+                    //// VALIDAR QUE LOS CAMPOS NO ESTEN VACIOS /////
+                    if(!material.isEmpty() && !validarPrecio.isEmpty())
+                    {
+                        double precio = 0;
+                        try{
+                            precio = Double.parseDouble(campo_precio.getText().toString());
+                        }catch (Exception e){
+                            Toast.makeText(SesionRecicladora.this, "Numero no valido", Toast.LENGTH_SHORT).show();
+                        }
+                        ////////////bandera para validar si el numero ingresado es valido
+
+
+                        //// VALIDA QUE LOS DATOS A INGRESAR NO ESTEN YA DADOS DE ALTA /////
+                        BaseDeDatos bd = new BaseDeDatos(getApplicationContext(), "Materiales", null , 1);
+                        SQLiteDatabase dllMaterial = bd.getWritableDatabase();
+                        Cursor consultaRecicla = dllMaterial.rawQuery("select material, precio from Materiales where material ='"+material+"' and  precio = '"+precio+"'",null);
+                        if(consultaRecicla.moveToFirst())
+                        {
+                            Toast.makeText(SesionRecicladora.this, "Material y precio ya registrado", Toast.LENGTH_SHORT).show();
+                            dllMaterial.close();
+                        }
+                        else
+                        {
+                            dllMaterial.close();
+/*
+                            BaseDeDatos baseDatos = new BaseDeDatos(SesionRecicladora.this, "Materiales", null , 1);
+                            SQLiteDatabase flujoDatos = baseDatos.getWritableDatabase();
+
+                            ContentValues cv = new ContentValues();
+                            cv.put("correo", logeado);
+                            cv.put("material", material);
+                            cv.put("precio", precio);
+                            flujoDatos.insert("Materiales", null, cv);
+                            flujoDatos.close();
+                            Toast.makeText(getApplicationContext(),"Material agregado",Toast.LENGTH_LONG).show();
+                            //// vuelve a cargar el spinner para actualizar los materiales agregados //////////
+                            spinner();
+*/
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(SesionRecicladora.this, "Debes llenar los campos", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            ventanita.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) { }});
+
+            ventanita.show();
+        }
+        else
+        {
+            Toast.makeText(this, "Primero debes agregar la ubicacion", Toast.LENGTH_SHORT).show();
+            ubi.close();
+        }
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -129,20 +236,25 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         if (id == R.id.imagenes_SesionRe) {
             foto();
 
-        } else if (id == R.id.modificarDatos_SesionRe) {
+        } else if (id == R.id.modificarDatos_SesionRe)
+        {
             Intent i = new Intent(this, ModificarRecicladora.class);
             i.putExtra("usuario", logeado);
             startActivity(i);
             finish();
 
-        } else if (id == R.id.ubicacion_SesionRe) {
+        } else if (id == R.id.ubicacion_SesionRe)
+        {
             Intent i = new Intent(SesionRecicladora.this, UbicacionRecicladora.class);
             i.putExtra("usuario", logeado);
             startActivity(i);
             finish();
 
-        } else if (id == R.id.agregarHorario_re) {
-
+        } else if (id == R.id.agregarHorario_re)
+        {
+            Intent horario = new Intent(SesionRecicladora.this, HorarioRecicladora.class);
+            horario.putExtra("usuario", logeado);
+            startActivity(horario);
 
         } else if (id == R.id.agregarRecicladora_re) {
             Toast.makeText(this, "Proximamente", Toast.LENGTH_SHORT).show();

@@ -2,6 +2,7 @@ package reciclapp.reciclapp.SesionRecicladora;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -37,7 +39,6 @@ public class UbicacionRecicladora extends AppCompatActivity implements OnMapRead
     private ImageButton atras;
 
     private double lat, lon;
-    private double latYlon[] = new double[2];
     private boolean yaRegistrada, seleccinado;
 
     @Override
@@ -98,6 +99,8 @@ public class UbicacionRecicladora extends AppCompatActivity implements OnMapRead
         mapa = googleMap;
         mapa.getUiSettings().setZoomControlsEnabled(true);
         mapa.setMinZoomPreference(11.0f);
+        mapa.getUiSettings().setMapToolbarEnabled(false);
+        mapa.getUiSettings().setCompassEnabled(true);
 
         LatLng mexicali = new LatLng(32.6278100,  -115.4544600);
         mapa.moveCamera(CameraUpdateFactory.newLatLng(mexicali));
@@ -135,22 +138,31 @@ public class UbicacionRecicladora extends AppCompatActivity implements OnMapRead
             mapa.animateCamera(camara);
         }
 
+        final double latVieja = lat;
+        final double lonVieja = lon;
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener()
         {
             @Override
             public void onMapClick(LatLng latLng)
             {
+
                 if(yaRegistrada == true)
                 {
-
+                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude));
+                    mapa.clear();
+                    mapa.addMarker(new MarkerOptions().position(new LatLng(latVieja, lonVieja)).title("Tu negocio"));
+                    mapa.addMarker(marker).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    lat = latLng.latitude;
+                    lon = latLng.longitude;
+                    seleccinado = true;
                 }
                 else
                 {
-                    MarkerOptions mo = new MarkerOptions().position(new LatLng(lat, lon));
-//                    MarkerOptions marker = new MarkerOptions().position(new LatLng(point.latitude, point.longitude));
+                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude));
                     mapa.clear();
-                    mapa.addMarker(mo);
-
+                    mapa.addMarker(marker);
+                    lat = latLng.latitude;
+                    lon = latLng.longitude;
                     //// BANDERA VALIDA QUE SI SE HAYA SELECCIONADO UNA UBICACION ////
                     seleccinado = true;
                 }
@@ -195,9 +207,50 @@ public class UbicacionRecicladora extends AppCompatActivity implements OnMapRead
         switch (item.getItemId())
         {
             case R.id.seleccion_ubicacionReci:
+                switch (seleccinado +"-"+ yaRegistrada)
+                {
+                    case "true-false":
+                        /// insertar ////
+                        BaseDeDatos bd = new BaseDeDatos(this, "Ubicacion", null , 1);
+                        SQLiteDatabase basededatos = bd.getWritableDatabase();
 
+                        ContentValues cv = new ContentValues();
+                        cv.put("usuario", logeado);
+                        cv.put("latitud", lat);
+                        cv.put("longitud", lon);
+                        basededatos.insert("Ubicacion", null, cv);
+                        basededatos.close();
+                        Toast.makeText(this, "Ubicacion agregada", Toast.LENGTH_LONG).show();
 
-                break;
+                        Intent ok = new Intent(UbicacionRecicladora.this, SesionRecicladora.class);
+                        ok.putExtra("usuario", logeado);
+                        startActivity(ok);
+                        finish();
+                    break;
+
+                    case "true-true":
+                        /// modificar
+                        BaseDeDatos bdUpdate = new BaseDeDatos(this, "Ubicacion", null, 1);
+                        SQLiteDatabase modificando = bdUpdate.getWritableDatabase();
+
+                        ContentValues nuevo = new ContentValues();
+                        nuevo.put("latitud", lat);
+                        nuevo.put("longitud", lon);
+                        modificando.update("Ubicacion", nuevo, "usuario="+ "'" +logeado +"'", null);
+                        modificando.close();
+                        Toast.makeText(this, "Ubicacion modificada", Toast.LENGTH_LONG).show();
+
+                        Intent okok = new Intent(UbicacionRecicladora.this, SesionRecicladora.class);
+                        okok.putExtra("usuario", logeado);
+                        startActivity(okok);
+                        finish();
+                    break;
+
+                    default:
+                        Toast.makeText(this, "Debes colocar una ubicacion", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            break;
         }
         return super.onOptionsItemSelected(item);
     }
