@@ -16,6 +16,23 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/mejorPrecio" />
 
+    <item android:title="Guias de reciclaje">
+        <menu>
+            <item
+                android:id="@+id/guia"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Guia de reciclaje" />
+            <item
+                android:id="@+id/manualidades"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Manualidades" />
+            <item
+                android:id="@+id/donar"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Donar " />
+        </menu>
+    </item>
+
     <item android:title="Communicate">
         <menu>
             <item

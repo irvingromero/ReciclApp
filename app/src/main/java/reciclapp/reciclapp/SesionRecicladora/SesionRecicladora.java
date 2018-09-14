@@ -117,8 +117,8 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
             AlertDialog.Builder ventanita = new AlertDialog.Builder(this);
             ventanita.setTitle("Ingrese los datos del material");
             //// MOSTRAR SPINNER /////
-            Spinner sp = new Spinner(SesionRecicladora.this);
-            String[] unidades = new String[] {"Unidades:", "Toneladas", "Kilogramo", "Gramo", "Libra","Litro"};
+            final Spinner sp = new Spinner(SesionRecicladora.this);
+            String[] unidades = new String[] {"Unidad:", "Toneladas", "Kilogramo", "Gramo", "Libra","Litro"};
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unidades);
             sp.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             sp.setAdapter(adapter);
@@ -149,41 +149,56 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
                     //// VALIDAR QUE LOS CAMPOS NO ESTEN VACIOS /////
                     if(!material.isEmpty() && !validarPrecio.isEmpty())
                     {
+                        boolean numeroValido = false;
                         double precio = 0;
                         try{
                             precio = Double.parseDouble(campo_precio.getText().toString());
+
+                            numeroValido = true;
                         }catch (Exception e){
                             Toast.makeText(SesionRecicladora.this, "Numero no valido", Toast.LENGTH_SHORT).show();
                         }
-                        ////////////bandera para validar si el numero ingresado es valido
-
-
-                        //// VALIDA QUE LOS DATOS A INGRESAR NO ESTEN YA DADOS DE ALTA /////
-                        BaseDeDatos bd = new BaseDeDatos(getApplicationContext(), "Materiales", null , 1);
-                        SQLiteDatabase dllMaterial = bd.getWritableDatabase();
-                        Cursor consultaRecicla = dllMaterial.rawQuery("select material, precio from Materiales where material ='"+material+"' and  precio = '"+precio+"'",null);
-                        if(consultaRecicla.moveToFirst())
+                        if(numeroValido == true)
                         {
-                            Toast.makeText(SesionRecicladora.this, "Material y precio ya registrado", Toast.LENGTH_SHORT).show();
-                            dllMaterial.close();
+                            //// VALIDA QUE LOS DATOS A INGRESAR NO ESTEN YA DADOS DE ALTA /////
+                            BaseDeDatos bd = new BaseDeDatos(getApplicationContext(), "Materiales", null , 1);
+                            SQLiteDatabase dllMaterial = bd.getWritableDatabase();
+                            Cursor consultaRecicla = dllMaterial.rawQuery("select material, precio from Materiales where material ='"+material+"' and  precio = '"+precio+"'",null);
+                            if(consultaRecicla.moveToFirst())
+                            {
+                                Toast.makeText(SesionRecicladora.this, "Material y precio ya registrado", Toast.LENGTH_SHORT).show();
+                                dllMaterial.close();
+                            }
+                            else
+                            {
+                                dllMaterial.close();
+
+                                String unidad = sp.getSelectedItem().toString();
+
+                                if(unidad.equals("Unidad:") == true)
+                                {
+                                    Toast.makeText(SesionRecicladora.this, "Debes seleccionar una unidad", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    BaseDeDatos baseDatos = new BaseDeDatos(SesionRecicladora.this, "Materiales", null , 1);
+                                    SQLiteDatabase flujoDatos = baseDatos.getWritableDatabase();
+
+                                    ContentValues cv = new ContentValues();
+                                    cv.put("usuario", logeado);
+                                    cv.put("material", material);
+                                    cv.put("precio", precio);
+                                    cv.put("unidad", unidad);
+
+                                    flujoDatos.insert("Materiales", null, cv);
+                                    flujoDatos.close();
+                                    Toast.makeText(getApplicationContext(),"Material agregado",Toast.LENGTH_LONG).show();
+                                }
+                            }
                         }
                         else
                         {
-                            dllMaterial.close();
-/*
-                            BaseDeDatos baseDatos = new BaseDeDatos(SesionRecicladora.this, "Materiales", null , 1);
-                            SQLiteDatabase flujoDatos = baseDatos.getWritableDatabase();
-
-                            ContentValues cv = new ContentValues();
-                            cv.put("correo", logeado);
-                            cv.put("material", material);
-                            cv.put("precio", precio);
-                            flujoDatos.insert("Materiales", null, cv);
-                            flujoDatos.close();
-                            Toast.makeText(getApplicationContext(),"Material agregado",Toast.LENGTH_LONG).show();
-                            //// vuelve a cargar el spinner para actualizar los materiales agregados //////////
-                            spinner();
-*/
+                            Toast.makeText(SesionRecicladora.this, "Precio no valido", Toast.LENGTH_SHORT).show();
                         }
                     }
                     else
