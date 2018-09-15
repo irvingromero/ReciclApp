@@ -1,29 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Desarrollador">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_desarrollador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/barra_desarrollador">
+
+        <ImageButton
+            android:id="@+id/btnAtras_desarrollador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:backgroundTint="@color/barra_desarrollador" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/titulo_desarrollador"
+            android:textSize="18sp" />
+    </android.support.v7.widget.Toolbar>
+
     <ImageView
-        android:id="@+id/imageView"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:id="@+id/foto_desarrollador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_gallery" />
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_below="@id/tb_desarrollador"/>
 
     <TextView
-        android:id="@+id/nombre_desarrollador"
+        android:id="@+id/mostrarNombre_desarrollador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Irving Romero"
-        android:layout_toRightOf="@id/imageView"/>
+        android:text="@string/nombre_desarrolador"
+        android:layout_below="@id/tb_desarrollador"
+        android:layout_toRightOf="@id/foto_desarrollador"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"/>
 
     <TextView
-        android:id="@+id/correo_desarrollador"
+        android:id="@+id/mostrarCorreo_desarrollador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="i.romerog93@gmail.com"
-        android:layout_toRightOf="@id/imageView"
-        android:layout_below="@id/nombre_desarrollador"/>
+        android:text="@string/correo_desarrollador"
+        android:layout_toRightOf="@id/foto_desarrollador"
+        android:layout_below="@id/mostrarNombre_desarrollador"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/mostrarCarrera_desarrollador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/carrera_desarrollador"
+        android:layout_below="@id/foto_desarrollador"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/mostrarEscuela_desarrollador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/escuela_desarrollador"
+        android:layout_below="@id/mostrarCarrera_desarrollador"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/mostrarLugar_desarrollador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lugar_desarrollo"
+        android:layout_below="@id/mostrarEscuela_desarrollador"
+        android:paddingLeft="5dp"/>
 </RelativeLayout>

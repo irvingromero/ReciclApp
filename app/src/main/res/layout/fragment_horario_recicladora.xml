@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SesionRecicladora.HorarioRecicladora"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_horarioRecicla"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageButton
+            android:id="@+id/btnAtras_horarioRecicla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:backgroundTint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nombre_horarioRecicla"
+            android:textSize="18sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lunes_horario"
+            android:textSize="14sp" />
+
+        <Switch
+            android:id="@+id/swiLunes_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cerrado_horario"
+            android:textSize="14dp"
+            android:paddingLeft="5dp"/>
+
+        <ImageButton
+            android:id="@+id/ibLunes_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/presence_away"
+            android:paddingTop="12dp"/>
+
+        <EditText
+            android:id="@+id/etLunes_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="4"
+            android:inputType="textPersonName"
+            android:text="---"
+            android:enabled="false"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/martes_horario"
+            android:textSize="14sp" />
+
+        <Switch
+            android:id="@+id/swiMartes_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cerrado_horario"
+            android:textSize="14dp"
+            android:paddingLeft="5dp"/>
+
+        <ImageButton
+            android:id="@+id/ibMartes_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/presence_away"
+            android:paddingTop="10dp"/>
+
+        <EditText
+            android:id="@+id/etMartes_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="4"
+            android:inputType="textPersonName"
+            android:text="---"
+            android:enabled="false"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/miercoles_horario"
+            android:textSize="13sp" />
+
+        <Switch
+            android:id="@+id/swiMiercoles_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cerrado_horario"
+            android:textSize="13dp"
+            android:paddingLeft="5dp"/>
+
+        <ImageButton
+            android:id="@+id/ibMiercoles_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/presence_away"
+            android:paddingTop="10dp"/>
+
+        <EditText
+            android:id="@+id/etMiercoles_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="4"
+            android:inputType="textPersonName"
+            android:text="---"
+            android:enabled="false"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/jueves_horario"
+            android:textSize="14dp" />
+
+        <Switch
+            android:id="@+id/swiJueves_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cerrado_horario"
+            android:textSize="14dp"
+            android:paddingLeft="5dp"/>
+
+        <ImageButton
+            android:id="@+id/ibJueves_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/presence_away"
+            android:paddingTop="10dp"/>
+
+        <EditText
+            android:id="@+id/etJueves_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="4"
+            android:inputType="textPersonName"
+            android:text="---"
+            android:enabled="false"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/viernes_horario"
+            android:textSize="14dp" />
+
+        <Switch
+            android:id="@+id/swiViernes_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cerrado_horario"
+            android:textSize="14dp"
+            android:paddingLeft="5dp"/>
+
+        <ImageButton
+            android:id="@+id/ibViernes_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/presence_away"
+            android:paddingTop="10dp"/>
+
+        <EditText
+            android:id="@+id/etViernes_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="4"
+            android:inputType="textPersonName"
+            android:text="---"
+            android:enabled="false"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sabado_horario"
+            android:textSize="13sp" />
+        <Switch
+            android:id="@+id/swisabado_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cerrado_horario"
+            android:textSize="14dp"
+            android:paddingLeft="5dp"/>
+
+        <ImageButton
+            android:id="@+id/ibSabado_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/presence_away"
+            android:paddingTop="10dp"/>
+
+        <EditText
+            android:id="@+id/etSabado_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="4"
+            android:inputType="textPersonName"
+            android:text="---"
+            android:enabled="false"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/domingo_horario"
+            android:textSize="13sp" />
+
+        <Switch
+            android:id="@+id/swiDomingo_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cerrado_horario"
+            android:textSize="13dp"
+            android:paddingLeft="5dp"/>
+
+        <ImageButton
+            android:id="@+id/ibDomingo_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/presence_away"
+            android:paddingTop="10dp"/>
+
+        <EditText
+            android:id="@+id/etDomingo_horarioReci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="4"
+            android:inputType="textPersonName"
+            android:text="---"
+            android:enabled="false"
+            android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>

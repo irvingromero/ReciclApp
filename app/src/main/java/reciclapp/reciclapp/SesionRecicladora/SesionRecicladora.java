@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
@@ -39,6 +40,7 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
+import reciclapp.reciclapp.Desarrollador;
 import reciclapp.reciclapp.InicioDeSesion.Inicio;
 import reciclapp.reciclapp.Interfaces.InterRecicla;
 import reciclapp.reciclapp.R;
@@ -48,8 +50,12 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
     private TextView mostrarUsuario;
     private String logeado;
     private ImageView fotoPerfil;
-    private boolean imagenSubida;
+    private boolean imagenSubida, banderaMenu=false;
     private EditText campo_material, campo_precio;
+
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,10 +66,10 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         Bundle extras = getIntent().getExtras();
         logeado = extras.getString("usuario");
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +77,7 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
             }
         });
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -85,7 +91,6 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         mostrarUsuario = cabecera.findViewById(R.id.mostrarUsuario_sesionReci);
         mostrarUsuario.setText("Usuario: "+logeado);
         fotoPerfil = cabecera.findViewById(R.id.fotoPerfil_sesionReci);
-
         cargarFoto();
     }
 
@@ -228,18 +233,11 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         } else {
             super.onBackPressed();
 
-            new AlertDialog.Builder(this).setTitle("¿Cerrar sesion?")
-                    .setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent i = new Intent(SesionRecicladora.this, Inicio.class);
-                            startActivity(i);
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).setIcon(android.R.drawable.ic_delete).show();
+                banderaMenu = false;
+                fab.show();
+                getSupportActionBar().show();
+                drawer.setDrawerLockMode(drawer.LOCK_MODE_UNLOCKED);
+
         }
     }
 
@@ -267,14 +265,22 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
 
         } else if (id == R.id.agregarHorario_re)
         {
-            Intent horario = new Intent(SesionRecicladora.this, HorarioRecicladora.class);
-            horario.putExtra("usuario", logeado);
-            startActivity(horario);
+            fab.hide();
+            getSupportActionBar().hide();
+            drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
+
+            HorarioRecicladora horario = new HorarioRecicladora();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainSesionRecicladora,  horario, "fragment_meters");
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.addToBackStack(null);
+            ft.commit();
 
         } else if (id == R.id.agregarRecicladora_re) {
             Toast.makeText(this, "Proximamente", Toast.LENGTH_SHORT).show();
 
-        } else if (id == R.id.cerrarSesion_re) {
+        } else if (id == R.id.cerrarSesion_re)
+        {
             new AlertDialog.Builder(this).setTitle("¿Cerrar sesion?")
                     .setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -288,8 +294,18 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
                         }
                     }).setIcon(android.R.drawable.ic_delete).show();
 
-        } else if (id == R.id.infoDesarrollador) {
+        } else if (id == R.id.infoDesarrollador)
+        {
+            fab.hide();
+            getSupportActionBar().hide();
+            drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
 
+            Desarrollador d = new Desarrollador();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainSesionRecicladora,  d, "fragment_meters");
+            ft.setTransition(FragmentTransaction.TRANSIT_UNSET);
+            ft.addToBackStack(null);
+            ft.commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -422,4 +438,7 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         return bmp;
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) { }
 }

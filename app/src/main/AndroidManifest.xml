@@ -40,12 +40,6 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".SesionRecicladora.HorarioRecicladora"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:supportsPictureInPicture="false"
-            android:screenOrientation="portrait"/>
-
-        <activity
             android:name=".Inicio.InicioPrincipal"
             android:theme="@style/AppTheme.NoActionBar"
             android:supportsPictureInPicture="false"

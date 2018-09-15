@@ -18,6 +18,10 @@
     <!-- Modificar recicladora-->
     <color name="fondoModifRecicla">#8e2248</color>
 
+    <!-- Inicio principal-->
     <color name="cabecera_inicioPrin">#000000</color>
+
+    <!-- desarrollador-->
+    <color name="barra_desarrollador">#a12020</color>
 
 </resources>

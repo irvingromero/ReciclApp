@@ -33,7 +33,7 @@
             <item
                 android:id="@+id/infoDesarrollador"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Info del desarrollador" />
+                android:title="Desarrollador" />
         </menu>
     </item>
 
