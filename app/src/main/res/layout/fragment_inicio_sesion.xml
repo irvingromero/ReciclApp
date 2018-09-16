@@ -7,8 +7,7 @@
     tools:context=".InicioDeSesion.InicioSesion"
     android:background="@color/fondo"
     android:orientation="vertical"
-    android:gravity="center"
-    >
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/logo_inicio"
@@ -53,14 +52,12 @@
         android:backgroundTint="@color/botonEntrar"
         />
 
-    <ImageView
-        android:id="@+id/se"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/separador1"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        />
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/cabecera_inicioPrin"/>
 
     <TextView
         android:id="@+id/textView"

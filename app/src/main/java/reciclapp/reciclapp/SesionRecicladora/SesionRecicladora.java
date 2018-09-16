@@ -92,6 +92,12 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         mostrarUsuario.setText("Usuario: "+logeado);
         fotoPerfil = cabecera.findViewById(R.id.fotoPerfil_sesionReci);
         cargarFoto();
+
+        Bundle bundle = new Bundle();
+        InicioRecicladora inicio = new InicioRecicladora();
+        bundle.putString("usuario", logeado);
+        inicio.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionRecicladora, inicio).commit();
     }
 
     private void cargarFoto()
@@ -198,6 +204,9 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
                                     flujoDatos.insert("Materiales", null, cv);
                                     flujoDatos.close();
                                     Toast.makeText(getApplicationContext(),"Material agregado",Toast.LENGTH_LONG).show();
+
+                                    finish();
+                                    startActivity(getIntent());
                                 }
                             }
                         }
@@ -272,7 +281,7 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
             HorarioRecicladora horario = new HorarioRecicladora();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainSesionRecicladora,  horario, "fragment_meters");
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.setTransition(FragmentTransaction.TRANSIT_NONE);
             ft.addToBackStack(null);
             ft.commit();
 
@@ -302,7 +311,7 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
 
             Desarrollador d = new Desarrollador();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainSesionRecicladora,  d, "fragment_meters");
+            ft.replace(R.id.mainSesionRecicladora, d, "fragments");
             ft.setTransition(FragmentTransaction.TRANSIT_UNSET);
             ft.addToBackStack(null);
             ft.commit();

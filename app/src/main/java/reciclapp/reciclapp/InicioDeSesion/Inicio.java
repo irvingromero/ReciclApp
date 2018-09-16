@@ -1,11 +1,8 @@
 package reciclapp.reciclapp.InicioDeSesion;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import reciclapp.reciclapp.Inicio.InicioPrincipal;
 import reciclapp.reciclapp.Interfaces.InterInicio;
 import reciclapp.reciclapp.R;
 
@@ -22,14 +19,8 @@ public class Inicio extends AppCompatActivity implements InterInicio {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
-/*  cuando se esta en la pantalla de registro, salta hasta inicio principal :c
-        Intent i = new Intent(Inicio.this, InicioPrincipal.class);
-        startActivity(i);
-        finish();
-*/
     }
 
     @Override

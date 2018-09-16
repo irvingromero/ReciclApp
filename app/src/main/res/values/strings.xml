@@ -36,6 +36,9 @@
     <string name="agregarRecicladora">Agregar recicladora</string>
     <string name="cerrarSesion">Cerrar Sesion</string>
 
+    <string name="misMateriales_sesionReci">Mis materiales</string>
+    <string name="miPuntuacion">Puntuacion</string>
+
     <!-- Registro Recicicladora -->
     <string name="textoModifRe">Modificar datos</string>
 
@@ -66,5 +69,6 @@
     <!-- ubicacion recicladora  -->
     <string name="ubicacion_ubicacionReci">Ubicacion recicladora</string>
     <string name="seleccionar_ubicacionReci">Seleccionar</string>
+
 
 </resources>
