@@ -9,7 +9,8 @@
     android:id="@+id/tvMaterial_sesionReci"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="17dp" />
+    android:textSize="17dp"
+    android:background="@color/fondoRegistroUsu"/>
 
     <TextView
         android:layout_width="match_parent"

@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -37,6 +36,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionMenu;
+
 import java.io.ByteArrayOutputStream;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
@@ -54,8 +55,8 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
     private EditText campo_material, campo_precio;
 
     private Toolbar toolbar;
-    private FloatingActionButton fab;
     private DrawerLayout drawer;
+    private FloatingActionMenu floatingActionMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -69,13 +70,8 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                agregarMaterial();
-            }
-        });
+        floatingActionMenu = findViewById(R.id.fam);
+        floatingActionMenu.setClosedOnTouchOutside(true);
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -116,11 +112,13 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         ft.close();
     }
 
-    private void agregarMaterial()
+    public void agregarMaterial(View v)
     {
+        floatingActionMenu.hideMenuButton(true);
+
         BaseDeDatos bdUbicacion = new BaseDeDatos(this, "Ubicacion", null, 1);
         SQLiteDatabase ubi = bdUbicacion.getWritableDatabase();
-
+            //// VALIDA QUE YA SE HAYA AGREGADO LA UBICACION ANTES DE AGREGAR MATERIALES ////
         Cursor consultaUbi = ubi.rawQuery("select latitud, longitud from Ubicacion where usuario ='"+logeado+"'", null);
         if(consultaUbi.moveToFirst())
         {
@@ -205,8 +203,11 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
                                     flujoDatos.close();
                                     Toast.makeText(getApplicationContext(),"Material agregado",Toast.LENGTH_LONG).show();
 
-                                    finish();
-                                    startActivity(getIntent());
+                                    Bundle bundle = new Bundle();
+                                    InicioRecicladora inicio = new InicioRecicladora();
+                                    bundle.putString("usuario", logeado);
+                                    inicio.setArguments(bundle);
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionRecicladora, inicio).commit();
                                 }
                             }
                         }
@@ -223,7 +224,16 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
             });
             ventanita.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) { }});
+                public void onClick(DialogInterface dialog, int which) {
+                    floatingActionMenu.showMenuButton(true);
+                }});
+
+            ventanita.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    floatingActionMenu.showMenuButton(true);
+                }
+            });
 
             ventanita.show();
         }
@@ -234,6 +244,46 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         }
     }
 
+    public void modificarMaterial(View v)
+    {
+        floatingActionMenu.hideMenuButton(true);
+        drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
+        getSupportActionBar().hide();
+
+        Bundle bundle = new Bundle();
+        ModificarEliminarMaterial mem = new ModificarEliminarMaterial();
+
+        bundle.putString("usuario", logeado);
+        bundle.putString("accion", "modificando");
+        mem.setArguments(bundle);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.mainSesionRecicladora,  mem, "fragment_modif");
+        ft.setTransition(FragmentTransaction.TRANSIT_UNSET);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    public void eliminarMaterial(View v)
+    {
+        floatingActionMenu.hideMenuButton(true);
+        drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
+        getSupportActionBar().hide();
+
+        Bundle bundle = new Bundle();
+        ModificarEliminarMaterial mem = new ModificarEliminarMaterial();
+
+        bundle.putString("usuario", logeado);
+        bundle.putString("accion", "eliminando");
+        mem.setArguments(bundle);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.mainSesionRecicladora,  mem, "fragment_eliminar");
+        ft.setTransition(FragmentTransaction.TRANSIT_NONE);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -242,11 +292,10 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         } else {
             super.onBackPressed();
 
-                banderaMenu = false;
-                fab.show();
-                getSupportActionBar().show();
-                drawer.setDrawerLockMode(drawer.LOCK_MODE_UNLOCKED);
-
+            banderaMenu = false;
+            floatingActionMenu.showMenuButton(true);
+            getSupportActionBar().show();
+            drawer.setDrawerLockMode(drawer.LOCK_MODE_UNLOCKED);
         }
     }
 
@@ -274,8 +323,8 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
 
         } else if (id == R.id.agregarHorario_re)
         {
-            fab.hide();
             getSupportActionBar().hide();
+            floatingActionMenu.hideMenuButton(true);
             drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
 
             HorarioRecicladora horario = new HorarioRecicladora();
@@ -305,7 +354,7 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
 
         } else if (id == R.id.infoDesarrollador)
         {
-            fab.hide();
+            floatingActionMenu.hideMenuButton(true);
             getSupportActionBar().hide();
             drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
 

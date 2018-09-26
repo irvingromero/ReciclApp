@@ -22,9 +22,9 @@ public class InicioRecicladora extends Fragment
 {
     private String logeado;
     private View vista;
+    private RatingBar estrellas;
     private RecyclerView lista;
     ArrayList<String> listaDatos;
-    private RatingBar estrellas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -41,6 +41,7 @@ public class InicioRecicladora extends Fragment
         listaDatos = new ArrayList<String>();
 
         mostrarMateriales();
+
         return vista;
     }
 
@@ -57,7 +58,7 @@ public class InicioRecicladora extends Fragment
                 material = consultaMateriales.getString(0);
                 precio = consultaMateriales.getString(1);
                 unidad = consultaMateriales.getString(2);
-                listaDatos.add("Material: "+material+"\nPrecio: "+precio+"\nUnidad: "+unidad);
+                listaDatos.add("Material:"+material+"\nPrecio:"+precio+"\nUnidad:"+unidad);
             }while(consultaMateriales.moveToNext());
         }
         else
@@ -72,6 +73,7 @@ public class InicioRecicladora extends Fragment
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
+
 
 
 
@@ -99,9 +101,17 @@ public class InicioRecicladora extends Fragment
             return listaDatos.size();
         }
 
-        public class ViewHolderDatos extends RecyclerView.ViewHolder {
+
+
+
+        public class ViewHolderDatos extends RecyclerView.ViewHolder
+        {
             TextView dato;
-            public ViewHolderDatos(View itemView) {
+            String material;
+            double precio;
+            String unidad;
+
+            public ViewHolderDatos(final View itemView) {
                 super(itemView);
                 dato = itemView.findViewById(R.id.tvMaterial_sesionReci);
             }

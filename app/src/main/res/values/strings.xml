@@ -39,6 +39,11 @@
     <string name="misMateriales_sesionReci">Mis materiales</string>
     <string name="miPuntuacion">Puntuacion</string>
 
+    <string name="menu_fam">Administrar materiales</string>
+    <string name="agregarMaterial_sesionReci">Agregar material</string>
+    <string name="modificarMaterial_sesionReci">Modificar</string>
+    <string name="eliminarMaterial_sesionReci">Eliminar</string>
+
     <!-- Registro Recicicladora -->
     <string name="textoModifRe">Modificar datos</string>
 
@@ -69,6 +74,9 @@
     <!-- ubicacion recicladora  -->
     <string name="ubicacion_ubicacionReci">Ubicacion recicladora</string>
     <string name="seleccionar_ubicacionReci">Seleccionar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
