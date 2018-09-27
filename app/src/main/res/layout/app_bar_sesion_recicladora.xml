@@ -21,15 +21,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_sesion_recicladora" />
-<!--
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_input_add" />
--->
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fam"
         app:menu_fab_label="@string/menu_fam"
@@ -42,24 +34,24 @@
             android:id="@+id/fabAgregarMaterial_sesionReci"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="agregarMaterial"
             app:fab_label="@string/agregarMaterial_sesionReci"
-            app:srcCompat="@android:drawable/ic_input_add"
-            android:onClick="agregarMaterial"/>
+            android:src="@drawable/agregar_material" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabModificar_sesionReci"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_label="@string/modificarMaterial_sesionReci"
-            app:srcCompat="@android:drawable/ic_input_add"
-            android:onClick="modificarMaterial"/>
+            android:onClick="modificarMaterial"
+            android:src="@drawable/editar_material"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabEliminar_sesionReci"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_label="@string/eliminarMaterial_sesionReci"
-            app:srcCompat="@android:drawable/ic_delete"
-            android:onClick="eliminarMaterial"/>
+            android:onClick="eliminarMaterial"
+            android:src="@drawable/eliminar_material"/>
     </com.github.clans.fab.FloatingActionMenu>
 </android.support.design.widget.CoordinatorLayout>

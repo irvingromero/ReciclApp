@@ -8,7 +8,7 @@ import reciclapp.reciclapp.SesionRecicladora.ModificarEliminarMaterial;
 import reciclapp.reciclapp.SesionRecicladora.ModificarRecicladora;
 import reciclapp.reciclapp.SesionRecicladora.UbicacionRecicladora;
 
-public interface InterRecicla extends
+public interface SesionRecicladora_SesionRecicladora extends
         NavigationView.OnNavigationItemSelectedListener,
         HorarioRecicladora.OnFragmentInteractionListener,
         InicioRecicladora.OnFragmentInteractionListener,

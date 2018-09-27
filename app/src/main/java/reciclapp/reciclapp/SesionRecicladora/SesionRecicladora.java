@@ -43,15 +43,15 @@ import java.io.ByteArrayOutputStream;
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.Desarrollador;
 import reciclapp.reciclapp.InicioDeSesion.Inicio;
-import reciclapp.reciclapp.Interfaces.InterRecicla;
+import reciclapp.reciclapp.Interfaces.SesionRecicladora_SesionRecicladora;
 import reciclapp.reciclapp.R;
 
-public class SesionRecicladora extends AppCompatActivity implements InterRecicla {
+public class SesionRecicladora extends AppCompatActivity implements SesionRecicladora_SesionRecicladora {
 
     private TextView mostrarUsuario;
     private String logeado;
     private ImageView fotoPerfil;
-    private boolean imagenSubida, banderaMenu=false;
+    private boolean imagenSubida;
     private EditText campo_material, campo_precio;
 
     private Toolbar toolbar;
@@ -66,6 +66,7 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
 
         Bundle extras = getIntent().getExtras();
         logeado = extras.getString("usuario");
+        setTitle("Inicio");
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -114,14 +115,13 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
 
     public void agregarMaterial(View v)
     {
-        floatingActionMenu.hideMenuButton(true);
-
         BaseDeDatos bdUbicacion = new BaseDeDatos(this, "Ubicacion", null, 1);
         SQLiteDatabase ubi = bdUbicacion.getWritableDatabase();
             //// VALIDA QUE YA SE HAYA AGREGADO LA UBICACION ANTES DE AGREGAR MATERIALES ////
         Cursor consultaUbi = ubi.rawQuery("select latitud, longitud from Ubicacion where usuario ='"+logeado+"'", null);
         if(consultaUbi.moveToFirst())
         {
+            floatingActionMenu.hideMenuButton(true);
             ubi.close();
             AlertDialog.Builder ventanita = new AlertDialog.Builder(this);
             ventanita.setTitle("Ingrese los datos del material");
@@ -292,7 +292,6 @@ public class SesionRecicladora extends AppCompatActivity implements InterRecicla
         } else {
             super.onBackPressed();
 
-            banderaMenu = false;
             floatingActionMenu.showMenuButton(true);
             getSupportActionBar().show();
             drawer.setDrawerLockMode(drawer.LOCK_MODE_UNLOCKED);

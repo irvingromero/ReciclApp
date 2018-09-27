@@ -64,7 +64,7 @@
 
     <!-- Inicio principal  -->
     <string name="sesionRegistro_inicioPrin">Iniciar sesion o Registrarse</string>
-    <string name="material_inicioPrin">Filtrar material</string>
+    <string name="material_inicioPrin">Buscar material</string>
     <string name="mejorPrecio">Mejor precio</string>
 
     <!-- modificar recicladora  -->
@@ -74,9 +74,5 @@
     <!-- ubicacion recicladora  -->
     <string name="ubicacion_ubicacionReci">Ubicacion recicladora</string>
     <string name="seleccionar_ubicacionReci">Seleccionar</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 </resources>

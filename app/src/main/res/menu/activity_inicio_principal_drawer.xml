@@ -5,15 +5,15 @@
 
         <item
             android:id="@+id/sesionRegistro_inicioPrin"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/iniciar_sesion"
             android:title="@string/sesionRegistro_inicioPrin" />
         <item
             android:id="@+id/buscarMaterial_inicioPrin"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/buscar_material"
             android:title="@string/material_inicioPrin" />
         <item
             android:id="@+id/mejorPrecio_inicioPrin"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/mejor_precio"
             android:title="@string/mejorPrecio" />
 
     <item android:title="Guias de reciclaje">

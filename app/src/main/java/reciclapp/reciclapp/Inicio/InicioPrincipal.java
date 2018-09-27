@@ -1,51 +1,46 @@
 package reciclapp.reciclapp.Inicio;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 
+import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.Desarrollador;
 import reciclapp.reciclapp.InicioDeSesion.Inicio;
+import reciclapp.reciclapp.Interfaces.Inicio_InicioPrincipal;
 import reciclapp.reciclapp.R;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioPrincipal {
 
-public class InicioPrincipal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, Desarrollador.OnFragmentInteractionListener{
-
-    private GoogleMap mapa;
-    private boolean banderaMenu = false;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_principal);
+        setTitle("Principal");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -54,8 +49,8 @@ public class InicioPrincipal extends AppCompatActivity implements NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapita);
-        mapFragment.getMapAsync(this);
+        MapaInicio mi = new MapaInicio();
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi).commit();
     }
 
     @Override
@@ -66,10 +61,8 @@ public class InicioPrincipal extends AppCompatActivity implements NavigationView
         } else {
             super.onBackPressed();
 
-            if(banderaMenu == true)
-            {
-                banderaMenu = false;
-            }
+            getSupportActionBar().show();
+            drawer.setDrawerLockMode(drawer.LOCK_MODE_UNLOCKED);
         }
     }
 
@@ -81,23 +74,33 @@ public class InicioPrincipal extends AppCompatActivity implements NavigationView
         if (id == R.id.sesionRegistro_inicioPrin) {
             Intent intent = new Intent(this, Inicio.class);
             startActivity(intent);
-            finish();
 
         } else if (id == R.id.buscarMaterial_inicioPrin) {
+            ventanaMateriales();
 
         } else if (id == R.id.mejorPrecio_inicioPrin) {
+            new AlertDialog.Builder(this).setMessage("Debes registrarte o iniciar sesion para usar esta funcion.")
+                    .setPositiveButton("Registrarse", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(InicioPrincipal.this, Inicio.class);
+                            startActivity(intent);
+//                            finish();
+                        }
+                    })
+                    .setNegativeButton("Aceptar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) { }
+                    }).show();
 
         }  else if (id == R.id.programador_inicioPrin) {
-            if(banderaMenu == false)
-            {
-                banderaMenu = true;
-                Desarrollador d = new Desarrollador();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.mapita,  d, "fragment_meters");
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
+            Desarrollador d = new Desarrollador();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainInicioPrincipal,  d, "fragment_meters");
+            ft.setTransition(FragmentTransaction.TRANSIT_NONE);
+            ft.addToBackStack(null);
+            ft.commit();
+
+            drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
+            getSupportActionBar().hide();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -105,70 +108,57 @@ public class InicioPrincipal extends AppCompatActivity implements NavigationView
         return true;
     }
 
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onMapReady(GoogleMap googleMap)
+    private void ventanaMateriales()
     {
-        boolean permisoActivado;
-        mapa = googleMap;
-        mapa.getUiSettings().setZoomControlsEnabled(true);
-        mapa.setMinZoomPreference(11.0f);
+        final Spinner spinner = new Spinner(this);
+        AlertDialog.Builder ventanita = new AlertDialog.Builder(this);
+        ventanita.setTitle("Materiales disponibles");
 
-        LatLng mexicali = new LatLng(32.6278100, -115.4544600);
-        mapa.moveCamera(CameraUpdateFactory.newLatLng(mexicali));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        BaseDeDatos bd = new BaseDeDatos(this, "Materiales", null, 1);
+        SQLiteDatabase flujo = bd.getWritableDatabase();
+        Cursor consulta = flujo.rawQuery("select material from Materiales", null);
+        if(consulta.moveToFirst())
         {
-            permisoActivado = estadoPermiso();
-            if(permisoActivado == false)
+            int totalMatateriales = consulta.getCount();
+            String [] materiales = new String [totalMatateriales];
+            int indice = 0;
+
+            do{
+                materiales [indice] = consulta.getString(0);
+                indice ++;
+            }while (consulta.moveToNext());
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, materiales);
+            spinner.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            spinner.setAdapter(adapter);
+        }
+        else
+        {
+            String [] nulo = new String [1];
+            nulo [0] = "No hay recicladoras disponibles";
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nulo);
+            spinner.setAdapter(adapter);
+        }
+        flujo.close();
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(spinner);
+        ventanita.setView(linearLayout);
+
+        ventanita.setPositiveButton("Buscar", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
             {
-                if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION))
-                {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                }
-                else
-                {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                }
+
             }
-            else
-            {
-                mapa.setMyLocationEnabled(true);
-            }
-        }
-        else
-        {
-            mapa.setMyLocationEnabled(true);
-        }
+        });
+        ventanita.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) { }});
 
-
-    }
-
-    private boolean estadoPermiso()
-    {
-        int resultado = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if(resultado == PackageManager.PERMISSION_GRANTED)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(estadoPermiso())
-        {
-            mapa.setMyLocationEnabled(true);
-        }
-        else
-        { }
+        ventanita.show();
     }
 
     @Override

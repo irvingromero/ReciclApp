@@ -3,10 +3,10 @@ package reciclapp.reciclapp.InicioDeSesion;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import reciclapp.reciclapp.Interfaces.InterInicio;
+import reciclapp.reciclapp.Interfaces.InicioDeSesion_Inicio;
 import reciclapp.reciclapp.R;
 
-public class Inicio extends AppCompatActivity implements InterInicio {
+public class Inicio extends AppCompatActivity implements InicioDeSesion_Inicio {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
