@@ -33,11 +33,16 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback
     private View vista;
     private GoogleMap mapa;
     private MapView mapView;
+    private String busqueda;
 
     public MapaInicio() { }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        Bundle extras = getArguments();
+        busqueda = extras.getString("material");
+
         vista = inflater.inflate(R.layout.fragment_mapa_inicio, container, false);
 
 
@@ -70,8 +75,6 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback
         LatLng mexicali = new LatLng(32.6278100, -115.4544600);
         mapa.moveCamera(CameraUpdateFactory.newLatLng(mexicali));
 
-        mostrarRecicladoras();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             permisoActivado = estadoPermiso();
@@ -96,25 +99,67 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback
             mapa.setMyLocationEnabled(true);
         }
 
+        if(busqueda != null)
+        {
+            BaseDeDatos bd = new BaseDeDatos(getContext(), "Materiales", null, 1);
+            SQLiteDatabase flujo = bd.getWritableDatabase();
 
+            BaseDeDatos bdUbicacion = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
+            SQLiteDatabase flujoUbicacion = bdUbicacion.getWritableDatabase();
 
+            Cursor consulta = flujo.rawQuery("select usuario from Materiales where material ='"+busqueda+"'", null);
+            if(consulta.moveToFirst())
+            {
+                String usuario;
+                Double lat, lon;
+                do{
+                    usuario = consulta.getString(0);
+                    Cursor consultaUbicacion = flujoUbicacion.rawQuery("select latitud, longitud from Ubicacion where usuario='"+usuario+"'", null);
+                    if(consultaUbicacion.moveToFirst())
+                    {
+                        lat = Double.parseDouble(consultaUbicacion.getString(0));
+                        lon = Double.parseDouble(consultaUbicacion.getString(1));
+                        mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)));
+                    }
+                    getActivity().setTitle("Buscar: "+busqueda);
+                }while(consulta.moveToNext());
+            }
+            flujo.close();
+            flujoUbicacion.close();
+        }
+        else
+        {
+            mostrarRecicladoras();
+        }
     }
 
     private void mostrarRecicladoras()
     {
         BaseDeDatos bd = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
         SQLiteDatabase flujo = bd.getWritableDatabase();
-        Cursor consulta = flujo.rawQuery("select latitud, longitud from Ubicacion", null);
+
+        BaseDeDatos bdMaterial = new BaseDeDatos(getContext(), "Materiales", null, 1);
+        SQLiteDatabase mat = bdMaterial.getWritableDatabase();
+
+        Cursor consulta = flujo.rawQuery("select usuario, latitud, longitud from Ubicacion", null);
         if(consulta.moveToFirst())
         {
+            String usuario;
             Double lat, lon;
             do{
-                lat = Double.parseDouble(consulta.getString(0));
-                lon = Double.parseDouble(consulta.getString(1));
-                mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)));
+                usuario = consulta.getString(0);
+                lat = Double.parseDouble(consulta.getString(1));
+                lon = Double.parseDouble(consulta.getString(2));
+                    //// VALIDA QUE TENGA AGREGADO ALGUN MATERIAL PARA MOSTRARLA EN EL MAPA ////
+                Cursor consultaMaterial = mat.rawQuery("select material from Materiales where usuario ='"+usuario+"'", null);
+                if(consultaMaterial.moveToFirst())
+                {
+                    mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)));
+                }
             }while(consulta.moveToNext());
         }
         flujo.close();
+        mat.close();
     }
 
     private boolean estadoPermiso()

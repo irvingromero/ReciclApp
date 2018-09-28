@@ -14,12 +14,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-
-import com.google.android.gms.maps.GoogleMap;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.Desarrollador;
@@ -32,7 +31,8 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
     private DrawerLayout drawer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_principal);
         setTitle("Principal");
@@ -49,7 +49,10 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Bundle bundle = new Bundle();
         MapaInicio mi = new MapaInicio();
+        bundle.putString("material", null);
+        mi.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi).commit();
     }
 
@@ -71,14 +74,19 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.sesionRegistro_inicioPrin) {
+        if (id == R.id.sesionRegistro_inicioPrin)
+        {
             Intent intent = new Intent(this, Inicio.class);
             startActivity(intent);
 
-        } else if (id == R.id.buscarMaterial_inicioPrin) {
+        }
+        else if (id == R.id.buscarMaterial_inicioPrin)
+        {
             ventanaMateriales();
 
-        } else if (id == R.id.mejorPrecio_inicioPrin) {
+        }
+        else if (id == R.id.mejorPrecio_inicioPrin)
+        {
             new AlertDialog.Builder(this).setMessage("Debes registrarte o iniciar sesion para usar esta funcion.")
                     .setPositiveButton("Registrarse", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -91,7 +99,8 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
                         public void onClick(DialogInterface dialog, int which) { }
                     }).show();
 
-        }  else if (id == R.id.programador_inicioPrin) {
+        }
+        else if (id == R.id.programador_inicioPrin) {
             Desarrollador d = new Desarrollador();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainInicioPrincipal,  d, "fragment_meters");
@@ -143,6 +152,7 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(Gravity.CENTER);
         linearLayout.addView(spinner);
         ventanita.setView(linearLayout);
 
@@ -151,7 +161,16 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
+                String seleccion = spinner.getSelectedItem().toString();
 
+                if(!seleccion.equals("No hay recicladoras disponibles"))
+                {
+                    Bundle bundle = new Bundle();
+                    MapaInicio mi = new MapaInicio();
+                    bundle.putString("material", seleccion);
+                    mi.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                }
             }
         });
         ventanita.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
