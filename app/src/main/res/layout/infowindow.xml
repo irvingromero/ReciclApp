@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/infowindow"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvMostrarNombre_mapaInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*Nombre*"
+        android:textSize="18dp"
+        android:textColor="@color/cabecera_inicioPrin"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mas informacion..."
+        android:textColor="@color/cabecera_inicioPrin"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#0c81b3</color>
     <color name="colorAccent">#071097</color>
 
+    <!-- Info window background-->
+    <color name="infowindow">#8dae8d</color>
+
     <!-- Inicio sesion -->
     <color name="fondo">#21b33c</color>
     <color name="botonEntrar">#b1d3f4</color>

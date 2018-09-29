@@ -25,10 +25,12 @@ import reciclapp.reciclapp.Desarrollador;
 import reciclapp.reciclapp.InicioDeSesion.Inicio;
 import reciclapp.reciclapp.Interfaces.Inicio_InicioPrincipal;
 import reciclapp.reciclapp.R;
+import reciclapp.reciclapp.Reciclaje.GuiaReciclaje;
 
 public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioPrincipal {
 
     private DrawerLayout drawer;
+    private boolean mapaInicio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,17 +63,35 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-
+        }
+        else
+        {
             getSupportActionBar().show();
             drawer.setDrawerLockMode(drawer.LOCK_MODE_UNLOCKED);
+
+            if(mapaInicio == true)
+            {
+                setTitle("Principal");
+                Bundle bundle = new Bundle();
+                MapaInicio mi = new MapaInicio();
+                bundle.putString("material", null);
+                mi.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
+
+                mapaInicio = false;
+            }
+            else
+            {
+                super.onBackPressed();
+            }
         }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
         int id = item.getItemId();
 
         if (id == R.id.sesionRegistro_inicioPrin)
@@ -97,10 +117,11 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
                     })
                     .setNegativeButton("Aceptar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) { }
-                    }).show();
+            }).show();
 
         }
-        else if (id == R.id.programador_inicioPrin) {
+        else if (id == R.id.programador_inicioPrin)
+        {
             Desarrollador d = new Desarrollador();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainInicioPrincipal,  d, "fragment_meters");
@@ -110,6 +131,22 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
 
             drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
             getSupportActionBar().hide();
+        }
+        else if (id == R.id.guiaReciclaje_inicioPrin)
+        {
+            drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
+            getSupportActionBar().hide();
+
+            GuiaReciclaje gr = new GuiaReciclaje();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainInicioPrincipal,  gr, "fragment_meters");
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+        else if (id == R.id.manualidades_inicioPrin)
+        {
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -130,11 +167,11 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
         {
             int totalMatateriales = consulta.getCount();
             String [] materiales = new String [totalMatateriales];
-            int indice = 0;
+            int indiceMateriales = 0;
 
             do{
-                materiales [indice] = consulta.getString(0);
-                indice ++;
+                materiales [indiceMateriales] = consulta.getString(0);
+                indiceMateriales ++;
             }while (consulta.moveToNext());
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, materiales);
@@ -165,6 +202,8 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
 
                 if(!seleccion.equals("No hay recicladoras disponibles"))
                 {
+                    mapaInicio = true;
+
                     Bundle bundle = new Bundle();
                     MapaInicio mi = new MapaInicio();
                     bundle.putString("material", seleccion);

@@ -19,13 +19,13 @@
     <item android:title="Guias de reciclaje">
         <menu>
             <item
-                android:id="@+id/guia"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Guia de reciclaje" />
+                android:id="@+id/guiaReciclaje_inicioPrin"
+                android:icon="@drawable/guia_reciclaje"
+                android:title="@string/guiaReciclaje_inicioPrin" />
             <item
-                android:id="@+id/manualidades"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Manualidades" />
+                android:id="@+id/manualidades_inicioPrin"
+                android:icon="@drawable/manualidades"
+                android:title="@string/manualidades_inicioPrin" />
             <item
                 android:id="@+id/donar"
                 android:icon="@drawable/ic_menu_send"
