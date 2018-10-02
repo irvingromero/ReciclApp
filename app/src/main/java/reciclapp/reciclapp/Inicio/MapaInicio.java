@@ -236,9 +236,6 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
                 Cursor consulta = reci.rawQuery("select usuario from Recicladoras where nombre='"+nombre+"'", null);
                 if(consulta.moveToFirst())
                 {
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-
-
                     Bundle bundle = new Bundle();
                     DatosRecicladora dr = new DatosRecicladora();
                     bundle.putString("recicladora", nombre);
@@ -246,9 +243,11 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
 
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.mainInicioPrincipal,  dr, "");
-                    ft.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.addToBackStack(null);
                     ft.commit();
+
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
                 }
                 reci.close();
             }

@@ -7,6 +7,8 @@
     <!-- Info window background-->
     <color name="infowindow">#8dae8d</color>
 
+    <color name="estrella">#e2e91b</color>
+
     <!-- Inicio sesion -->
     <color name="fondo">#21b33c</color>
     <color name="botonEntrar">#b1d3f4</color>

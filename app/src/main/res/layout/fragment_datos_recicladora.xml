@@ -1,29 +1,303 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
     tools:context=".Inicio.DatosRecicladora">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_datosRecicladora"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark">
+        android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/btnAtras_datosRecicladora"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tb_datosRecicladora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark">
+
+            <ImageButton
+                android:id="@+id/btnAtras_datosRecicladora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                android:backgroundTint="@color/colorPrimaryDark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tb_informacion"
+                android:textSize="18sp" />
+        </android.support.v7.widget.Toolbar>
+
+        <ImageView
+            android:id="@+id/fotoRecicladora_datosRecicladora"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:backgroundTint="@color/colorPrimaryDark"
-            />
+            android:src="@android:drawable/ic_menu_report_image"
+            android:layout_below="@id/tb_datosRecicladora"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"/>
 
         <TextView
+            android:id="@+id/tvPuntuacion_datosRecicla"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Informacion"
-            android:textSize="18sp" />
-    </android.support.v7.widget.Toolbar>
+            android:text="(P)"
+            android:textSize="18dp"
+            android:layout_below="@id/tb_datosRecicladora"
+            android:layout_toRightOf="@id/fotoRecicladora_datosRecicladora"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"/>
 
-</FrameLayout>
+        <RatingBar
+            android:id="@+id/rbEstrellaReci_datosRecicladora"
+            style="@android:style/Widget.Holo.RatingBar.Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tb_datosRecicladora"
+            android:layout_toRightOf="@id/tvPuntuacion_datosRecicla"
+            android:numStars="1"
+            android:progressTint="@color/estrella"
+            android:rating="1" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_below="@id/rbEstrellaReci_datosRecicladora"
+            android:layout_toRightOf="@id/fotoRecicladora_datosRecicladora"
+            android:id="@+id/etMostrarNombre_datosRecicladora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etNombre_datosRecicladora"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nombre_datosReci"
+                android:text="***"
+                android:enabled="false"
+                android:textColor="@color/cabecera_inicioPrin"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_below="@id/etMostrarNombre_datosRecicladora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/lyCorreoYtelefono_datosReci">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="5dp">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etMostrarCorreo_datosRecicladora"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/correo_datosReci"
+                    android:text="***"
+                    android:enabled="false"
+                    android:textColor="@color/cabecera_inicioPrin"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingRight="5dp">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etMostrarTelefono_datosRecicladora"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/telefono_datosReci"
+                    android:text="***"
+                    android:enabled="false"
+                    android:textColor="@color/cabecera_inicioPrin"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_below="@id/lyCorreoYtelefono_datosReci"
+            android:id="@+id/lyCalles_datosRecicla"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="5dp">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etMostrarCalle1_datosRecicladora"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/calle1_datosReci"
+                    android:text="***"
+                    android:enabled="false"
+                    android:textColor="@color/cabecera_inicioPrin"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingRight="5dp">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etMostrarCalle2_datosRecicladora"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/calle2_datosReci"
+                    android:text="***"
+                    android:enabled="false"
+                    android:textColor="@color/cabecera_inicioPrin"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_below="@id/lyCalles_datosRecicla"
+            android:id="@+id/lyColoniaYnum_datosRecicla"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="5dp">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etMostrarColonia_datosRecicla"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/colonia_datosReci"
+                    android:text="***"
+                    android:enabled="false"
+                    android:textColor="@color/cabecera_inicioPrin"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingRight="5dp">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etMostrarNumueroInt_datosRecicla"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/numeroInt_datosReci"
+                    android:text="***"
+                    android:enabled="false"
+                    android:textColor="@color/cabecera_inicioPrin"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_below="@id/lyColoniaYnum_datosRecicla"
+            android:id="@+id/separador1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/cabecera_inicioPrin"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
+
+            <LinearLayout
+                android:layout_below="@id/separador1"
+                android:id="@+id/ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:id="@+id/materiales_datosReci"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvMateriales_datosReci"
+                    android:layout_gravity="center"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvMateriales_datosRecicla"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+        <TextView
+            android:layout_below="@id/ly"
+            android:id="@+id/separador2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/cabecera_inicioPrin"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
+
+        <LinearLayout
+            android:id="@+id/lyHorarios_datosReci"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/separador2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/horarios_datosReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoHorarios_datosReci"
+                android:layout_below="@id/separador2"
+                android:layout_gravity="center" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvHorarios_datosRecicla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/seprador3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/cabecera_inicioPrin"
+            android:layout_below="@id/lyHorarios_datosReci"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/textoPuntuacion_datosRe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seprador3"
+            android:text="@string/textPuntuacion_datosReci"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"/>
+
+            <RatingBar
+                android:id="@+id/rbPuntuar_datosRecicladora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:layout_below="@id/textoPuntuacion_datosRe"
+                android:layout_centerHorizontal="true"
+                android:progressTint="@color/estrella"/>
+
+            <Button
+                android:id="@+id/btnPuntuar_datosRecicladora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoBoton_datosRecicla"
+                android:layout_below="@id/rbPuntuar_datosRecicladora"
+                android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+</ScrollView>

@@ -20,9 +20,15 @@ public class BaseDeDatos extends SQLiteOpenHelper{
         baseDeDatos.execSQL("create table FotoRecicladora(usuario text, imagen blob)");
         baseDeDatos.execSQL("create table Ubicacion(usuario text, latitud double, longitud double)");
         baseDeDatos.execSQL("create table Materiales(usuario text, material text, precio double, unidad text)");
-        ////pendiente horarios/////
-        baseDeDatos.execSQL("create table Horarios(usuario text primary key)");
-        baseDeDatos.execSQL("create table Puntuacion(usuario text, total double)");
+        baseDeDatos.execSQL("create table Puntuacion(usuario text, total double, contador int)");
+
+        baseDeDatos.execSQL("create table Domingo(usuario text, abre text, cierra text)");
+        baseDeDatos.execSQL("create table Lunes(usuario text, abre text, cierra text)");
+        baseDeDatos.execSQL("create table Martes(usuario text, abre text, cierra text)");
+        baseDeDatos.execSQL("create table Miercoles(usuario text, abre text, cierra text)");
+        baseDeDatos.execSQL("create table Jueves(usuario text, abre text, cierra text)");
+        baseDeDatos.execSQL("create table Viernes(usuario text, abre text, cierra text)");
+        baseDeDatos.execSQL("create table Sabado(usuario text, abre text, cierra text)");
     }
 
     @Override

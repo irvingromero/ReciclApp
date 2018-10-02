@@ -70,6 +70,20 @@
     <string name="manualidades_inicioPrin">Manualidades</string>
     <string name="donativos">Mejor precio</string>
 
+    <!-- Datos recicladora -->
+    <string name="tb_informacion">Informacion</string>
+    <string name="nombre_datosReci">Nombre:</string>
+    <string name="correo_datosReci">Correo:</string>
+    <string name="telefono_datosReci">Telefono:</string>
+    <string name="calle1_datosReci">Calle:</string>
+    <string name="calle2_datosReci">Entre calle:</string>
+    <string name="colonia_datosReci">Colonia:</string>
+    <string name="numeroInt_datosReci">Numero interior:</string>
+    <string name="tvMateriales_datosReci">Materiales que aceptan</string>
+    <string name="textPuntuacion_datosReci">Deja una puntuacion!</string>
+    <string name="textoHorarios_datosReci">Horarios</string>
+    <string name="textoBoton_datosRecicla">Puntuar</string>
+
     <!-- modificar recicladora  -->
     <string name="modificar_modifRecicla">Modificar datos</string>
     <string name="actealizar_modifRecicla">Actualizar datos</string>
@@ -77,8 +91,5 @@
     <!-- ubicacion recicladora  -->
     <string name="ubicacion_ubicacionReci">Ubicacion recicladora</string>
     <string name="seleccionar_ubicacionReci">Seleccionar</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
