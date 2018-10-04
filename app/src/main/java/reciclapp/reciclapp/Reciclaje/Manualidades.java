@@ -1,30 +1,40 @@
 package reciclapp.reciclapp.Reciclaje;
 
-
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import reciclapp.reciclapp.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class Manualidades extends Fragment {
-
-
-    public Manualidades() {
-        // Required empty public constructor
-    }
-
+public class Manualidades extends AppCompatActivity
+{
+    private WebView pagina;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_manualidades, container, false);
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_manualidades);
+
+        pagina = findViewById(R.id.wvPagina_manualidades);
+
+        WebSettings webSettings = pagina.getSettings();
+        pagina.setWebViewClient(new WebViewClient());
+        webSettings.setJavaScriptEnabled(true);
+        pagina.loadUrl("https://artes.uncomo.com/manualidades-de-materiales-reciclados/");
     }
 
+    @Override
+    public void onBackPressed() {
+        if (pagina.canGoBack())
+        {
+            pagina.goBack();
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
 }

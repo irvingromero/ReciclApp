@@ -1,25 +1,40 @@
 package reciclapp.reciclapp.Reciclaje;
 
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import reciclapp.reciclapp.R;
 
-public class GuiaReciclaje extends Fragment
-{
-    private View vista;
+public class GuiaReciclaje extends AppCompatActivity {
 
-    public GuiaReciclaje() { }
+    private WebView pagina;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
-        vista = inflater.inflate(R.layout.fragment_guia_reciclaje, container, false);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_guia_reciclaje);
 
-        return vista;
+        pagina = findViewById(R.id.wvPagina_guiaReciclaje);
+
+        WebSettings webSettings = pagina.getSettings();
+        pagina.setWebViewClient(new WebViewClient());
+        webSettings.setJavaScriptEnabled(true);
+        pagina.loadUrl("https://www.ecoembes.com/es/ciudadanos/envases-y-proceso-reciclaje/como-reciclar-bien");
     }
 
+    @Override
+    public void onBackPressed() {
+        if (pagina.canGoBack())
+        {
+            pagina.goBack();
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
 }

@@ -3,6 +3,8 @@ package reciclapp.reciclapp.Inicio;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -85,6 +87,8 @@ public class DatosRecicladora extends Fragment
         lista.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         listaDatos = new ArrayList<String>();
 
+        foto = vista.findViewById(R.id.fotoRecicladora_datosRecicladora);
+        cargarFoto();
         mostrarMateriales();
 
         ratingRecicladora = vista.findViewById(R.id.tvPuntuacion_datosRecicla);
@@ -121,6 +125,26 @@ public class DatosRecicladora extends Fragment
         });
 
         return vista;
+    }
+
+    private void cargarFoto()
+    {
+        BaseDeDatos baseDeDatos = new BaseDeDatos(getContext(), "FotoRecicladora", null, 1);
+        SQLiteDatabase ft = baseDeDatos.getWritableDatabase();
+        Cursor consultaFoto = ft.rawQuery("select imagen from FotoRecicladora where usuario ='" + usuarioRecicla + "'", null);
+        if (consultaFoto.moveToFirst())
+        {
+            //// CASTEA EL ARREGLO DE BYTES A BITMAP Y LUEGO A IMAGEVIEW ////
+            byte [] arregloImagen = consultaFoto.getBlob(0);
+            Bitmap fotoBitmap = arreglobyteToBitmap(arregloImagen);
+            foto.setImageBitmap(fotoBitmap);
+        }
+        ft.close();
+    }
+    private Bitmap arreglobyteToBitmap(byte [] bytes)
+    {
+        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return bmp;
     }
 
     private void mostrarMateriales()

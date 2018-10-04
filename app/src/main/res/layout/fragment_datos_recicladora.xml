@@ -33,12 +33,11 @@
 
         <ImageView
             android:id="@+id/fotoRecicladora_datosRecicladora"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@android:drawable/ic_menu_report_image"
             android:layout_below="@id/tb_datosRecicladora"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"/>
+            android:paddingLeft="10dp" />
 
         <TextView
             android:id="@+id/tvPuntuacion_datosRecicla"
@@ -80,7 +79,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
-            android:layout_below="@id/etMostrarNombre_datosRecicladora"
+            android:layout_below="@id/fotoRecicladora_datosRecicladora"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

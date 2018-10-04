@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -19,6 +20,10 @@ public class HorarioRecicladora extends Fragment
 {
     private View vista;
     private ImageButton atras;
+
+    private Switch swLunes, swMartes, swMier, swJue, swVier, swSab, swDom;
+    private ImageButton ibLun, ibMar, ibMier, ibJue, ibVier, ibSab, ibDom;
+    private EditText e;
 
     private static final String CERO = "0";
     private static final String DOS_PUNTOS = ":";

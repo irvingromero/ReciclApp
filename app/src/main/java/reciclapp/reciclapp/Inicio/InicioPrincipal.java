@@ -26,6 +26,7 @@ import reciclapp.reciclapp.InicioDeSesion.Inicio;
 import reciclapp.reciclapp.Interfaces.Inicio_InicioPrincipal;
 import reciclapp.reciclapp.R;
 import reciclapp.reciclapp.Reciclaje.GuiaReciclaje;
+import reciclapp.reciclapp.Reciclaje.Manualidades;
 
 public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioPrincipal {
 
@@ -134,19 +135,13 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
         }
         else if (id == R.id.guiaReciclaje_inicioPrin)
         {
-            drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
-            getSupportActionBar().hide();
-
-            GuiaReciclaje gr = new GuiaReciclaje();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainInicioPrincipal,  gr, "fragment_meters");
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.addToBackStack(null);
-            ft.commit();
+            Intent intent = new Intent(this, GuiaReciclaje.class);
+            startActivity(intent);
         }
         else if (id == R.id.manualidades_inicioPrin)
         {
-
+            Intent intent = new Intent(this, Manualidades.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

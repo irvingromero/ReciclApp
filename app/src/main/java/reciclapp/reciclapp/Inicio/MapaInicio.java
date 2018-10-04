@@ -90,7 +90,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
                 }
                 else
                 {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
                 }
             }
             else
@@ -257,15 +257,17 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
 
     @SuppressLint("MissingPermission")
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
     {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(estadoPermiso())
+
+        if(requestCode == 1)
         {
-            mapa.setMyLocationEnabled(true);
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                mapa.setMyLocationEnabled(true);
+            }
         }
-        else
-        { }
     }
 
     public interface OnFragmentInteractionListener {

@@ -59,7 +59,7 @@
     <string name="viernes_horario">Viernes:</string>
     <string name="sabado_horario">Sabado:</string>
     <string name="domingo_horario">Domingo:</string>
-    <string name="cerrado_horario">cerrado?</string>
+    <string name="cerrado_horario">¿Cerrado?</string>
     <string name="agregar_horarioRecicla">Añadir</string>
 
     <!-- Inicio principal  -->

@@ -28,16 +28,16 @@
                 android:title="@string/manualidades_inicioPrin" />
             <item
                 android:id="@+id/donar"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/donar"
                 android:title="Donar " />
         </menu>
     </item>
 
-    <item android:title="Communicate">
+    <item android:title="Informacion">
         <menu>
             <item
                 android:id="@+id/programador_inicioPrin"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/info"
                 android:title="@string/infoDesarrollador" />
         </menu>
     </item>

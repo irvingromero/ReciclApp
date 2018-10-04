@@ -31,7 +31,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +52,6 @@
             android:id="@+id/ibLunes_horarioReci"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:src="@android:drawable/presence_away"
             android:paddingTop="12dp"/>
 
@@ -59,7 +59,6 @@
             android:id="@+id/etLunes_horarioReci"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:ems="4"
             android:inputType="textPersonName"
             android:text="---"

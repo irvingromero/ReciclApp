@@ -9,31 +9,31 @@
             android:title="@string/agregarImagen" />
         <item
             android:id="@+id/modificarDatos_SesionRe"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/modificar"
             android:title="@string/modificarDatos" />
         <item
             android:id="@+id/ubicacion_SesionRe"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ubicacion"
             android:title="@string/agregarUbicacion" />
         <item
             android:id="@+id/agregarHorario_re"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/horario"
             android:title="@string/agregarHorario" />
         <item
             android:id="@+id/agregarRecicladora_re"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/agregar_material"
             android:title="@string/agregarRecicladora" />
         <item
             android:id="@+id/cerrarSesion_re"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/salir"
             android:title="@string/cerrarSesion" />
 
-    <item android:title="Communicate">
+    <item android:title="Informacion">
         <menu>
             <item
                 android:id="@+id/infoDesarrollador"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Desarrollador" />
+                android:icon="@drawable/info"
+                android:title="@string/infoDesarrollador" />
         </menu>
     </item>
 
