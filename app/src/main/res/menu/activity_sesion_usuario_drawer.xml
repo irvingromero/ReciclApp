@@ -4,45 +4,50 @@
     tools:showIn="navigation_view">
 
         <item
-            android:id="@+id/sesionRegistro_inicioPrin"
-            android:icon="@drawable/iniciar_sesion"
-            android:title="@string/sesionRegistro_inicioPrin" />
+            android:id="@+id/modificarDatos_sesionUsuario"
+            android:icon="@drawable/modificar"
+            android:title="@string/modificarDatos_menu" />
         <item
-            android:id="@+id/buscarMaterial_inicioPrin"
+            android:id="@+id/buscarMaterial_sesionUsuario"
             android:icon="@drawable/buscar_material"
             android:title="@string/material_inicioPrin" />
         <item
-            android:id="@+id/mejorPrecio_inicioPrin"
+            android:id="@+id/mejorPrecio_sesionUsuario"
             android:icon="@drawable/mejor_precio"
             android:title="@string/mejorPrecio" />
+        <item
+            android:id="@+id/masCercano_sesionUsuario"
+            android:icon="@drawable/ubicacion"
+            android:title="@string/masCercano" />
     <item
-        android:id="@+id/masCercano_inicioPrin"
-        android:icon="@drawable/ubicacion"
-        android:title="@string/masCercano" />
+        android:id="@+id/cerrarSesion_sesionUsuario"
+        android:icon="@drawable/salir"
+        android:title="@string/cerrarSesion" />
 
     <item android:title="Guias de reciclaje">
         <menu>
             <item
-                android:id="@+id/guiaReciclaje_inicioPrin"
+                android:id="@+id/guiaReciclaje_sesionUsuario"
                 android:icon="@drawable/guia_reciclaje"
                 android:title="@string/guiaReciclaje_inicioPrin" />
             <item
-                android:id="@+id/manualidades_inicioPrin"
+                android:id="@+id/manualidades_sesionUsuario"
                 android:icon="@drawable/manualidades"
                 android:title="@string/manualidades_inicioPrin" />
             <item
-                android:id="@+id/donar"
+                android:id="@+id/donar_sesionUsuario"
                 android:icon="@drawable/donar"
-                android:title="Donar " />
+                android:title="@string/donativos" />
         </menu>
     </item>
 
     <item android:title="Informacion">
         <menu>
             <item
-                android:id="@+id/programador_inicioPrin"
+                android:id="@+id/infoDesarrollador_sesionUsuario"
                 android:icon="@drawable/info"
                 android:title="@string/infoDesarrollador" />
         </menu>
     </item>
+
 </menu>

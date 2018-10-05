@@ -1,10 +1,9 @@
-package reciclapp.reciclapp.Inicio;
+package reciclapp.reciclapp.SesionUsuario;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -16,34 +15,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.Desarrollador;
+import reciclapp.reciclapp.Inicio.MapaInicio;
 import reciclapp.reciclapp.InicioDeSesion.Inicio;
-import reciclapp.reciclapp.Interfaces.Inicio_InicioPrincipal;
 import reciclapp.reciclapp.R;
 import reciclapp.reciclapp.Reciclaje.GuiaReciclaje;
 import reciclapp.reciclapp.Reciclaje.Manualidades;
 
-public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioPrincipal {
+public class SesionUsuario extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private String usuario;
+    private Toolbar toolbar;
     private DrawerLayout drawer;
     private boolean mapaInicio;
+    private TextView mostrarUsuario;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio_principal);
-        setTitle("Principal");
+        setContentView(R.layout.activity_sesion_usuario);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        usuario = getIntent().getExtras().getString("usuario");
+        setTitle("Inicio");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -52,12 +57,16 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View cabecera = navigationView.getHeaderView(0);
+        mostrarUsuario = cabecera.findViewById(R.id.mostrarUsuario_sesionUsuario);
+        mostrarUsuario.setText("Usuario: "+usuario);
+
         Bundle bundle = new Bundle();
         MapaInicio mi = new MapaInicio();
-        bundle.putString("sesionUsuario", null);
+        bundle.putString("sesionUsuario", usuario);
         bundle.putString("material", null);
         mi.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionUsuario, mi).commit();
     }
 
     @Override
@@ -73,15 +82,16 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
 
             if(mapaInicio == true)
             {
-                setTitle("Principal");
+                setTitle("Inicio");
                 Bundle bundle = new Bundle();
                 MapaInicio mi = new MapaInicio();
                 bundle.putString("material", null);
+                bundle.putString("sesionUsuario", usuario);
                 mi.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionUsuario, mi)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
 
-                mapaInicio = false;
+                    mapaInicio = false;
             }
             else
             {
@@ -92,75 +102,65 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item)
-    {
+    public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.sesionRegistro_inicioPrin)
+        if (id == R.id.modificarDatos_sesionUsuario)
         {
-            Intent intent = new Intent(this, Inicio.class);
-            startActivity(intent);
-            finish();
-        }
-        else if (id == R.id.buscarMaterial_inicioPrin)
+
+        } else if (id == R.id.buscarMaterial_sesionUsuario)
         {
             ventanaMateriales();
 
-        }
-        else if (id == R.id.mejorPrecio_inicioPrin)
+        } else if (id == R.id.mejorPrecio_sesionUsuario)
         {
-            new AlertDialog.Builder(this).setMessage("Debes registrarte o iniciar sesion para usar esta funcion.")
-                    .setPositiveButton("Registrarse", new DialogInterface.OnClickListener() {
+
+        }  else if (id == R.id.masCercano_sesionUsuario)
+        {
+
+        }else if (id == R.id.cerrarSesion_sesionUsuario)
+        {
+            new AlertDialog.Builder(this).setTitle("¿Cerrar sesion?")
+                    .setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(InicioPrincipal.this, Inicio.class);
+                            Intent intent = new Intent(SesionUsuario.this, Inicio.class);
                             startActivity(intent);
                             finish();
                         }
                     })
-                    .setNegativeButton("Aceptar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) { }
-            }).show();
-
-        }
-        else if (id == R.id.masCercano_inicioPrin)
-        {
-            new AlertDialog.Builder(this).setMessage("Debes registrarte o iniciar sesion para usar esta funcion.")
-                    .setPositiveButton("Registrarse", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(InicioPrincipal.this, Inicio.class);
-                            startActivity(intent);
-                            finish();
                         }
-                    })
-                    .setNegativeButton("Aceptar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) { }
-                    }).show();
-        }
+                    }).setIcon(android.R.drawable.ic_delete).show();
 
-        else if (id == R.id.programador_inicioPrin)
-        {
-            Desarrollador d = new Desarrollador();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainInicioPrincipal,  d, "fragment_meters");
-            ft.setTransition(FragmentTransaction.TRANSIT_NONE);
-            ft.addToBackStack(null);
-            ft.commit();
-
-            drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
-            getSupportActionBar().hide();
         }
-        else if (id == R.id.guiaReciclaje_inicioPrin)
+        else if (id == R.id.guiaReciclaje_sesionUsuario)
         {
             Intent intent = new Intent(this, GuiaReciclaje.class);
             startActivity(intent);
-        }
-        else if (id == R.id.manualidades_inicioPrin)
+
+        } else if (id == R.id.manualidades_sesionUsuario)
         {
             Intent intent = new Intent(this, Manualidades.class);
             startActivity(intent);
+
+        }else if (id == R.id.donar_sesionUsuario)
+        {
+
+        }else if (id == R.id.infoDesarrollador_sesionUsuario)
+        {
+            Desarrollador d = new Desarrollador();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainSesionUsuario, d, "fragments");
+            ft.setTransition(FragmentTransaction.TRANSIT_UNSET);
+            ft.addToBackStack(null);
+            ft.commit();
+
+            getSupportActionBar().hide();
+            drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -218,8 +218,9 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
                     Bundle bundle = new Bundle();
                     MapaInicio mi = new MapaInicio();
                     bundle.putString("material", seleccion);
+                    bundle.putString("sesionUsuario", usuario);
                     mi.setArguments(bundle);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionUsuario, mi).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
                 }
             }
         });
@@ -228,10 +229,5 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
             public void onClick(DialogInterface dialog, int which) { }});
 
         ventanita.show();
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }

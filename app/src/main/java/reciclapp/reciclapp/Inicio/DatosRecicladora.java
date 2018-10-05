@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -29,8 +30,7 @@ import reciclapp.reciclapp.R;
 public class DatosRecicladora extends Fragment
 {
     private View vista;
-    private boolean usuarioRegistrado = false;
-    private String nombreRecicladora, usuarioRecicla;
+    private String nombreRecicladora, usuarioRecicla, usuarioLogeado;
     private ImageButton back;
 
     private ImageView foto;
@@ -49,6 +49,7 @@ public class DatosRecicladora extends Fragment
     {
         Bundle extras = getArguments();
         nombreRecicladora = extras.getString("recicladora");
+        usuarioLogeado = extras.getString("sesion");
 
         vista = inflater.inflate(R.layout.fragment_datos_recicladora, container, false);
 
@@ -101,8 +102,17 @@ public class DatosRecicladora extends Fragment
             @Override
             public void onClick(View v)
             {
-                if(usuarioRegistrado == true)
+                if(usuarioLogeado != null)
                 {
+                    double puntuacion = puntuar.getRating();
+                    if(puntuacion != 0.0)
+                    {
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Debes seleccionar una puntuacion", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {

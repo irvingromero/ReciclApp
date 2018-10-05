@@ -37,7 +37,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
     private View vista, infowindow;
     private GoogleMap mapa;
     private MapView mapView;
-    private String busqueda;
+    private String busqueda, usuarioLogeado;
 
     public MapaInicio() { }
 
@@ -46,6 +46,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
     {
         Bundle extras = getArguments();
         busqueda = extras.getString("material");
+        usuarioLogeado = extras.getString("sesionUsuario");
 
         vista = inflater.inflate(R.layout.fragment_mapa_inicio, container, false);
 
@@ -207,7 +208,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
     @Override
     public boolean onMarkerClick(Marker marker)
     {
-        final String nombre = marker.getTitle().toString();
+        final String nombre = marker.getTitle();
 
         mapa.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
@@ -239,15 +240,29 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
                     Bundle bundle = new Bundle();
                     DatosRecicladora dr = new DatosRecicladora();
                     bundle.putString("recicladora", nombre);
+                    bundle.putString("sesion", usuarioLogeado);
                     dr.setArguments(bundle);
 
-                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.mainInicioPrincipal,  dr, "");
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    ft.addToBackStack(null);
-                    ft.commit();
+                    if(usuarioLogeado == null)
+                    {
+                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.mainInicioPrincipal, dr, "");
+                        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        ft.addToBackStack(null);
+                        ft.commit();
 
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+                    }
+                    else
+                    {
+                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.mainSesionUsuario, dr, "");
+                        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        ft.addToBackStack(null);
+                        ft.commit();
+
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+                    }
                 }
                 reci.close();
             }

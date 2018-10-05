@@ -21,6 +21,7 @@ import reciclapp.reciclapp.R;
 import reciclapp.reciclapp.Registro.RegistroRecicladora;
 import reciclapp.reciclapp.Registro.RegistroUsuario;
 import reciclapp.reciclapp.SesionRecicladora.SesionRecicladora;
+import reciclapp.reciclapp.SesionUsuario.SesionUsuario;
 
 public class InicioSesion extends Fragment {
 
@@ -119,10 +120,10 @@ public class InicioSesion extends Fragment {
             if (consultaUsuario.moveToFirst())
             {
                 bandera = true;
-//                Intent i = new Intent(getActivity(), ActivitySesion.class);
-//                i.putExtra("usuario", usuario);
-//                getActivity().startActivity(i);
-//                getActivity().finish();
+                Intent i = new Intent(getActivity(), SesionUsuario.class);
+                i.putExtra("usuario", usuario);
+                getActivity().startActivity(i);
+                getActivity().finish();
             }
             dllUsu.close();
 

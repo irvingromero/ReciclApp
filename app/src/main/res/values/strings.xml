@@ -62,13 +62,16 @@
     <string name="cerrado_horario">¿Cerrado?</string>
     <string name="agregar_horarioRecicla">Añadir</string>
 
-    <!-- Inicio principal  -->
+    <!-- Inicio principal  --> <!-- MENU -->
     <string name="sesionRegistro_inicioPrin">Iniciar sesion o Registrarse</string>
     <string name="material_inicioPrin">Buscar material</string>
     <string name="mejorPrecio">Mejor precio</string>
     <string name="guiaReciclaje_inicioPrin">Guia de reciclaje</string>
     <string name="manualidades_inicioPrin">Manualidades</string>
-    <string name="donativos">Mejor precio</string>
+    <string name="donativos">Donar</string>
+
+    <string name="masCercano">Mas cercano</string>
+    <string name="modificarDatos_menu">Modificar datos</string>
 
     <!-- Datos recicladora -->
     <string name="tb_informacion">Informacion</string>
