@@ -95,4 +95,10 @@
     <string name="ubicacion_ubicacionReci">Ubicacion recicladora</string>
     <string name="seleccionar_ubicacionReci">Seleccionar</string>
 
+    <!-- Sesion usuario -->
+    <string name="textoModificarUsuario">Actualizar datos</string>
+    <string name="textoCorreo">Correo</string>
+    <string name="textoContra">Contraseña</string>
+    <string name="textoModificar">Modificar</string>
+
 </resources>

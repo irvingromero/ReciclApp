@@ -15,7 +15,7 @@ public class BaseDeDatos extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase baseDeDatos)
     {
         baseDeDatos.execSQL("create table Usuarios(usuario text primary key, correo text, contra text)");
-        baseDeDatos.execSQL("create table Puntuador(usuario text, puntuaje double)");
+        baseDeDatos.execSQL("create table Puntuador(usuario text, puntuaje double, recicladora text)");
 
         baseDeDatos.execSQL("create table Recicladoras(usuario text, correo text, contra text, nombre text, telefono text, calle text, calle2 text, colonia text, numeroInt int)");
         baseDeDatos.execSQL("create table FotoRecicladora(usuario text, imagen blob)");

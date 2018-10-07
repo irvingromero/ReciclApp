@@ -35,6 +35,7 @@ public class InicioRecicladora extends Fragment
         vista = inflater.inflate(R.layout.fragment_inicio_recicladora, container, false);
         estrellas = vista.findViewById(R.id.rbPuntuacion_sesionRecicla);
         estrellas.setEnabled(false);
+        cargarPuntucacion();
 
         lista = vista.findViewById(R.id.listaMateriales_sesionRecicla);
         lista.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -68,6 +69,22 @@ public class InicioRecicladora extends Fragment
         AdapterDatos adapter = new AdapterDatos(listaDatos);
         lista.setAdapter(adapter);
         bdMateirlaes.close();
+    }
+
+    private void cargarPuntucacion()
+    {
+        BaseDeDatos baseDeDatos = new BaseDeDatos(getContext(), "Puntuacion", null, 1);
+        SQLiteDatabase bd = baseDeDatos.getWritableDatabase();
+        Cursor consultaPuntos = bd.rawQuery("select total, contador from Puntuacion where usuarioRecicladora ='" + logeado + "'", null);
+        if (consultaPuntos.moveToFirst())
+        {
+            double total = consultaPuntos.getDouble(0);
+            int contador = consultaPuntos.getInt(1);
+            double promedio = total / contador;
+            float puntos = (float) promedio;
+            estrellas.setRating(puntos);
+        }
+        bd.close();
     }
 
     public interface OnFragmentInteractionListener {

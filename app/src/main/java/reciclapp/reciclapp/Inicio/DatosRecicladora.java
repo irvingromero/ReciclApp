@@ -1,5 +1,6 @@
 package reciclapp.reciclapp.Inicio;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
@@ -31,7 +36,7 @@ public class DatosRecicladora extends Fragment
 {
     private View vista;
     private String nombreRecicladora, usuarioRecicla, usuarioLogeado;
-    private ImageButton back;
+    private boolean yapuntuo = false;
 
     private ImageView foto;
     private TextView ratingRecicladora;
@@ -68,11 +73,11 @@ public class DatosRecicladora extends Fragment
         {
             usuarioRecicla = consultaRecicla.getString(0);
             String correo = consultaRecicla.getString(1);
-            String telefono = consultaRecicla.getString(2).toString();
+            String telefono = consultaRecicla.getString(2);
             String calle = consultaRecicla.getString(3);
             String calle2 = consultaRecicla.getString(4);
             String colonia = consultaRecicla.getString(5);
-            String numeroInt = consultaRecicla.getString(6).toString();
+            String numeroInt = consultaRecicla.getString(6);
 
             campoNombre.setText(nombreRecicladora);
             campoCorreo.setText(correo);
@@ -86,16 +91,17 @@ public class DatosRecicladora extends Fragment
 
         lista = vista.findViewById(R.id.rvMateriales_datosRecicla);
         lista.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        listaDatos = new ArrayList<String>();
+        listaDatos = new ArrayList<>();
 
         foto = vista.findViewById(R.id.fotoRecicladora_datosRecicladora);
         cargarFoto();
         mostrarMateriales();
 
         ratingRecicladora = vista.findViewById(R.id.tvPuntuacion_datosRecicla);
-        cargarPuntucacion();
 
         puntuar = vista.findViewById(R.id.rbPuntuar_datosRecicladora);
+        cargarPuntucacion();
+
         btnPuntuar = vista.findViewById(R.id.btnPuntuar_datosRecicladora);
         btnPuntuar.setOnClickListener(new View.OnClickListener()
         {
@@ -107,7 +113,110 @@ public class DatosRecicladora extends Fragment
                     double puntuacion = puntuar.getRating();
                     if(puntuacion != 0.0)
                     {
+                        if(yapuntuo == false)//// La primera vez que el usuario puntua ////
+                        {
+                            BaseDeDatos bd = new BaseDeDatos(getContext(), "Puntuador", null, 1);
+                            SQLiteDatabase flujoPuntuador = bd.getWritableDatabase();
 
+                            ContentValues cv = new ContentValues();
+                            cv.put("usuario", usuarioLogeado);
+                            cv.put("puntuaje", puntuacion);
+                            cv.put("recicladora", usuarioRecicla);
+
+                            flujoPuntuador.insert("Puntuador", null, cv);
+                            flujoPuntuador.close();
+
+                            BaseDeDatos bdPuntuacion = new BaseDeDatos(getContext(), "Puntuacion", null, 1);
+                            SQLiteDatabase flujoPuntuacion = bdPuntuacion.getWritableDatabase();
+                            Cursor consulta = flujoPuntuacion.rawQuery("select total, contador from Puntuacion where usuarioRecicladora ='"+usuarioRecicla+"'", null);
+                            if(consulta.moveToFirst())
+                            {
+                                double total = consulta.getDouble(0);
+                                int contadorbd = consulta.getInt(1);
+
+                                contadorbd ++;
+                                double nuevoTotal = total + puntuacion;
+
+                                ContentValues modificar = new ContentValues();
+                                modificar.put("total", nuevoTotal);
+                                modificar.put("contador", contadorbd);
+
+                                flujoPuntuacion.update("Puntuacion", modificar, "usuarioRecicladora="+"'"+usuarioRecicla +"'", null);
+                                flujoPuntuacion.close();
+                            }
+                            else //// Si la recicladora no cuenta con un puntuaje aun ////
+                            {
+                                int contador = 1;
+                                ContentValues cvR = new ContentValues();
+                                cvR.put("usuarioRecicladora", usuarioRecicla);
+                                cvR.put("total", puntuacion);
+                                cvR.put("contador", contador);
+
+                                flujoPuntuacion.insert("Puntuacion", null, cvR);
+                                flujoPuntuacion.close();
+                            }
+                            cargarPuntucacion();
+                            Snackbar.make(vista, "Gracias por dejar su puntuacion!", Snackbar.LENGTH_LONG).show();
+                        }
+                        else //// El usuario ya puntuo, se actualizara el puntuaje que dio ////
+                        {
+                            BaseDeDatos db = new BaseDeDatos(getContext(), "Puntuador", null, 1);
+                            SQLiteDatabase flujo = db.getWritableDatabase();
+                            Cursor c = flujo.rawQuery("select puntuaje from Puntuador where usuario ='"+usuarioLogeado+"'", null);
+                            if (c.moveToFirst())
+                            {
+                                double puntuajeViejoUsuario = c.getDouble(0);
+                                double diferencia;
+                                boolean suma;
+
+                                if(puntuajeViejoUsuario != puntuacion)
+                                {
+                                    if(puntuajeViejoUsuario < puntuacion)
+                                    {
+                                        diferencia = -(puntuajeViejoUsuario - puntuacion);
+                                        suma = true;
+                                    }
+                                    else
+                                    {
+                                        diferencia = -(puntuacion - puntuajeViejoUsuario);
+                                        suma = false;
+                                    }
+                                    ContentValues contentValues = new ContentValues();
+                                    contentValues.put("puntuaje", puntuacion);
+                                    flujo.update("Puntuador", contentValues, "usuario="+"'"+usuarioLogeado +"'", null);
+
+
+                                    BaseDeDatos baseDeDatos = new BaseDeDatos(getContext(), "Puntuacion", null, 1);
+                                    SQLiteDatabase f = baseDeDatos.getWritableDatabase();
+                                    Cursor a = f.rawQuery("select total from Puntuacion where usuarioRecicladora ='"+usuarioRecicla+"'", null);
+                                    if (a.moveToFirst())
+                                    {
+                                        double total = a.getDouble(0);
+                                        if(suma == true)
+                                        {
+                                            total = total + diferencia;
+                                        }
+                                        else
+                                        {
+                                            total = total - diferencia;
+                                        }
+
+                                        ContentValues cvPuntuacion = new ContentValues();
+                                        cvPuntuacion.put("total", total);
+                                        f.update("Puntuacion", cvPuntuacion, "usuarioRecicladora="+"'"+usuarioRecicla +"'", null);
+
+                                        cargarPuntucacion();
+                                        Snackbar.make(vista, "Puntuacion actualizada", Snackbar.LENGTH_LONG).show();
+                                    }
+                                    f.close();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getContext(), "No hay cambios", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            flujo.close();
+                        }
                     }
                     else
                     {
@@ -126,7 +235,7 @@ public class DatosRecicladora extends Fragment
             }
         });
 
-        back = vista.findViewById(R.id.btnAtras_datosRecicladora);
+        ImageButton back = vista.findViewById(R.id.btnAtras_datosRecicladora);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,18 +295,43 @@ public class DatosRecicladora extends Fragment
     {
         BaseDeDatos baseDeDatos = new BaseDeDatos(getContext(), "Puntuacion", null, 1);
         SQLiteDatabase bd = baseDeDatos.getWritableDatabase();
-        Cursor consultaPuntos = bd.rawQuery("select total from Puntuacion where usuario ='" +usuarioRecicla + "'", null);
+        Cursor consultaPuntos = bd.rawQuery("select total, contador from Puntuacion where usuarioRecicladora ='" +usuarioRecicla + "'", null);
         if (consultaPuntos.moveToFirst())
         {
-            String total = String.valueOf(consultaPuntos.getDouble(0));
-            ratingRecicladora.setText(total);
+            double total = consultaPuntos.getDouble(0);
+            int contador = consultaPuntos.getInt(1);
+            double promedio = total / contador;
+
+            BigDecimal promedioCorto = new BigDecimal(promedio);
+            promedioCorto = promedioCorto.setScale(1, RoundingMode.HALF_UP);
+            promedioCorto.doubleValue();
+
+            ratingRecicladora.setText(promedioCorto.toString());
         }
         else
         {
             ratingRecicladora.setText("0.0");
         }
         bd.close();
+
+        BaseDeDatos db = new BaseDeDatos(getContext(), "Puntuador", null, 1);
+        SQLiteDatabase flujo = db.getWritableDatabase();
+        Cursor c = flujo.rawQuery("select puntuaje, recicladora from Puntuador where usuario ='"+usuarioLogeado+"'", null);
+        if (c.moveToFirst())
+        {
+            double puntuaje = c.getDouble(0);
+            String recicladoraPuntuada = c.getString(1);
+
+            if(recicladoraPuntuada.equals(usuarioRecicla))
+            {
+                puntuar.setRating((float) puntuaje);
+                yapuntuo = true;
+            }
+        }
+        flujo.close();
     }
+
+
 
     public class AdapterDatos extends RecyclerView.Adapter<DatosRecicladora.AdapterDatos.ViewHolderDatos> {
         ArrayList<String> listaDatos;
@@ -229,9 +363,6 @@ public class DatosRecicladora extends Fragment
         public class ViewHolderDatos extends RecyclerView.ViewHolder
         {
             TextView dato;
-            String material;
-            double precio;
-            String unidad;
 
             public ViewHolderDatos(final View itemView) {
                 super(itemView);

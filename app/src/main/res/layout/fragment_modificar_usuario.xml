@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SesionUsuario.ModificarUsuario"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_modificarUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageButton
+            android:id="@+id/btnAtras_modificarUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:backgroundTint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textoModificarUsuario"
+            android:textSize="18sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etCorreo_modificarUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/textoCorreo"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etContra_modificarUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/textoContra"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etConfirmaContra_modificarUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirmar contraseña"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnActualizar_modificarUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textoModificar"
+            android:textAllCaps="false"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+</LinearLayout>

@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.Desarrollador;
@@ -34,7 +35,7 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
     private String usuario;
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private boolean mapaInicio;
+    private boolean busquedaMaterial;
     private TextView mostrarUsuario;
 
     @Override
@@ -80,7 +81,7 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
             getSupportActionBar().show();
             drawer.setDrawerLockMode(drawer.LOCK_MODE_UNLOCKED);
 
-            if(mapaInicio == true)
+            if(busquedaMaterial == true)
             {
                 setTitle("Inicio");
                 Bundle bundle = new Bundle();
@@ -91,7 +92,7 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
                 getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionUsuario, mi)
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
 
-                    mapaInicio = false;
+                    busquedaMaterial = false;
             }
             else
             {
@@ -107,6 +108,19 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
 
         if (id == R.id.modificarDatos_sesionUsuario)
         {
+            Bundle bundle = new Bundle();
+            ModificarUsuario mu = new ModificarUsuario();
+            bundle.putString("usuario", usuario);
+            mu.setArguments(bundle);
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainSesionUsuario, mu, "modificarUsuario");
+            ft.setTransition(FragmentTransaction.TRANSIT_NONE);
+            ft.addToBackStack(null);
+            ft.commit();
+
+            getSupportActionBar().hide();
+            drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
 
         } else if (id == R.id.buscarMaterial_sesionUsuario)
         {
@@ -114,6 +128,7 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
 
         } else if (id == R.id.mejorPrecio_sesionUsuario)
         {
+            buscarMejorPrecio();
 
         }  else if (id == R.id.masCercano_sesionUsuario)
         {
@@ -213,7 +228,7 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
 
                 if(!seleccion.equals("No hay recicladoras disponibles"))
                 {
-                    mapaInicio = true;
+                    busquedaMaterial = true;
 
                     Bundle bundle = new Bundle();
                     MapaInicio mi = new MapaInicio();
@@ -229,5 +244,17 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
             public void onClick(DialogInterface dialog, int which) { }});
 
         ventanita.show();
+    }
+
+    private void buscarMejorPrecio()
+    {
+        if(busquedaMaterial == true)
+        {
+
+        }
+        else
+        {
+            Toast.makeText(this, "Debes buscar un material primero", Toast.LENGTH_SHORT).show();
+        }
     }
 }
