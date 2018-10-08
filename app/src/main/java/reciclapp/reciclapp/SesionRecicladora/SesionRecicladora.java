@@ -172,7 +172,7 @@ public class SesionRecicladora extends AppCompatActivity implements SesionRecicl
                             //// VALIDA QUE LOS DATOS A INGRESAR NO ESTEN YA DADOS DE ALTA /////
                             BaseDeDatos bd = new BaseDeDatos(getApplicationContext(), "Materiales", null , 1);
                             SQLiteDatabase dllMaterial = bd.getWritableDatabase();
-                            Cursor consultaRecicla = dllMaterial.rawQuery("select material, precio from Materiales where material ='"+material+"' and  precio = '"+precio+"'",null);
+                            Cursor consultaRecicla = dllMaterial.rawQuery("select material, precio from Materiales where material ='"+material+"' and  precio = '"+precio+"' and  usuario = '"+logeado+"'",null);
                             if(consultaRecicla.moveToFirst())
                             {
                                 Toast.makeText(SesionRecicladora.this, "Material y precio ya registrado", Toast.LENGTH_SHORT).show();

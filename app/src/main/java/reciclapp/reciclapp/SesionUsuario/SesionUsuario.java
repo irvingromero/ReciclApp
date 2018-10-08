@@ -38,6 +38,8 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
     private boolean busquedaMaterial;
     private TextView mostrarUsuario;
 
+    private String materialBuscado;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +67,6 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
         Bundle bundle = new Bundle();
         MapaInicio mi = new MapaInicio();
         bundle.putString("sesionUsuario", usuario);
-        bundle.putString("material", null);
         mi.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionUsuario, mi).commit();
     }
@@ -103,7 +104,8 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
         int id = item.getItemId();
 
         if (id == R.id.modificarDatos_sesionUsuario)
@@ -132,6 +134,7 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
 
         }  else if (id == R.id.masCercano_sesionUsuario)
         {
+            masCernana();
 
         }else if (id == R.id.cerrarSesion_sesionUsuario)
         {
@@ -229,6 +232,7 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
                 if(!seleccion.equals("No hay recicladoras disponibles"))
                 {
                     busquedaMaterial = true;
+                    materialBuscado = seleccion;
 
                     Bundle bundle = new Bundle();
                     MapaInicio mi = new MapaInicio();
@@ -247,6 +251,23 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
     }
 
     private void buscarMejorPrecio()
+    {
+        if(busquedaMaterial == true)
+        {
+            Bundle bundle = new Bundle();
+            MapaInicio mi = new MapaInicio();
+            bundle.putString("materialPrecio", materialBuscado);
+            bundle.putString("sesionUsuario", usuario);
+            mi.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionUsuario, mi).setTransition(FragmentTransaction.TRANSIT_NONE).commit();
+        }
+        else
+        {
+            Toast.makeText(this, "Debes buscar un material primero", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void masCernana()
     {
         if(busquedaMaterial == true)
         {

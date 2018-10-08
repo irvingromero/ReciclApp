@@ -14,7 +14,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -37,7 +40,9 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
     private View vista, infowindow;
     private GoogleMap mapa;
     private MapView mapView;
+    private DrawerLayout drawerLayout;
     private String busqueda, usuarioLogeado;
+    private String materialPrecio;
 
     public MapaInicio() { }
 
@@ -47,9 +52,11 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         Bundle extras = getArguments();
         busqueda = extras.getString("material");
         usuarioLogeado = extras.getString("sesionUsuario");
+        materialPrecio = extras.getString("materialPrecio");
 
         vista = inflater.inflate(R.layout.fragment_mapa_inicio, container, false);
 
+        drawerLayout = getActivity().findViewById(R.id.drawer_layout);
         return vista;
     }
 
@@ -65,90 +72,138 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         }
     }
 
-    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
         MapsInitializer.initialize(getContext());
 
-        boolean permisoActivado;
         mapa = googleMap;
         mapa.getUiSettings().setZoomControlsEnabled(true);
         mapa.setMinZoomPreference(11.0f);
         mapa.setOnMarkerClickListener(this);
 
+        permiso();
+
         LatLng mexicali = new LatLng(32.6278100, -115.4544600);
         mapa.moveCamera(CameraUpdateFactory.newLatLng(mexicali));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            permisoActivado = estadoPermiso();
-            if(permisoActivado == false)
-            {
-                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION))
-                {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                }
-                else
-                {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-                }
-            }
-            else
-            {
-                mapa.setMyLocationEnabled(true);
-            }
-        }
-        else
-        {
-            mapa.setMyLocationEnabled(true);
-        }
 
 
         if(busqueda != null)
         {
-            getActivity().setTitle("Buscar: "+busqueda);
-
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Materiales", null, 1);
-            SQLiteDatabase flujo = bd.getWritableDatabase();
-
-            BaseDeDatos bdUbicacion = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
-            SQLiteDatabase flujoUbicacion = bdUbicacion.getWritableDatabase();
-
-            Cursor consulta = flujo.rawQuery("select usuario from Materiales where material ='"+busqueda+"'", null);
-            if(consulta.moveToFirst())
-            {
-                String usuario, nombreRecicladora = "";
-                Double lat, lon;
-
-                BaseDeDatos bdRecicladora = new BaseDeDatos(getContext(), "Recicladoras", null, 1);
-                SQLiteDatabase flujoRecicladora = bdRecicladora.getWritableDatabase();
-
-                do{
-                    usuario = consulta.getString(0);
-
-                    Cursor consultaUbicacion = flujoUbicacion.rawQuery("select latitud, longitud from Ubicacion where usuario='"+usuario+"'", null);
-                    if(consultaUbicacion.moveToFirst())
-                    {
-                        Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario ='"+usuario+"'", null);
-                        if(consultaRecicladora.moveToFirst()){
-                            nombreRecicladora = consultaRecicladora.getString(0);
-                        }
-
-                        lat = Double.parseDouble(consultaUbicacion.getString(0));
-                        lon = Double.parseDouble(consultaUbicacion.getString(1));
-                        mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(nombreRecicladora));
-                    }
-                }while(consulta.moveToNext());
-                flujoRecicladora.close();
-            }
-            flujo.close();
-            flujoUbicacion.close();
+            busquedaMaterial();
+        } else if(materialPrecio != null)
+        {
+            mejorPrecio();
         }
         else
         {
             mostrarRecicladoras();
         }
+    }
+
+    private void busquedaMaterial()
+    {
+        getActivity().setTitle("Buscar: "+busqueda);
+
+        BaseDeDatos bd = new BaseDeDatos(getContext(), "Materiales", null, 1);
+        SQLiteDatabase flujo = bd.getWritableDatabase();
+
+        BaseDeDatos bdUbicacion = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
+        SQLiteDatabase flujoUbicacion = bdUbicacion.getWritableDatabase();
+
+        Cursor consulta = flujo.rawQuery("select usuario from Materiales where material ='"+busqueda+"'", null);
+        if(consulta.moveToFirst())
+        {
+            String usuario, nombreRecicladora = "";
+            Double lat, lon;
+
+            BaseDeDatos bdRecicladora = new BaseDeDatos(getContext(), "Recicladoras", null, 1);
+            SQLiteDatabase flujoRecicladora = bdRecicladora.getWritableDatabase();
+
+            do{
+                usuario = consulta.getString(0);
+
+                Cursor consultaUbicacion = flujoUbicacion.rawQuery("select latitud, longitud from Ubicacion where usuario='"+usuario+"'", null);
+                if(consultaUbicacion.moveToFirst())
+                {
+                    Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario ='"+usuario+"'", null);
+                    if(consultaRecicladora.moveToFirst()){
+                        nombreRecicladora = consultaRecicladora.getString(0);
+                    }
+
+                    lat = Double.parseDouble(consultaUbicacion.getString(0));
+                    lon = Double.parseDouble(consultaUbicacion.getString(1));
+                    mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(nombreRecicladora));
+                }
+            }while(consulta.moveToNext());
+            flujoRecicladora.close();
+        }
+        flujo.close();
+        flujoUbicacion.close();
+    }
+
+    private void mejorPrecio()
+    {
+        BaseDeDatos bd = new BaseDeDatos(getContext(), "Materiales", null, 1);
+        SQLiteDatabase flujoBdMateriales = bd.getWritableDatabase();
+
+        Cursor consultaMateriales = flujoBdMateriales.rawQuery("select precio from Materiales where material='" + materialPrecio + "'", null);
+        if(consultaMateriales.moveToFirst())
+        {
+            double[] precios = new double[consultaMateriales.getCount()];
+            int indicePrecios = 0;
+
+            do{
+                double valorPrecio = consultaMateriales.getDouble(0);
+                precios[indicePrecios] = valorPrecio;
+                indicePrecios++;
+            }while(consultaMateriales.moveToNext());
+                //// Calcula el valor mayor de los precios ////
+            double mayor = 0.0;
+            double valor;
+            int indice = 0;
+            for (int i = 0; i < consultaMateriales.getCount(); i++)
+            {
+                mayor = precios[indice];
+
+                for (int j = indice + 1; j < consultaMateriales.getCount(); j++)
+                {
+                    valor = precios[j];
+
+                    if (valor > mayor)
+                    {
+                        mayor = valor;
+                    }
+                }
+            }
+                //// Se saca el usuario de las recicladoras con el material buscado y con el mismo precio ////
+            Cursor consultaMaterialesUsuario = flujoBdMateriales.rawQuery("select usuario from Materiales where precio='" + mayor + "' and material='"+ materialPrecio + "'", null);
+            if(consultaMaterialesUsuario.moveToFirst())
+            {
+                BaseDeDatos db = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
+                SQLiteDatabase flujo = db.getWritableDatabase();
+
+                BaseDeDatos b = new BaseDeDatos(getContext(), "Recicladoras", null, 1);
+                SQLiteDatabase flujoRecicladora = b.getWritableDatabase();
+
+                do {
+                    Cursor consultaUbicacion = flujo.rawQuery("select latitud, longitud from Ubicacion where usuario='" + consultaMaterialesUsuario.getString(0) + "'", null);
+                    if (consultaUbicacion.moveToFirst())
+                    {
+                        Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario='" + consultaMaterialesUsuario.getString(0) + "'", null);
+                        if (consultaRecicladora.moveToFirst())
+                        {
+                            mapa.addMarker(new MarkerOptions().position(new LatLng(consultaUbicacion.getDouble(0), consultaUbicacion.getDouble(1)))
+                                    .title(consultaRecicladora.getString(0)))
+                                    .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                        }
+                    }
+                }while (consultaMaterialesUsuario.moveToNext());
+                flujo.close();
+                flujoRecicladora.close();
+            }
+        }
+        flujoBdMateriales.close();
     }
 
 
@@ -190,6 +245,36 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         }
         flujo.close();
         mat.close();
+    }
+
+    @SuppressLint("MissingPermission")
+    private void permiso()
+    {
+        boolean permisoActivado;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            permisoActivado = estadoPermiso();
+            if(permisoActivado == false)
+            {
+                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION))
+                {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+                else
+                {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                }
+            }
+            else
+            {
+                mapa.setMyLocationEnabled(true);
+            }
+        }
+        else
+        {
+            mapa.setMyLocationEnabled(true);
+        }
     }
 
     private boolean estadoPermiso()
@@ -252,6 +337,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
                         ft.commit();
 
                         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+                        drawerLayout.setDrawerLockMode(drawerLayout.LOCK_MODE_LOCKED_CLOSED);
                     }
                     else
                     {
@@ -262,6 +348,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
                         ft.commit();
 
                         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+                        drawerLayout.setDrawerLockMode(drawerLayout.LOCK_MODE_LOCKED_CLOSED);
                     }
                 }
                 reci.close();
@@ -284,6 +371,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
             }
         }
     }
+
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

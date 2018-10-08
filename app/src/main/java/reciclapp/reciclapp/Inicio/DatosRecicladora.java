@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,6 +48,7 @@ public class DatosRecicladora extends Fragment
     private RecyclerView lista;
     protected ArrayList<String> listaDatos;
     private Button btnPuntuar;
+    private DrawerLayout drawerLayout;
 
     public DatosRecicladora() { }
 
@@ -57,6 +60,8 @@ public class DatosRecicladora extends Fragment
         usuarioLogeado = extras.getString("sesion");
 
         vista = inflater.inflate(R.layout.fragment_datos_recicladora, container, false);
+
+        drawerLayout = getActivity().findViewById(R.id.drawer_layout);
 
         campoNombre = vista.findViewById(R.id.etNombre_datosRecicladora);
         campoCorreo = vista.findViewById(R.id.etMostrarCorreo_datosRecicladora);
@@ -239,7 +244,9 @@ public class DatosRecicladora extends Fragment
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                getActivity().getSupportFragmentManager().popBackStack();
+                drawerLayout.setDrawerLockMode(drawerLayout.LOCK_MODE_UNLOCKED);
+                ((AppCompatActivity)getActivity()).getSupportActionBar().show();
             }
         });
 
