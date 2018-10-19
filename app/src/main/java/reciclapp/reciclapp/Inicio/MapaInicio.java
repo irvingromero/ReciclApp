@@ -2,9 +2,13 @@ package reciclapp.reciclapp.Inicio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,11 +20,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,7 +46,14 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
     private MapView mapView;
     private DrawerLayout drawerLayout;
     private String busqueda, usuarioLogeado;
-    private String materialPrecio;
+    private String materialPrecio, distancia;
+
+    private Location miUbicacion;
+    private Location[] ubicaciones;
+    private String[] nombres;
+
+    //            float d = miUbicacion.distanceTo(miUbicacion);
+//            Toast.makeText(getContext(), ""+d, Toast.LENGTH_SHORT).show();
 
     public MapaInicio() { }
 
@@ -53,10 +64,12 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         busqueda = extras.getString("material");
         usuarioLogeado = extras.getString("sesionUsuario");
         materialPrecio = extras.getString("materialPrecio");
+        distancia = extras.getString("distancia");
 
         vista = inflater.inflate(R.layout.fragment_mapa_inicio, container, false);
 
         drawerLayout = getActivity().findViewById(R.id.drawer_layout);
+
         return vista;
     }
 
@@ -87,15 +100,18 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         LatLng mexicali = new LatLng(32.6278100, -115.4544600);
         mapa.moveCamera(CameraUpdateFactory.newLatLng(mexicali));
 
-
         if(busqueda != null)
         {
             busquedaMaterial();
+
         } else if(materialPrecio != null)
         {
             mejorPrecio();
         }
-        else
+        else if(distancia != null)
+        {
+            cernano();
+        }
         {
             mostrarRecicladoras();
         }
@@ -206,6 +222,36 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         flujoBdMateriales.close();
     }
 
+    private void cernano()
+    {
+        if(ubicaciones.length == 0 && nombres.length == 0)
+        {
+            Toast.makeText(getContext(), "No hay recicladoras", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            if(miUbicacion != null)
+            {
+                Location menor;
+                Location valor;
+
+                for(int i = 0;i < ubicaciones.length; i++)
+                {
+                    menor = ubicaciones[0];
+
+                    for(int j = i + 1;j < ubicaciones.length; j++)
+                    {
+                        valor = ubicaciones[j];
+
+//                        if(valor < menor)
+//                        {
+
+//                        }
+                    }
+                }
+            }
+        }
+    }
 
     private void mostrarRecicladoras()
     {
@@ -224,6 +270,10 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
             BaseDeDatos bdRecicladora = new BaseDeDatos(getContext(), "Recicladoras", null, 1);
             SQLiteDatabase flujoRecicladora = bdRecicladora.getWritableDatabase();
 
+            ubicaciones = new Location[consulta.getCount()];
+            nombres = new String[consulta.getCount()];
+            Location locat = new Location("");
+            int contadorUbicaciones = 0;
             do{
                 usuario = consulta.getString(0);
 
@@ -234,6 +284,12 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
 
                 lat = Double.parseDouble(consulta.getString(1));
                 lon = Double.parseDouble(consulta.getString(2));
+
+                locat.setLatitude(lat);
+                locat.setLongitude(lon);
+                nombres[contadorUbicaciones] = nombreRecicladora;
+                ubicaciones[contadorUbicaciones] = locat;
+
                     //// VALIDA QUE TENGA AGREGADO ALGUN MATERIAL PARA MOSTRARLA EN EL MAPA ////
                 Cursor consultaMaterial = mat.rawQuery("select material from Materiales where usuario ='"+usuario+"'", null);
                 if(consultaMaterial.moveToFirst())
@@ -269,11 +325,33 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
             else
             {
                 mapa.setMyLocationEnabled(true);
+
+                LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                Criteria criteria = new Criteria();
+                miUbicacion = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+                try {
+                    double latitude = miUbicacion.getLatitude();
+                    double longitud = miUbicacion.getLongitude();
+
+                LatLng latlog = new LatLng(latitude, longitud);
+                mapa.moveCamera(CameraUpdateFactory.newLatLng(latlog));
+                }catch (Exception e){}
             }
         }
         else
         {
             mapa.setMyLocationEnabled(true);
+
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            miUbicacion = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+            try {
+                double latitude = miUbicacion.getLatitude();
+                double longitud = miUbicacion.getLongitude();
+
+                LatLng latlog = new LatLng(latitude, longitud);
+                mapa.moveCamera(CameraUpdateFactory.newLatLng(latlog));
+            }catch (Exception e){ }
         }
     }
 

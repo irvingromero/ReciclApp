@@ -269,13 +269,10 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
 
     private void masCernana()
     {
-        if(busquedaMaterial == true)
-        {
-
-        }
-        else
-        {
-            Toast.makeText(this, "Debes buscar un material primero", Toast.LENGTH_SHORT).show();
-        }
+        Bundle bundle = new Bundle();
+        MapaInicio mi = new MapaInicio();
+        bundle.putString("distancia", "s");
+        mi.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionUsuario, mi).setTransition(FragmentTransaction.TRANSIT_NONE).commit();
     }
 }

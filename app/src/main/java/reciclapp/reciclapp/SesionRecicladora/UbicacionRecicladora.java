@@ -220,12 +220,13 @@ public class UbicacionRecicladora extends AppCompatActivity implements OnMapRead
                         cv.put("longitud", lon);
                         basededatos.insert("Ubicacion", null, cv);
                         basededatos.close();
-                        Toast.makeText(this, "Ubicacion agregada", Toast.LENGTH_LONG).show();
 
                         Intent ok = new Intent(UbicacionRecicladora.this, SesionRecicladora.class);
                         ok.putExtra("usuario", logeado);
                         startActivity(ok);
                         finish();
+
+                        Toast.makeText(this, "Ubicacion agregada", Toast.LENGTH_LONG).show();
                     break;
 
                     case "true-true":
@@ -238,12 +239,13 @@ public class UbicacionRecicladora extends AppCompatActivity implements OnMapRead
                         nuevo.put("longitud", lon);
                         modificando.update("Ubicacion", nuevo, "usuario="+ "'" +logeado +"'", null);
                         modificando.close();
-                        Toast.makeText(this, "Ubicacion modificada", Toast.LENGTH_LONG).show();
 
                         Intent okok = new Intent(UbicacionRecicladora.this, SesionRecicladora.class);
                         okok.putExtra("usuario", logeado);
                         startActivity(okok);
                         finish();
+
+                        Toast.makeText(this, "Ubicacion modificada", Toast.LENGTH_LONG).show();
                     break;
 
                     default:
