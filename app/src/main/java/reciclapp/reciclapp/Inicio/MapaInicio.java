@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -45,15 +46,8 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
     private GoogleMap mapa;
     private MapView mapView;
     private DrawerLayout drawerLayout;
-    private String busqueda, usuarioLogeado;
-    private String materialPrecio, distancia;
-
+    private String busqueda, usuarioLogeado, materialPrecio, distancia;
     private Location miUbicacion;
-    private Location[] ubicaciones;
-    private String[] nombres;
-
-    //            float d = miUbicacion.distanceTo(miUbicacion);
-//            Toast.makeText(getContext(), ""+d, Toast.LENGTH_SHORT).show();
 
     public MapaInicio() { }
 
@@ -111,10 +105,51 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         else if(distancia != null)
         {
             cernano();
-        }
+        }else
         {
             mostrarRecicladoras();
         }
+    }
+
+    private void mostrarRecicladoras()
+    {
+        BaseDeDatos bd = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
+        SQLiteDatabase flujo = bd.getWritableDatabase();
+
+        BaseDeDatos bdMaterial = new BaseDeDatos(getContext(), "Materiales", null, 1);
+        SQLiteDatabase mat = bdMaterial.getWritableDatabase();
+
+        Cursor consulta = flujo.rawQuery("select usuario, latitud, longitud from Ubicacion", null);
+        if(consulta.moveToFirst())
+        {
+            String usuario, nombreRecicladora = "";
+            Double lat, lon;
+
+            BaseDeDatos bdRecicladora = new BaseDeDatos(getContext(), "Recicladoras", null, 1);
+            SQLiteDatabase flujoRecicladora = bdRecicladora.getWritableDatabase();
+
+            do{
+                usuario = consulta.getString(0);
+
+                Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario ='"+usuario+"'", null);
+                if(consultaRecicladora.moveToFirst()){
+                    nombreRecicladora = consultaRecicladora.getString(0);
+                }
+
+                lat = Double.parseDouble(consulta.getString(1));
+                lon = Double.parseDouble(consulta.getString(2));
+
+                //// VALIDA QUE TENGA AGREGADO ALGUN MATERIAL PARA MOSTRARLA EN EL MAPA ////
+                Cursor consultaMaterial = mat.rawQuery("select material from Materiales where usuario ='"+usuario+"'", null);
+                if(consultaMaterial.moveToFirst())
+                {
+                    mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(nombreRecicladora));
+                }
+            }while(consulta.moveToNext());
+            flujoRecicladora.close();
+        }
+        flujo.close();
+        mat.close();
     }
 
     private void busquedaMaterial()
@@ -224,83 +259,87 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
 
     private void cernano()
     {
-        if(ubicaciones.length == 0 && nombres.length == 0)
+        if(miUbicacion != null)
         {
-            Toast.makeText(getContext(), "No hay recicladoras", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            if(miUbicacion != null)
+            BaseDeDatos bd = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
+            SQLiteDatabase flujo = bd.getWritableDatabase();
+
+            BaseDeDatos bdMaterial = new BaseDeDatos(getContext(), "Materiales", null, 1);
+            SQLiteDatabase mat = bdMaterial.getWritableDatabase();
+
+            int indice = 0;
+            LatLng ll;
+            LatLng[] ubicaciones = new LatLng[0];
+
+            Cursor consulta = flujo.rawQuery("select usuario, latitud, longitud from Ubicacion", null);
+            if (consulta.moveToFirst())
             {
-                Location menor;
-                Location valor;
+                ubicaciones = new LatLng[consulta.getCount()];
+                String usuario, nombreRecicladora = "";
+                Double lat, lon;
 
-                for(int i = 0;i < ubicaciones.length; i++)
+                BaseDeDatos bdRecicladora = new BaseDeDatos(getContext(), "Recicladoras", null, 1);
+                SQLiteDatabase flujoRecicladora = bdRecicladora.getWritableDatabase();
+
+                do {
+                    usuario = consulta.getString(0);
+
+                    Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario ='" + usuario + "'", null);
+                    if (consultaRecicladora.moveToFirst()) {
+                        nombreRecicladora = consultaRecicladora.getString(0);
+                    }
+
+                    lat = Double.parseDouble(consulta.getString(1));
+                    lon = Double.parseDouble(consulta.getString(2));
+
+                    ll = new LatLng(lat, lon);
+                    ubicaciones[indice] = ll;
+                    indice++;
+
+                    //// VALIDA QUE TENGA AGREGADO ALGUN MATERIAL PARA MOSTRARLA EN EL MAPA ////
+                    Cursor consultaMaterial = mat.rawQuery("select material from Materiales where usuario ='" + usuario + "'", null);
+                    if (consultaMaterial.moveToFirst()) {
+                        mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(nombreRecicladora));
+                    }
+
+                } while (consulta.moveToNext());
+                flujoRecicladora.close();
+            }
+            flujo.close();
+            mat.close();
+
+            LatLng menor = null;
+            LatLng valor;
+            Location locat = new Location("");
+            float distanciaValor;
+            float distanciaMenor;
+            //// CALCULA CUAL ES LA MENOR LONGITUD DSDE LA UBICACION ////
+            menor = ubicaciones[0];
+            for (int i = 0; i < ubicaciones.length; i++)
+            {
+                locat.setLatitude(menor.latitude);
+                locat.setLongitude(menor.longitude);
+                distanciaMenor = miUbicacion.distanceTo(locat);
+
+                for (int j = i + 1; j < ubicaciones.length; j++)
                 {
-                    menor = ubicaciones[0];
+                    valor = ubicaciones[j];
+                    locat.setLatitude(valor.latitude);
+                    locat.setLongitude(valor.longitude);
+                    distanciaValor = miUbicacion.distanceTo(locat);
 
-                    for(int j = i + 1;j < ubicaciones.length; j++)
-                    {
-                        valor = ubicaciones[j];
-
-//                        if(valor < menor)
-//                        {
-
-//                        }
+                    if (distanciaValor < distanciaMenor) {
+                        menor = valor;
                     }
                 }
             }
+            CameraUpdate camara = CameraUpdateFactory.newLatLngZoom(menor, 14);
+            mapa.animateCamera(camara);
         }
-    }
-
-    private void mostrarRecicladoras()
-    {
-        BaseDeDatos bd = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
-        SQLiteDatabase flujo = bd.getWritableDatabase();
-
-        BaseDeDatos bdMaterial = new BaseDeDatos(getContext(), "Materiales", null, 1);
-        SQLiteDatabase mat = bdMaterial.getWritableDatabase();
-
-        Cursor consulta = flujo.rawQuery("select usuario, latitud, longitud from Ubicacion", null);
-        if(consulta.moveToFirst())
+        else
         {
-            String usuario, nombreRecicladora = "";
-            Double lat, lon;
-
-            BaseDeDatos bdRecicladora = new BaseDeDatos(getContext(), "Recicladoras", null, 1);
-            SQLiteDatabase flujoRecicladora = bdRecicladora.getWritableDatabase();
-
-            ubicaciones = new Location[consulta.getCount()];
-            nombres = new String[consulta.getCount()];
-            Location locat = new Location("");
-            int contadorUbicaciones = 0;
-            do{
-                usuario = consulta.getString(0);
-
-                Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario ='"+usuario+"'", null);
-                if(consultaRecicladora.moveToFirst()){
-                    nombreRecicladora = consultaRecicladora.getString(0);
-                }
-
-                lat = Double.parseDouble(consulta.getString(1));
-                lon = Double.parseDouble(consulta.getString(2));
-
-                locat.setLatitude(lat);
-                locat.setLongitude(lon);
-                nombres[contadorUbicaciones] = nombreRecicladora;
-                ubicaciones[contadorUbicaciones] = locat;
-
-                    //// VALIDA QUE TENGA AGREGADO ALGUN MATERIAL PARA MOSTRARLA EN EL MAPA ////
-                Cursor consultaMaterial = mat.rawQuery("select material from Materiales where usuario ='"+usuario+"'", null);
-                if(consultaMaterial.moveToFirst())
-                {
-                    mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(nombreRecicladora));
-                }
-            }while(consulta.moveToNext());
-            flujoRecicladora.close();
+            Toast.makeText(getContext(), "Problemas con su ubicacion", Toast.LENGTH_SHORT).show();
         }
-        flujo.close();
-        mat.close();
     }
 
     @SuppressLint("MissingPermission")

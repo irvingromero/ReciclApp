@@ -1,72 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SesionRecicladora.HorarioRecicladora"
-    android:orientation="vertical"
-    android:layout_gravity="center">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_horarioRecicla"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark">
-
-        <ImageButton
-            android:id="@+id/btnAtras_horarioRecicla"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:backgroundTint="@color/colorPrimaryDark" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nombre_horarioRecicla"
-            android:textSize="18sp" />
-    </android.support.v7.widget.Toolbar>
+    tools:context=".SesionRecicladora.HorarioRecicladora">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="5dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tb_horarioRecicla"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/lunes_horario"
-            android:textSize="14sp" />
+            android:background="@color/colorPrimaryDark">
 
-        <Switch
-            android:id="@+id/swiLunes_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cerrado_horario"
-            android:textSize="14dp"
-            android:paddingLeft="5dp"/>
+            <ImageButton
+                android:id="@+id/btnAtras_horarioRecicla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                android:backgroundTint="@color/colorPrimaryDark" />
 
-        <ImageButton
-            android:id="@+id/ibLunes_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/presence_away"
-            android:paddingTop="12dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nombre_horarioRecicla"
+                android:textSize="18sp" />
+        </android.support.v7.widget.Toolbar>
 
-        <EditText
-            android:id="@+id/etLunes_horarioReci"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="4"
-            android:inputType="textPersonName"
-            android:text="---"
-            android:enabled="false"
-            android:gravity="center"/>
+            android:orientation="horizontal"
+            android:paddingLeft="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lunes_horario"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/swiLunes_horarioReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cerrado_horario"
+                android:textSize="14dp"
+                android:paddingLeft="5dp"/>
+
+            <ImageButton
+                android:id="@+id/ibLunes_horarioReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_away"
+                android:paddingTop="12dp"/>
+
+            <EditText
+                android:id="@+id/etLunes_horarioReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="4"
+                android:inputType="textPersonName"
+                android:enabled="false"
+                android:gravity="center"/>
+        </LinearLayout>
+
     </LinearLayout>
-
-
+<!--
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,7 +105,7 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="textPersonName"
-            android:text="---"
+            android:text="-"
             android:enabled="false"
             android:gravity="center"/>
     </LinearLayout>
@@ -142,7 +145,7 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="textPersonName"
-            android:text="---"
+            android:text="-"
             android:enabled="false"
             android:gravity="center"/>
     </LinearLayout>
@@ -182,7 +185,7 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="textPersonName"
-            android:text="---"
+            android:text="-"
             android:enabled="false"
             android:gravity="center"/>
     </LinearLayout>
@@ -222,7 +225,7 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="textPersonName"
-            android:text="---"
+            android:text="-"
             android:enabled="false"
             android:gravity="center"/>
     </LinearLayout>
@@ -261,7 +264,7 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="textPersonName"
-            android:text="---"
+            android:text="-"
             android:enabled="false"
             android:gravity="center"/>
     </LinearLayout>
@@ -301,8 +304,9 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="textPersonName"
-            android:text="---"
+            android:text="-"
             android:enabled="false"
             android:gravity="center"/>
     </LinearLayout>
-</LinearLayout>
+-->
+</ScrollView>

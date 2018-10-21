@@ -25,9 +25,7 @@ public class RegistroUsuario extends Fragment {
     private ImageButton regresar;
     private EditText campoUsuario, campoCorreo, campoContra, campoConfContra;
 
-    public RegistroUsuario() {
-        // Required empty public constructor
-    }
+    public RegistroUsuario() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

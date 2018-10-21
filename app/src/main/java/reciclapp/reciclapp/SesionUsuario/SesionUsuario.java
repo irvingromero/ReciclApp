@@ -30,18 +30,18 @@ import reciclapp.reciclapp.R;
 import reciclapp.reciclapp.Reciclaje.GuiaReciclaje;
 import reciclapp.reciclapp.Reciclaje.Manualidades;
 
-public class SesionUsuario extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+public class SesionUsuario extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+{
     private String usuario;
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private boolean busquedaMaterial;
     private TextView mostrarUsuario;
-
     private String materialBuscado;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sesion_usuario);
 
@@ -93,7 +93,7 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
                 getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionUsuario, mi)
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
 
-                    busquedaMaterial = false;
+                busquedaMaterial = false;
             }
             else
             {
@@ -271,6 +271,7 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
     {
         Bundle bundle = new Bundle();
         MapaInicio mi = new MapaInicio();
+        bundle.putString("sesionUsuario", usuario);
         bundle.putString("distancia", "s");
         mi.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainSesionUsuario, mi).setTransition(FragmentTransaction.TRANSIT_NONE).commit();
