@@ -49,24 +49,63 @@
                 android:layout_height="wrap_content"
                 android:text="@string/cerrado_horario"
                 android:textSize="14dp"
+                android:paddingTop="10dp"
                 android:paddingLeft="5dp"/>
 
+            <TextView
+                android:id="@+id/tvLunesMostrarAbre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvLunesMostrarCierra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:paddingLeft="20dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abre: "/>
+
             <ImageButton
-                android:id="@+id/ibLunes_horarioReci"
+                android:id="@+id/ibLunes_horarioAbierto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/presence_away"
                 android:paddingTop="12dp"/>
 
-            <EditText
-                android:id="@+id/etLunes_horarioReci"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="4"
-                android:inputType="textPersonName"
-                android:enabled="false"
-                android:gravity="center"/>
+                android:text="Cierra: "
+                android:paddingLeft="10dp"/>
+
+            <ImageButton
+                android:id="@+id/ibLunes_horarioCerrado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_away"
+                android:paddingTop="12dp"/>
         </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/cabecera_inicioPrin"/>
 
     </LinearLayout>
 <!--

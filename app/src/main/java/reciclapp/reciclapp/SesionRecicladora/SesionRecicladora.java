@@ -2,8 +2,10 @@ package reciclapp.reciclapp.SesionRecicladora;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -344,6 +346,9 @@ public class SesionRecicladora extends AppCompatActivity implements SesionRecicl
                             Intent intent = new Intent(SesionRecicladora.this, Inicio.class);
                             startActivity(intent);
                             finish();
+
+                            SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                            preferences.edit().clear().commit();
                         }
                     })
                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

@@ -7,10 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -20,23 +21,18 @@ public class HorarioRecicladora extends Fragment
 {
     private View vista;
     private ImageButton atras;
+    private String horaCompleta;
 
     private Switch swLunes, swMartes, swMier, swJue, swVier, swSab, swDom;
-    private ImageButton ibLun, ibMar, ibMier, ibJue, ibVier, ibSab, ibDom;
-    private EditText e;
+    private ImageButton ibLunAbre, ibLunCierra, ibMar, ibMier, ibJue, ibVier, ibSab, ibDom;
+    private TextView e, mm;
 
     private static final String CERO = "0";
-    private static final String DOS_PUNTOS = ":";
-
     //Calendario para obtener fecha & hora
     public final Calendar c = Calendar.getInstance();
     //Variables para obtener la hora hora
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minuto = c.get(Calendar.MINUTE);
-
-    //Widgets
-    EditText etHora;
-    ImageButton ibObtenerHora;
 
     public HorarioRecicladora() { }
 
@@ -44,20 +40,16 @@ public class HorarioRecicladora extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         vista = inflater.inflate(R.layout.fragment_horario_recicladora, container, false);
+
         atras = vista.findViewById(R.id.btnAtras_horarioRecicla);
-        atras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        e = vista.findViewById(R.id.tvLunesMostrarAbre);
+        mm = vista.findViewById(R.id.tvLunesMostrarCierra);
 
+        ibLunCierra = vista.findViewById(R.id.ibLunes_horarioCerrado);
 
-        etHora = (EditText) vista.findViewById(R.id.etLunes_horarioReci);
         //Widget ImageButton del cual usaremos el evento clic para obtener la hora
-        ibObtenerHora = (ImageButton) vista.findViewById(R.id.ibLunes_horarioReci);
-        //Evento setOnClickListener - clic
-        ibObtenerHora.setOnClickListener(new View.OnClickListener() {
+        ibLunAbre = (ImageButton) vista.findViewById(R.id.ibLunes_horarioAbierto);
+        ibLunAbre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 obtenerHora();
@@ -67,6 +59,27 @@ public class HorarioRecicladora extends Fragment
         return vista;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+
+        atras.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        ibLunCierra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                obtenerHora();
+                mm.setText(horaCompleta);
+            }
+        });
+    }
 
     private void obtenerHora(){
         TimePickerDialog recogerHora = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
@@ -77,14 +90,18 @@ public class HorarioRecicladora extends Fragment
                 //Formateo el minuto obtenido: antepone el 0 si son menores de 10
                 String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
                 //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+/*
                 String AM_PM;
                 if(hourOfDay < 12) {
                     AM_PM = "a.m.";
                 } else {
                     AM_PM = "p.m.";
                 }
+*/
                 //Muestro la hora con el formato deseado
-                etHora.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+//                e.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                horaCompleta = horaFormateada+":"+minutoFormateado;
+                Toast.makeText(getContext(), ""+horaCompleta, Toast.LENGTH_SHORT).show();
             }
             //Estos valores deben ir en ese orden
             //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas

@@ -1,7 +1,9 @@
 package reciclapp.reciclapp.SesionUsuario;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -144,6 +146,9 @@ public class SesionUsuario extends AppCompatActivity implements NavigationView.O
                             Intent intent = new Intent(SesionUsuario.this, Inicio.class);
                             startActivity(intent);
                             finish();
+
+                            SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                            preferences.edit().clear().commit();
                         }
                     })
                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

@@ -1,7 +1,9 @@
 package reciclapp.reciclapp.InicioDeSesion;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ public class InicioSesion extends Fragment {
     private View vista;
     private Button entrar, registrarse;
     private EditText campoUsuario, campoContra;
+    private CheckBox mantenerSesion;
 
     public InicioSesion() { }
 
@@ -36,6 +40,7 @@ public class InicioSesion extends Fragment {
     {
         vista = inflater.inflate(R.layout.fragment_inicio_sesion, container, false);
 
+        mantenerSesion = vista.findViewById(R.id.cbMantenerSesion_InicioSesion);
         campoUsuario = vista.findViewById(R.id.etUsuario_inicio);
         campoContra = vista.findViewById(R.id.etContra_inicio);
 
@@ -109,6 +114,16 @@ public class InicioSesion extends Fragment {
                 bandera = true;
                 Intent i = new Intent(getActivity(), SesionRecicladora.class);
                 i.putExtra("usuario", usuario);
+
+                if(mantenerSesion.isChecked())
+                {
+                    SharedPreferences preferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+                    /// GUARDAR SOLO USUARIO
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("usuario", consultaRecicla.getString(0));
+                    editor.commit();
+                }
+
                 getActivity().startActivity(i);
                 getActivity().finish();
             }
@@ -124,6 +139,15 @@ public class InicioSesion extends Fragment {
                 i.putExtra("usuario", usuario);
                 getActivity().startActivity(i);
                 getActivity().finish();
+
+                if(mantenerSesion.isChecked())
+                {
+                    SharedPreferences preferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+                    /// GUARDAR SOLO USUARIO
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("usuario", consultaUsuario.getString(0));
+                    editor.commit();
+                }
             }
             dllUsu.close();
 

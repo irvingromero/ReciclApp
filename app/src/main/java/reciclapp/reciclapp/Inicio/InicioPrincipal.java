@@ -1,7 +1,9 @@
 package reciclapp.reciclapp.Inicio;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -27,6 +29,8 @@ import reciclapp.reciclapp.Interfaces.Inicio_InicioPrincipal;
 import reciclapp.reciclapp.R;
 import reciclapp.reciclapp.Reciclaje.GuiaReciclaje;
 import reciclapp.reciclapp.Reciclaje.Manualidades;
+import reciclapp.reciclapp.SesionRecicladora.SesionRecicladora;
+import reciclapp.reciclapp.SesionUsuario.SesionUsuario;
 
 public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioPrincipal {
 
@@ -36,6 +40,8 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        sesionGuardada();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_principal);
         setTitle("Principal");
@@ -58,6 +64,40 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
         bundle.putString("material", null);
         mi.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi).commit();
+    }
+
+    private void sesionGuardada()
+    {
+        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String usuario = preferences.getString("usuario", "nada");
+
+        if(!usuario.equals("nada"))
+        {
+            /// busqueda en la bd, para saber si el usuario es recicladora o usuario
+            BaseDeDatos bdReci = new BaseDeDatos(this, "Recicladoras", null, 1);
+            SQLiteDatabase dllReci = bdReci.getWritableDatabase();
+            Cursor consultaRecicla = dllReci.rawQuery("select usuario from Recicladoras where usuario ='" + usuario + "'", null);
+            if (consultaRecicla.moveToFirst())
+            {
+                Intent i = new Intent(this, SesionRecicladora.class);
+                i.putExtra("usuario", usuario);
+                startActivity(i);
+                finish();
+            }
+            dllReci.close();
+
+            BaseDeDatos bd = new BaseDeDatos(this, "Usuarios", null, 1);
+            SQLiteDatabase dllUsu = bd.getWritableDatabase();
+            Cursor consultaUsuario = dllUsu.rawQuery("select usuario from Usuarios where usuario ='" + usuario + "'", null);
+            if (consultaUsuario.moveToFirst())
+            {
+                Intent i = new Intent(this, SesionUsuario.class);
+                i.putExtra("usuario", usuario);
+                startActivity(i);
+                finish();
+            }
+            dllUsu.close();
+        }
     }
 
     @Override
