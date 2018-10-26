@@ -35,7 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="5dp">
+            android:paddingLeft="5dp"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,40 +50,32 @@
                 android:layout_height="wrap_content"
                 android:text="@string/cerrado_horario"
                 android:textSize="14dp"
-                android:paddingTop="10dp"
                 android:paddingLeft="5dp"/>
 
             <TextView
-                android:id="@+id/tvLunesMostrarAbre"
+                android:id="@+id/tvEstadoLun_horario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/tvLunesMostrarCierra"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:paddingLeft="20dp"/>
+                android:text="Abierto"
+                android:layout_marginLeft="10dp"/>
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Abre: "/>
 
-            <ImageButton
-                android:id="@+id/ibLunes_horarioAbierto"
+            <Spinner
+                android:id="@+id/spLunAbre_horario"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/presence_away"
-                android:paddingTop="12dp"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,262 +83,418 @@
                 android:text="Cierra: "
                 android:paddingLeft="10dp"/>
 
-            <ImageButton
-                android:id="@+id/ibLunes_horarioCerrado"
+            <Spinner
+                android:id="@+id/spLunCierra_horario"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/presence_away"
-                android:paddingTop="12dp"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
-
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:background="@color/cabecera_inicioPrin"/>
 
-    </LinearLayout>
-<!--
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/martes_horario"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/swiMartes_horarioReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cerrado_horario"
+                android:textSize="14dp"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tvEstadoMartes_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abierto"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abre: "/>
+
+            <Spinner
+                android:id="@+id/spMartesAbre_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cierra: "
+                android:paddingLeft="10dp"/>
+
+            <Spinner
+                android:id="@+id/spMartesCierra_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/cabecera_inicioPrin"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/martes_horario"
-            android:textSize="14sp" />
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:gravity="center">
 
-        <Switch
-            android:id="@+id/swiMartes_horario"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/miercoles_horario"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/swiMiercoles_horarioReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cerrado_horario"
+                android:textSize="14dp"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tvEstadoMiercoles_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abierto"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cerrado_horario"
-            android:textSize="14dp"
-            android:paddingLeft="5dp"/>
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abre: "/>
 
-        <ImageButton
-            android:id="@+id/ibMartes_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/presence_away"
-            android:paddingTop="10dp"/>
+            <Spinner
+                android:id="@+id/spMiercolesAbre_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/etMartes_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="4"
-            android:inputType="textPersonName"
-            android:text="-"
-            android:enabled="false"
-            android:gravity="center"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cierra: "
+                android:paddingLeft="10dp"/>
 
+            <Spinner
+                android:id="@+id/spMiercolesCierra_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/cabecera_inicioPrin"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/miercoles_horario"
-            android:textSize="13sp" />
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:gravity="center">
 
-        <Switch
-            android:id="@+id/swiMiercoles_horario"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/jueves_horario"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/swiJueves_horarioReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cerrado_horario"
+                android:textSize="14dp"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tvEstadoJueves_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abierto"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cerrado_horario"
-            android:textSize="13dp"
-            android:paddingLeft="5dp"/>
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abre: "/>
 
-        <ImageButton
-            android:id="@+id/ibMiercoles_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/presence_away"
-            android:paddingTop="10dp"/>
+            <Spinner
+                android:id="@+id/spJuevesAbre_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/etMiercoles_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="4"
-            android:inputType="textPersonName"
-            android:text="-"
-            android:enabled="false"
-            android:gravity="center"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cierra: "
+                android:paddingLeft="10dp"/>
 
+            <Spinner
+                android:id="@+id/spJuevesCierra_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/cabecera_inicioPrin"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/jueves_horario"
-            android:textSize="14dp" />
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:gravity="center">
 
-        <Switch
-            android:id="@+id/swiJueves_horario"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/viernes_horario"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/swiViernes_horarioReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cerrado_horario"
+                android:textSize="14dp"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tvEstadoViernes_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abierto"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cerrado_horario"
-            android:textSize="14dp"
-            android:paddingLeft="5dp"/>
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abre: "/>
 
-        <ImageButton
-            android:id="@+id/ibJueves_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/presence_away"
-            android:paddingTop="10dp"/>
+            <Spinner
+                android:id="@+id/spViernesAbre_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/etJueves_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="4"
-            android:inputType="textPersonName"
-            android:text="-"
-            android:enabled="false"
-            android:gravity="center"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cierra: "
+                android:paddingLeft="10dp"/>
 
+            <Spinner
+                android:id="@+id/spViernesCierra_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/cabecera_inicioPrin"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/viernes_horario"
-            android:textSize="14dp" />
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:gravity="center">
 
-        <Switch
-            android:id="@+id/swiViernes_horarioReci"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sabado_horario"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/swiSabado_horarioReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cerrado_horario"
+                android:textSize="14dp"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tvEstadoSabado_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abierto"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cerrado_horario"
-            android:textSize="14dp"
-            android:paddingLeft="5dp"/>
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abre: "/>
 
-        <ImageButton
-            android:id="@+id/ibViernes_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/presence_away"
-            android:paddingTop="10dp"/>
+            <Spinner
+                android:id="@+id/spSabadoAbre_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/etViernes_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="4"
-            android:inputType="textPersonName"
-            android:text="-"
-            android:enabled="false"
-            android:gravity="center"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cierra: "
+                android:paddingLeft="10dp"/>
 
+            <Spinner
+                android:id="@+id/spSabadoCierra_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sabado_horario"
-            android:textSize="13sp" />
-        <Switch
-            android:id="@+id/swisabado_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cerrado_horario"
-            android:textSize="14dp"
-            android:paddingLeft="5dp"/>
-
-        <ImageButton
-            android:id="@+id/ibSabado_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/presence_away"
-            android:paddingTop="10dp"/>
-
-        <EditText
-            android:id="@+id/etSabado_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="4"
-            android:inputType="textPersonName"
-            android:text="-"
-            android:enabled="false"
-            android:gravity="center"/>
-    </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/cabecera_inicioPrin"/>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/domingo_horario"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/swiDomingo_horarioReci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cerrado_horario"
+                android:textSize="14dp"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tvEstadoDomingo_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abierto"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abre: "/>
+
+            <Spinner
+                android:id="@+id/spDomingoAbre_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cierra: "
+                android:paddingLeft="10dp"/>
+
+            <Spinner
+                android:id="@+id/spDomingoCierra_horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/domingo_horario"
-            android:textSize="13sp" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/cabecera_inicioPrin"/>
 
-        <Switch
-            android:id="@+id/swiDomingo_horarioReci"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnGuardar_horarioReci"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cerrado_horario"
-            android:textSize="13dp"
-            android:paddingLeft="5dp"/>
-
-        <ImageButton
-            android:id="@+id/ibDomingo_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/presence_away"
-            android:paddingTop="10dp"/>
-
-        <EditText
-            android:id="@+id/etDomingo_horarioReci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="4"
-            android:inputType="textPersonName"
-            android:text="-"
-            android:enabled="false"
-            android:gravity="center"/>
+            android:text="Guardar"
+            android:textAllCaps="false"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
     </LinearLayout>
--->
 </ScrollView>

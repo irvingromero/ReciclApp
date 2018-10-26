@@ -328,7 +328,11 @@ public class SesionRecicladora extends AppCompatActivity implements SesionRecicl
             floatingActionMenu.hideMenuButton(true);
             drawer.setDrawerLockMode(drawer.LOCK_MODE_LOCKED_CLOSED);
 
+            Bundle bundle = new Bundle();
             HorarioRecicladora horario = new HorarioRecicladora();
+            bundle.putString("usuario", logeado);
+            horario.setArguments(bundle);
+
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainSesionRecicladora,  horario, "fragment_meters");
             ft.setTransition(FragmentTransaction.TRANSIT_NONE);
