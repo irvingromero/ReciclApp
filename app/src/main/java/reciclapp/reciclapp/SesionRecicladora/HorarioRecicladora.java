@@ -1,6 +1,7 @@
 package reciclapp.reciclapp.SesionRecicladora;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.R;
@@ -26,6 +26,7 @@ public class HorarioRecicladora extends Fragment
     private ImageButton atras;
     private String horas[] = new String[50];
     private boolean cerradoLunes, cerradoMartes, cerradoMier, cerradoJue, cerradoVier, cerradoSabado, cerradoDom;
+    private boolean lunesRegistrado, martesRegistrado, miercolesRegistrado, juevesRegistrado,viernesRegistrado, sabadoRegistrado, domingoRegistrado;
     private Switch swLunes, swMartes, swMier, swJue, swVier, swSab, swDom;
     private TextView lunes, martes, mier, jueves, viernes, sabado, domingo;
     private Spinner spLunesAbre, spLunesCierra, spMartesAbre, spMartesCierra, spMierAbre, spMierCierra,
@@ -250,181 +251,591 @@ public class HorarioRecicladora extends Fragment
             @Override
             public void onClick(View v) {
                 guardarHorario();
+                getActivity().onBackPressed();
             }
         });
     }
 
     private void guardarHorario()
     {
-        if(cerradoLunes)
-        {
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", "Cerrado");
-            cv.put("cierra", "Cerrado");
+        if(lunesRegistrado) {
+            if(cerradoLunes) {
+                ContentValues cv = new ContentValues();
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Lunes", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Lunes", null, cv);
-            basededatos.close();
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Lunes", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Lunes", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }else{
+                ContentValues cv = new ContentValues();
+                cv.put("abre", spLunesAbre.getSelectedItem().toString());
+                cv.put("cierra", spLunesCierra.getSelectedItem().toString());
+
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Lunes", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Lunes", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }
         }else{
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", spLunesAbre.getSelectedItem().toString());
-            cv.put("cierra", spLunesCierra.getSelectedItem().toString());
+            if(cerradoLunes)
+            {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Lunes", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Lunes", null, cv);
-            basededatos.close();
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Lunes", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Lunes", null, cv);
+                basededatos.close();
+            }else{
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", spLunesAbre.getSelectedItem().toString());
+                cv.put("cierra", spLunesCierra.getSelectedItem().toString());
+
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Lunes", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Lunes", null, cv);
+                basededatos.close();
+            }
         }
+        ///////////////////
+        if(martesRegistrado){
+            if(cerradoMartes){
+                ContentValues cv = new ContentValues();
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-        if(cerradoMartes)
-        {
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", "Cerrado");
-            cv.put("cierra", "Cerrado");
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Martes", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Martes", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }else{
+                ContentValues cv = new ContentValues();
+                cv.put("abre", spMartesAbre.getSelectedItem().toString());
+                cv.put("cierra", spMartesCierra.getSelectedItem().toString());
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Martes", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Martes", null, cv);
-            basededatos.close();
-        }else{
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", spMartesAbre.getSelectedItem().toString());
-            cv.put("cierra", spMartesCierra.getSelectedItem().toString());
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Martes", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Martes", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }
+        }else {
+            if (cerradoMartes) {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Martes", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Martes", null, cv);
-            basededatos.close();
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Martes", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Martes", null, cv);
+                basededatos.close();
+            } else {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", spMartesAbre.getSelectedItem().toString());
+                cv.put("cierra", spMartesCierra.getSelectedItem().toString());
+
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Martes", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Martes", null, cv);
+                basededatos.close();
+            }
         }
+        ////////////////
+        if(miercolesRegistrado){
+            if(cerradoMier) {
+                ContentValues cv = new ContentValues();
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-        if(cerradoMier)
-        {
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", "Cerrado");
-            cv.put("cierra", "Cerrado");
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Miercoles", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Miercoles", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }else{
+                ContentValues cv = new ContentValues();
+                cv.put("abre", spMierAbre.getSelectedItem().toString());
+                cv.put("cierra", spMierCierra.getSelectedItem().toString());
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Miercoles", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Miercoles", null, cv);
-            basededatos.close();
-        }else{
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", spMierAbre.getSelectedItem().toString());
-            cv.put("cierra", spMierCierra.getSelectedItem().toString());
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Miercoles", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Miercoles", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }
+        }else {
+            if (cerradoMier) {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Miercoles", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Miercoles", null, cv);
-            basededatos.close();
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Miercoles", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Miercoles", null, cv);
+                basededatos.close();
+            } else {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", spMierAbre.getSelectedItem().toString());
+                cv.put("cierra", spMierCierra.getSelectedItem().toString());
+
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Miercoles", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Miercoles", null, cv);
+                basededatos.close();
+            }
         }
+        //////////////
+        if(juevesRegistrado){
+            if(cerradoJue) {
+                ContentValues cv = new ContentValues();
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-        if(cerradoJue)
-        {
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", "Cerrado");
-            cv.put("cierra", "Cerrado");
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Jueves", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Jueves", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }else{
+                ContentValues cv = new ContentValues();
+                cv.put("abre", spJueAbre.getSelectedItem().toString());
+                cv.put("cierra", spJueCierra.getSelectedItem().toString());
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Jueves", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Jueves", null, cv);
-            basededatos.close();
-        }else{
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", spJueAbre.getSelectedItem().toString());
-            cv.put("cierra", spJueCierra.getSelectedItem().toString());
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Jueves", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Jueves", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }
+        }else {
+            if (cerradoJue) {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Jueves", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Jueves", null, cv);
-            basededatos.close();
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Jueves", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Jueves", null, cv);
+                basededatos.close();
+            } else {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", spJueAbre.getSelectedItem().toString());
+                cv.put("cierra", spJueCierra.getSelectedItem().toString());
+
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Jueves", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Jueves", null, cv);
+                basededatos.close();
+            }
         }
+        ////////////////
+        if(viernesRegistrado){
+            if(cerradoVier) {
+                ContentValues cv = new ContentValues();
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-        if(cerradoVier)
-        {
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", "Cerrado");
-            cv.put("cierra", "Cerrado");
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Viernes", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Viernes", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }else{
+                ContentValues cv = new ContentValues();
+                cv.put("abre", spVierAbre.getSelectedItem().toString());
+                cv.put("cierra", spVierCierra.getSelectedItem().toString());
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Viernes", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Viernes", null, cv);
-            basededatos.close();
-        }else{
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", spVierAbre.getSelectedItem().toString());
-            cv.put("cierra", spVierCierra.getSelectedItem().toString());
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Viernes", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Viernes", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }
+        }else {
+            if (cerradoVier) {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Viernes", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Viernes", null, cv);
-            basededatos.close();
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Viernes", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Viernes", null, cv);
+                basededatos.close();
+            } else {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", spVierAbre.getSelectedItem().toString());
+                cv.put("cierra", spVierCierra.getSelectedItem().toString());
+
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Viernes", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Viernes", null, cv);
+                basededatos.close();
+            }
         }
+        ////////////////
+        if(sabadoRegistrado){
+            if(cerradoSabado) {
+                ContentValues cv = new ContentValues();
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-        if(cerradoSabado)
-        {
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", "Cerrado");
-            cv.put("cierra", "Cerrado");
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Sabado", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Sabado", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }else{
+                ContentValues cv = new ContentValues();
+                cv.put("abre", spSabAbre.getSelectedItem().toString());
+                cv.put("cierra", spSabCierra.getSelectedItem().toString());
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Sabado", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Sabado", null, cv);
-            basededatos.close();
-        }else{
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", spSabAbre.getSelectedItem().toString());
-            cv.put("cierra", spSabCierra.getSelectedItem().toString());
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Sabado", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Sabado", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }
+        }else {
+            if (cerradoSabado) {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Sabado", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Sabado", null, cv);
-            basededatos.close();
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Sabado", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Sabado", null, cv);
+                basededatos.close();
+            } else {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", spSabAbre.getSelectedItem().toString());
+                cv.put("cierra", spSabCierra.getSelectedItem().toString());
+
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Sabado", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Sabado", null, cv);
+                basededatos.close();
+            }
         }
+        ////////////////
+        if(domingoRegistrado){
+            if(cerradoDom) {
+                ContentValues cv = new ContentValues();
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-        if(cerradoDom)
-        {
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", "Cerrado");
-            cv.put("cierra", "Cerrado");
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Domingo", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Domingo", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }else{
+                ContentValues cv = new ContentValues();
+                cv.put("abre", spDomAbre.getSelectedItem().toString());
+                cv.put("cierra", spDomCierra.getSelectedItem().toString());
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Domingo", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Domingo", null, cv);
-            basededatos.close();
-        }else{
-            ContentValues cv = new ContentValues();
-            cv.put("usuario", usuario);
-            cv.put("abre", spDomAbre.getSelectedItem().toString());
-            cv.put("cierra", spDomCierra.getSelectedItem().toString());
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Domingo", null , 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.update("Domingo", cv, "usuario="+"'"+ usuario +"'", null);
+                basededatos.close();
+            }
+        }else {
+            if (cerradoDom) {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", "Cerrado");
+                cv.put("cierra", "Cerrado");
 
-            BaseDeDatos bd = new BaseDeDatos(getContext(), "Domingo", null , 1);
-            SQLiteDatabase basededatos = bd.getWritableDatabase();
-            basededatos.insert("Domingo", null, cv);
-            basededatos.close();
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Domingo", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Domingo", null, cv);
+                basededatos.close();
+            } else {
+                ContentValues cv = new ContentValues();
+                cv.put("usuario", usuario);
+                cv.put("abre", spDomAbre.getSelectedItem().toString());
+                cv.put("cierra", spDomCierra.getSelectedItem().toString());
+
+                BaseDeDatos bd = new BaseDeDatos(getContext(), "Domingo", null, 1);
+                SQLiteDatabase basededatos = bd.getWritableDatabase();
+                basededatos.insert("Domingo", null, cv);
+                basededatos.close();
+            }
         }
-
-        getActivity().onBackPressed();
-        Toast.makeText(getContext(), "Horario guardado", Toast.LENGTH_LONG).show();
     }
 
     private void cargarHorario()
     {
-        BaseDeDatos bd = new BaseDeDatos(getContext(), "Lunes", null , 1);
-        SQLiteDatabase basededatos = bd.getWritableDatabase();
+        BaseDeDatos bdLun = new BaseDeDatos(getContext(), "Lunes", null , 1);
+        SQLiteDatabase basededatosLunes = bdLun.getWritableDatabase();
+        Cursor consultaLunes = basededatosLunes.rawQuery("select abre, cierra from Lunes where usuario ='"+usuario+"'",null);
+        if(consultaLunes.moveToFirst())
+        {
+            lunesRegistrado = true;
+            int posicion = 0;
+            if(!consultaLunes.getString(0).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaLunes.getString(0))) {
+                        spLunesAbre.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+                posicion = 0;
+            }else{
+                swLunes.setChecked(true);
+                lunes.setText("Cerrado");
+                spLunesAbre.setEnabled(false);
+            }
+
+            if(!consultaLunes.getString(1).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaLunes.getString(1))) {
+                        spLunesCierra.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+            }else{
+                swLunes.setChecked(true);
+                lunes.setText("Cerrado");
+                spLunesCierra.setEnabled(false);
+            }
+        }
+        basededatosLunes.close();
+        ////
+        BaseDeDatos bdMartes = new BaseDeDatos(getContext(), "Martes", null , 1);
+        SQLiteDatabase basededatosMartes = bdMartes.getWritableDatabase();
+        Cursor consultaMartes = basededatosMartes.rawQuery("select abre, cierra from Martes where usuario ='"+usuario+"'",null);
+        if(consultaMartes.moveToFirst())
+        {
+            martesRegistrado = true;
+            int posicion = 0;
+            if(!consultaMartes.getString(0).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaMartes.getString(0))) {
+                        spMartesAbre.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+                posicion = 0;
+            }else{
+                swMartes.setChecked(true);
+                martes.setText("Cerrado");
+                spMartesAbre.setEnabled(false);
+            }
+
+            if(!consultaMartes.getString(1).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaMartes.getString(1))) {
+                        spMartesCierra.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+            }else{
+                swMartes.setChecked(true);
+                martes.setText("Cerrado");
+                spMartesCierra.setEnabled(false);
+            }
+        }
+        basededatosMartes.close();
+        /////
+        BaseDeDatos bdMiercoles = new BaseDeDatos(getContext(), "Miercoles", null , 1);
+        SQLiteDatabase basededatosMiercoles = bdMiercoles.getWritableDatabase();
+        Cursor consultaMiercoles = basededatosMiercoles.rawQuery("select abre, cierra from Miercoles where usuario ='"+usuario+"'",null);
+        if(consultaMiercoles.moveToFirst())
+        {
+            miercolesRegistrado = true;
+            int posicion = 0;
+            if(!consultaMiercoles.getString(0).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaMiercoles.getString(0))) {
+                        spMierAbre.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+                posicion = 0;
+            }else{
+                swMier.setChecked(true);
+                mier.setText("Cerrado");
+                spMierAbre.setEnabled(false);
+            }
+
+            if(!consultaMiercoles.getString(1).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaMiercoles.getString(1))) {
+                        spMierCierra.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+            }else{
+                swMier.setChecked(true);
+                mier.setText("Cerrado");
+                spMierCierra.setEnabled(false);
+            }
+        }
+        basededatosMiercoles.close();
+        /////
+        BaseDeDatos bdJueves = new BaseDeDatos(getContext(), "Jueves", null , 1);
+        SQLiteDatabase basededatosJueves = bdJueves.getWritableDatabase();
+        Cursor consultaJueves = basededatosJueves.rawQuery("select abre, cierra from Jueves where usuario ='"+usuario+"'",null);
+        if(consultaJueves.moveToFirst())
+        {
+            juevesRegistrado = true;
+            int posicion = 0;
+            if(!consultaJueves.getString(0).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaJueves.getString(0))) {
+                        spJueAbre.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+                posicion = 0;
+            }else{
+                swJue.setChecked(true);
+                jueves.setText("Cerrado");
+                spJueAbre.setEnabled(false);
+            }
+
+            if(!consultaJueves.getString(1).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaJueves.getString(1))) {
+                        spJueCierra.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+            }else{
+                swJue.setChecked(true);
+                jueves.setText("Cerrado");
+                spJueCierra.setEnabled(false);
+            }
+        }
+        basededatosJueves.close();
+        /////
+        BaseDeDatos bdViernes = new BaseDeDatos(getContext(), "Viernes", null , 1);
+        SQLiteDatabase basededatosViernes = bdViernes.getWritableDatabase();
+        Cursor consultaViernes = basededatosViernes.rawQuery("select abre, cierra from Viernes where usuario ='"+usuario+"'",null);
+        if(consultaViernes.moveToFirst())
+        {
+            viernesRegistrado = true;
+            int posicion = 0;
+            if(!consultaViernes.getString(0).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaViernes.getString(0))) {
+                        spVierAbre.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+                posicion = 0;
+            }else{
+                swVier.setChecked(true);
+                viernes.setText("Cerrado");
+                spVierAbre.setEnabled(false);
+            }
+
+            if(!consultaViernes.getString(1).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaViernes.getString(1))) {
+                        spVierCierra.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+            }else{
+                swVier.setChecked(true);
+                viernes.setText("Cerrado");
+                spVierCierra.setEnabled(false);
+            }
+        }
+        basededatosViernes.close();
+        ////
+        BaseDeDatos bdSabado = new BaseDeDatos(getContext(), "Sabado", null , 1);
+        SQLiteDatabase basededatosSabado = bdSabado.getWritableDatabase();
+        Cursor consultaSabado = basededatosSabado.rawQuery("select abre, cierra from Sabado where usuario ='"+usuario+"'",null);
+        if(consultaSabado.moveToFirst())
+        {
+            sabadoRegistrado = true;
+            int posicion = 0;
+            if(!consultaSabado.getString(0).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaSabado.getString(0))) {
+                        spSabAbre.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+                posicion = 0;
+            }else{
+                swSab.setChecked(true);
+                sabado.setText("Cerrado");
+                spSabAbre.setEnabled(false);
+            }
+
+            if(!consultaSabado.getString(1).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaSabado.getString(1))) {
+                        spSabCierra.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+            }else{
+                swSab.setChecked(true);
+                sabado.setText("Cerrado");
+                spSabCierra.setEnabled(false);
+            }
+        }
+        basededatosSabado.close();
+        /////
+        BaseDeDatos bdDom = new BaseDeDatos(getContext(), "Domingo", null , 1);
+        SQLiteDatabase basededatosDomi = bdDom.getWritableDatabase();
+        Cursor consultaDom = basededatosDomi.rawQuery("select abre, cierra from Domingo where usuario ='"+usuario+"'",null);
+        if(consultaDom.moveToFirst())
+        {
+            domingoRegistrado = true;
+            int posicion = 0;
+
+            if(!consultaDom.getString(0).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaDom.getString(0))) {
+                        spDomAbre.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+                posicion = 0;
+            }else{
+                swDom.setChecked(true);
+                domingo.setText("Cerrado");
+                spDomAbre.setEnabled(false);
+            }
+
+            if(!consultaDom.getString(1).equals("Cerrado")) {
+                for (int i = 0; i < horas.length; i++) {
+                    if (horas[i].equals(consultaDom.getString(1))) {
+                        spDomCierra.setSelection(posicion);
+                        break;
+                    }
+                    posicion++;
+                }
+            }else{
+                swDom.setChecked(true);
+                domingo.setText("Cerrado");
+                spDomCierra.setEnabled(false);
+            }
+        }
+        basededatosDomi.close();
     }
 
     private void arregloHoras()
