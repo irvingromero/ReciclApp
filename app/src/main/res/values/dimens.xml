@@ -6,6 +6,6 @@
     <dimen name="nav_header_height">100dp</dimen>
     <dimen name="fab_margin">10dp</dimen>
 
-    <dimen name="cabeceraMenu_inicioPrin">60dp</dimen>
+    <dimen name="cabeceraMenu_inicioPrin">10dp</dimen>
     <dimen name="nav_header_height_sesionRecicla">170dp</dimen>
 </resources>

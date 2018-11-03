@@ -257,6 +257,7 @@
                 android:layout_gravity="center" />
 
             <ExpandableListView
+                android:id="@+id/elvHorarios_datosRecicla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </ExpandableListView>

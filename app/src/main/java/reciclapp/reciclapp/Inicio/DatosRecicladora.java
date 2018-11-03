@@ -1,6 +1,7 @@
 package reciclapp.reciclapp.Inicio;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -18,8 +20,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -29,6 +33,8 @@ import android.widget.Toast;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.R;
@@ -48,6 +54,11 @@ public class DatosRecicladora extends Fragment
     protected ArrayList<String> listaDatos;
     private Button btnPuntuar;
     private DrawerLayout drawerLayout;
+    ////////////
+    private ExpandableListView expandableListView;
+    private ListViewAdapter adapter;
+    private ArrayList<String> listaCategoria;
+    private Map<String, ArrayList<String>> mapChild;
 
     public DatosRecicladora() { }
 
@@ -100,13 +111,35 @@ public class DatosRecicladora extends Fragment
         foto = vista.findViewById(R.id.fotoRecicladora_datosRecicladora);
         cargarFoto();
         mostrarMateriales();
-
+        //////////////////
         ratingRecicladora = vista.findViewById(R.id.tvPuntuacion_datosRecicla);
-
+        /////////////////
         puntuar = vista.findViewById(R.id.rbPuntuar_datosRecicladora);
         cargarPuntucacion();
+        //////////////////
+        expandableListView = vista.findViewById(R.id.elvHorarios_datosRecicla);
+        cargarHorario();
 
         btnPuntuar = vista.findViewById(R.id.btnPuntuar_datosRecicladora);
+        return vista;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+
+        ImageButton back = vista.findViewById(R.id.btnAtras_datosRecicladora);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+                drawerLayout.setDrawerLockMode(drawerLayout.LOCK_MODE_UNLOCKED);
+                ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+            }
+        });
+
+
         btnPuntuar.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -238,18 +271,6 @@ public class DatosRecicladora extends Fragment
                 }
             }
         });
-
-        ImageButton back = vista.findViewById(R.id.btnAtras_datosRecicladora);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-                drawerLayout.setDrawerLockMode(drawerLayout.LOCK_MODE_UNLOCKED);
-                ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-            }
-        });
-
-        return vista;
     }
 
     private void cargarFoto()
@@ -337,8 +358,27 @@ public class DatosRecicladora extends Fragment
         flujo.close();
     }
 
+    private void cargarHorario()
+    {
+        listaCategoria = new ArrayList<>();
+        mapChild = new HashMap<>();
 
+        listaCategoria.add("Horarios");
+        listaCategoria.add("kjsdnkjlsdklfc");
+        listaCategoria.add("5156486486");
 
+        ArrayList<String> items = new ArrayList<>();
+        items.add("lo que sea xd");
+        items.add("lo que sea xd");
+
+        mapChild.put(listaCategoria.get(0), items);
+        mapChild.put(listaCategoria.get(1), items);
+
+        adapter = new ListViewAdapter(getContext(), listaCategoria, mapChild);
+        expandableListView.setAdapter(adapter);
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public class AdapterDatos extends RecyclerView.Adapter<DatosRecicladora.AdapterDatos.ViewHolderDatos> {
         ArrayList<String> listaDatos;
 
@@ -378,6 +418,78 @@ public class DatosRecicladora extends Fragment
             public void asignarDatos(String s){
                 dato.setText(s);
             }
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    public class ListViewAdapter extends BaseExpandableListAdapter
+    {
+        ArrayList<String> listaCategoria;
+        Map<String, ArrayList<String>> mapChild;
+        Context context;
+
+        public ListViewAdapter(Context context, ArrayList<String> listaCategoria, Map<String, ArrayList<String>> mapChild){
+            this.context = context;
+            this.listaCategoria = listaCategoria;
+            this.mapChild = mapChild;
+        }
+
+        @Override
+        public int getGroupCount() {
+            return listaCategoria.size();
+        }
+
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            return mapChild.get(listaCategoria.get(groupPosition)).size();
+        }
+
+        @Override
+        public Object getGroup(int groupPosition) {
+            return listaCategoria.get(groupPosition);
+        }
+
+        @Override
+        public Object getChild(int groupPosition, int childPosition) {
+            return mapChild.get(listaCategoria.get(groupPosition)).get(childPosition);
+        }
+
+        @Override
+        public long getGroupId(int groupPosition) {
+            return 0;
+        }
+
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return 0;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return false;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            String grupo = getGroup(groupPosition).toString();
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.lista_material, null);
+            TextView tituloGrupo = convertView.findViewById(R.id.tvMaterial_sesionReci);
+            tituloGrupo.setText(grupo);
+            return convertView;
+        }
+
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            String datos = getChild(groupPosition, childPosition).toString();
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_group, null);
+            TextView item = convertView.findViewById(R.id.tv);
+            item.setText(datos);
+            return convertView;
+        }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
         }
     }
 }

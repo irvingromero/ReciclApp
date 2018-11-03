@@ -339,9 +339,6 @@ public class SesionRecicladora extends AppCompatActivity implements SesionRecicl
             ft.addToBackStack(null);
             ft.commit();
 
-        } else if (id == R.id.agregarRecicladora_re) {
-            Toast.makeText(this, "Proximamente", Toast.LENGTH_SHORT).show();
-
         } else if (id == R.id.cerrarSesion_re)
         {
             new AlertDialog.Builder(this).setTitle("¿Cerrar sesion?")

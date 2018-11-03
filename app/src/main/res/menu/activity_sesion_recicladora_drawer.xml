@@ -20,10 +20,6 @@
             android:icon="@drawable/horario"
             android:title="@string/agregarHorario" />
         <item
-            android:id="@+id/agregarRecicladora_re"
-            android:icon="@drawable/agregar_material"
-            android:title="@string/agregarRecicladora" />
-        <item
             android:id="@+id/cerrarSesion_re"
             android:icon="@drawable/salir"
             android:title="@string/cerrarSesion" />
