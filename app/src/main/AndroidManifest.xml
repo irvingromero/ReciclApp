@@ -54,16 +54,17 @@
         <activity
             android:name=".Reciclaje.Manualidades"
             android:supportsPictureInPicture="false"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Reciclaje.GuiaReciclaje"
             android:supportsPictureInPicture="false"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SesionUsuario.SesionUsuario"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
-            android:screenOrientation="portrait"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Inicio.zzz"></activity>
     </application>
 
 </manifest>

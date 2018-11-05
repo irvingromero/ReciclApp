@@ -256,11 +256,11 @@
                 android:layout_below="@id/separador2"
                 android:layout_gravity="center" />
 
-            <ExpandableListView
-                android:id="@+id/elvHorarios_datosRecicla"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvHorarios_datosRecicla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </ExpandableListView>
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
 
         <TextView

@@ -32,6 +32,19 @@ import reciclapp.reciclapp.Reciclaje.Manualidades;
 import reciclapp.reciclapp.SesionRecicladora.SesionRecicladora;
 import reciclapp.reciclapp.SesionUsuario.SesionUsuario;
 
+/**************************************************************************
+ *Pendientes detalles
+ * - Materiales repetidos en la busqueda de un material
+ * - Cuando se hace una busqueda y se revisa la info detallada
+ * al dar back quita la busqueda del material
+ * - Bug al puntuar la segunda recicladora
+ * - Al guardar horarios como cerrado dos veces
+ * el switch no sale como encendido
+ *
+ * REGISTROS
+ * - Validar que sean minimo 3 caracteres
+ * - No caracteres especiales
+ ***************************************************************************/
 public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioPrincipal {
 
     private DrawerLayout drawer;

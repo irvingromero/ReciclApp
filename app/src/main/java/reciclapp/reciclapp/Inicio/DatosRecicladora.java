@@ -1,7 +1,6 @@
 package reciclapp.reciclapp.Inicio;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,10 +19,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -33,8 +30,6 @@ import android.widget.Toast;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.R;
@@ -55,10 +50,8 @@ public class DatosRecicladora extends Fragment
     private Button btnPuntuar;
     private DrawerLayout drawerLayout;
     ////////////
-    private ExpandableListView expandableListView;
-    private ListViewAdapter adapter;
-    private ArrayList<String> listaCategoria;
-    private Map<String, ArrayList<String>> mapChild;
+    private ArrayList<String> listaHorarios;
+    private RecyclerView rv_horarios;
 
     public DatosRecicladora() { }
 
@@ -117,7 +110,7 @@ public class DatosRecicladora extends Fragment
         puntuar = vista.findViewById(R.id.rbPuntuar_datosRecicladora);
         cargarPuntucacion();
         //////////////////
-        expandableListView = vista.findViewById(R.id.elvHorarios_datosRecicla);
+        rv_horarios = vista.findViewById(R.id.rvHorarios_datosRecicla);
         cargarHorario();
 
         btnPuntuar = vista.findViewById(R.id.btnPuntuar_datosRecicladora);
@@ -360,22 +353,128 @@ public class DatosRecicladora extends Fragment
 
     private void cargarHorario()
     {
-        listaCategoria = new ArrayList<>();
-        mapChild = new HashMap<>();
+        rv_horarios.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
+        listaHorarios = new ArrayList<>();
 
-        listaCategoria.add("Horarios");
-        listaCategoria.add("kjsdnkjlsdklfc");
-        listaCategoria.add("5156486486");
-
-        ArrayList<String> items = new ArrayList<>();
-        items.add("lo que sea xd");
-        items.add("lo que sea xd");
-
-        mapChild.put(listaCategoria.get(0), items);
-        mapChild.put(listaCategoria.get(1), items);
-
-        adapter = new ListViewAdapter(getContext(), listaCategoria, mapChild);
-        expandableListView.setAdapter(adapter);
+        ////  LLENAR EL ARRAY CON EL HORARIO DE LA RECICLADORA ////
+        BaseDeDatos baseDeDatos = new BaseDeDatos(getContext(), "Lunes", null, 1);
+        SQLiteDatabase bdLunes = baseDeDatos.getWritableDatabase();
+        Cursor consultaLunes = bdLunes.rawQuery("select abre, cierra from Lunes where usuario ='" +usuarioRecicla + "'", null);
+        if (consultaLunes.moveToFirst())
+        {
+            do{
+                listaHorarios.add("Lunes: "+consultaLunes.getString(0)+" - "+consultaLunes.getString(1));
+            }while(consultaLunes.moveToNext());
+        }
+        else
+        {
+            listaHorarios.add("Sin horario agregado");
+        }
+        AdapterHorario adapter = new AdapterHorario(listaHorarios);
+        rv_horarios.setAdapter(adapter);
+        bdLunes.close();
+        /////////////////
+        BaseDeDatos baseDeDatosMartes = new BaseDeDatos(getContext(), "Martes", null, 1);
+        SQLiteDatabase bdMartes = baseDeDatosMartes.getWritableDatabase();
+        Cursor consultaMartes = bdMartes.rawQuery("select abre, cierra from Martes where usuario ='" +usuarioRecicla + "'", null);
+        if (consultaMartes.moveToFirst())
+        {
+            do{
+                listaHorarios.add("Martes: "+consultaMartes.getString(0)+" - "+consultaMartes.getString(1));
+            }while(consultaMartes.moveToNext());
+        }
+        else
+        {
+            listaHorarios.add("Sin horario agregado");
+        }
+        AdapterHorario adapterMartes = new AdapterHorario(listaHorarios);
+        rv_horarios.setAdapter(adapterMartes);
+        bdMartes.close();
+        ///////////////////////////////
+        BaseDeDatos baseDeDatosMiercoles = new BaseDeDatos(getContext(), "Miercoles", null, 1);
+        SQLiteDatabase bdMiercoles = baseDeDatosMiercoles.getWritableDatabase();
+        Cursor consultaMiercoles = bdMiercoles.rawQuery("select abre, cierra from Miercoles where usuario ='" +usuarioRecicla + "'", null);
+        if (consultaMiercoles.moveToFirst())
+        {
+            do{
+                listaHorarios.add("Miercoles: "+consultaMiercoles.getString(0)+" - "+consultaMiercoles.getString(1));
+            }while(consultaMiercoles.moveToNext());
+        }
+        else
+        {
+            listaHorarios.add("Sin horario agregado");
+        }
+        AdapterHorario adapterMiercoles = new AdapterHorario(listaHorarios);
+        rv_horarios.setAdapter(adapterMiercoles);
+        bdMiercoles.close();
+        //////////////////////////////////
+        BaseDeDatos baseDeDatosJueves = new BaseDeDatos(getContext(), "Jueves", null, 1);
+        SQLiteDatabase bdJueves = baseDeDatosJueves.getWritableDatabase();
+        Cursor consultaJueves = bdJueves.rawQuery("select abre, cierra from Jueves where usuario ='" +usuarioRecicla + "'", null);
+        if (consultaJueves.moveToFirst())
+        {
+            do{
+                listaHorarios.add("Jueves: "+consultaJueves.getString(0)+" - "+consultaJueves.getString(1));
+            }while(consultaJueves.moveToNext());
+        }
+        else
+        {
+            listaHorarios.add("Sin horario agregado");
+        }
+        AdapterHorario adapterJueves = new AdapterHorario(listaHorarios);
+        rv_horarios.setAdapter(adapterJueves);
+        bdJueves.close();
+        /////////////////////////////////
+        BaseDeDatos baseDeDatosViernes = new BaseDeDatos(getContext(), "Viernes", null, 1);
+        SQLiteDatabase bdViernes = baseDeDatosViernes.getWritableDatabase();
+        Cursor consultaViernes = bdViernes.rawQuery("select abre, cierra from Viernes where usuario ='" +usuarioRecicla + "'", null);
+        if (consultaViernes.moveToFirst())
+        {
+            do{
+                listaHorarios.add("Viernes: "+consultaViernes.getString(0)+" - "+consultaViernes.getString(1));
+            }while(consultaViernes.moveToNext());
+        }
+        else
+        {
+            listaHorarios.add("Sin horario agregado");
+        }
+        AdapterHorario adapterViernes = new AdapterHorario(listaHorarios);
+        rv_horarios.setAdapter(adapterViernes);
+        bdViernes.close();
+        ///////////////////////////
+        BaseDeDatos baseDeDatosSabado = new BaseDeDatos(getContext(), "Sabado", null, 1);
+        SQLiteDatabase bdSabado = baseDeDatosSabado.getWritableDatabase();
+        Cursor consultaSabado = bdSabado.rawQuery("select abre, cierra from Sabado where usuario ='" +usuarioRecicla + "'", null);
+        if (consultaSabado.moveToFirst())
+        {
+            do{
+                listaHorarios.add("Sabado: "+consultaSabado.getString(0)+" - "+consultaSabado.getString(1));
+            }while(consultaSabado.moveToNext());
+        }
+        else
+        {
+            listaHorarios.add("Sin horario agregado");
+        }
+        AdapterHorario adapterSabado = new AdapterHorario(listaHorarios);
+        rv_horarios.setAdapter(adapterSabado);
+        bdSabado.close();
+        ///////////////////
+        BaseDeDatos baseDeDatosDom = new BaseDeDatos(getContext(), "Domingo", null, 1);
+        SQLiteDatabase bdDom = baseDeDatosDom.getWritableDatabase();
+        Cursor consultaDom = bdDom.rawQuery("select abre, cierra from Domingo where usuario ='" +usuarioRecicla + "'", null);
+        if (consultaDom.moveToFirst())
+        {
+            do{
+                listaHorarios.add("Domingo: "+consultaDom.getString(0)+" - "+consultaDom.getString(1));
+            }while(consultaDom.moveToNext());
+        }
+        else
+        {
+            listaHorarios.add("Sin horario agregado");
+        }
+        AdapterHorario adapterDomingo = new AdapterHorario(listaHorarios);
+        rv_horarios.setAdapter(adapterDomingo);
+        bdDom.close();
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -388,7 +487,7 @@ public class DatosRecicladora extends Fragment
 
         @NonNull
         @Override
-        public DatosRecicladora.AdapterDatos.ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public AdapterDatos.ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_material, null, false);
             return new DatosRecicladora.AdapterDatos.ViewHolderDatos(view);
         }
@@ -402,8 +501,6 @@ public class DatosRecicladora extends Fragment
         public int getItemCount() {
             return listaDatos.size();
         }
-
-
 
 
         public class ViewHolderDatos extends RecyclerView.ViewHolder
@@ -421,75 +518,43 @@ public class DatosRecicladora extends Fragment
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    public class ListViewAdapter extends BaseExpandableListAdapter
-    {
-        ArrayList<String> listaCategoria;
-        Map<String, ArrayList<String>> mapChild;
-        Context context;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public class AdapterHorario extends RecyclerView.Adapter<AdapterHorario.ViewHolderHorario> {
+        ArrayList<String> listaHorarios;
 
-        public ListViewAdapter(Context context, ArrayList<String> listaCategoria, Map<String, ArrayList<String>> mapChild){
-            this.context = context;
-            this.listaCategoria = listaCategoria;
-            this.mapChild = mapChild;
+        public AdapterHorario(ArrayList<String> listaDatos) {
+            this.listaHorarios = listaDatos;
         }
 
         @Override
-        public int getGroupCount() {
-            return listaCategoria.size();
+        public AdapterHorario.ViewHolderHorario onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_material, null, false);
+            return new AdapterHorario.ViewHolderHorario(view);
         }
 
         @Override
-        public int getChildrenCount(int groupPosition) {
-            return mapChild.get(listaCategoria.get(groupPosition)).size();
+        public void onBindViewHolder(ViewHolderHorario holder, int position) {
+            holder.asignarDatos(listaHorarios.get(position));
         }
 
         @Override
-        public Object getGroup(int groupPosition) {
-            return listaCategoria.get(groupPosition);
+        public int getItemCount() {
+            return listaHorarios.size();
         }
 
-        @Override
-        public Object getChild(int groupPosition, int childPosition) {
-            return mapChild.get(listaCategoria.get(groupPosition)).get(childPosition);
-        }
 
-        @Override
-        public long getGroupId(int groupPosition) {
-            return 0;
-        }
+        public class ViewHolderHorario extends RecyclerView.ViewHolder
+        {
+            TextView dato;
 
-        @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return 0;
-        }
+            public ViewHolderHorario(final View itemView) {
+                super(itemView);
+                dato = itemView.findViewById(R.id.tvMaterial_sesionReci);
+            }
 
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            String grupo = getGroup(groupPosition).toString();
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.lista_material, null);
-            TextView tituloGrupo = convertView.findViewById(R.id.tvMaterial_sesionReci);
-            tituloGrupo.setText(grupo);
-            return convertView;
-        }
-
-        @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-            String datos = getChild(groupPosition, childPosition).toString();
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_group, null);
-            TextView item = convertView.findViewById(R.id.tv);
-            item.setText(datos);
-            return convertView;
-        }
-
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
+            public void asignarDatos(String s){
+                dato.setText(s);
+            }
         }
     }
 }
