@@ -97,7 +97,7 @@
         android:text="@string/btnRegistro_inicio"
         android:textAllCaps="false"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/botonRegistro"
-        />
+        android:backgroundTint="@color/botonRegistro" />
+
 
 </LinearLayout>

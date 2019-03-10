@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +42,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import reciclapp.reciclapp.BaseDeDatos.BaseDeDatos;
 import reciclapp.reciclapp.R;
 
-public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener
-{
+public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private View vista, infowindow;
     private GoogleMap mapa;
     private MapView mapView;
@@ -53,8 +53,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
     public MapaInicio() { }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle extras = getArguments();
         busqueda = extras.getString("material");
         usuarioLogeado = extras.getString("sesionUsuario");
@@ -73,7 +72,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         super.onViewCreated(view, savedInstanceState);
 
         mapView = vista.findViewById(R.id.mapita);
-        if(mapView != null){
+        if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();
             mapView.getMapAsync(this);
@@ -81,39 +80,28 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
+    public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
 
         mapa = googleMap;
         mapa.getUiSettings().setZoomControlsEnabled(true);
-        mapa.setMinZoomPreference(11.0f);
         mapa.setOnMarkerClickListener(this);
 
         permiso();
 
-        LatLng mexicali = new LatLng(32.6278100, -115.4544600);
-        mapa.moveCamera(CameraUpdateFactory.newLatLng(mexicali));
-
-        if(busqueda != null)
-        {
+        if (busqueda != null) {
             busquedaMaterial();
 
-        } else if(materialPrecio != null)
-        {
+        } else if (materialPrecio != null) {
             mejorPrecio();
-        }
-        else if(distancia != null)
-        {
+        } else if (distancia != null) {
             cernano();
-        }else
-        {
+        } else {
             mostrarRecicladoras();
         }
     }
 
-    private void mostrarRecicladoras()
-    {
+    private void mostrarRecicladoras() {
         BaseDeDatos bd = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
         SQLiteDatabase flujo = bd.getWritableDatabase();
 
@@ -121,19 +109,18 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         SQLiteDatabase mat = bdMaterial.getWritableDatabase();
 
         Cursor consulta = flujo.rawQuery("select usuario, latitud, longitud from Ubicacion", null);
-        if(consulta.moveToFirst())
-        {
+        if (consulta.moveToFirst()) {
             String usuario, nombreRecicladora = "";
             Double lat, lon;
 
             BaseDeDatos bdRecicladora = new BaseDeDatos(getContext(), "Recicladoras", null, 1);
             SQLiteDatabase flujoRecicladora = bdRecicladora.getWritableDatabase();
 
-            do{
+            do {
                 usuario = consulta.getString(0);
 
-                Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario ='"+usuario+"'", null);
-                if(consultaRecicladora.moveToFirst()){
+                Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario ='" + usuario + "'", null);
+                if (consultaRecicladora.moveToFirst()) {
                     nombreRecicladora = consultaRecicladora.getString(0);
                 }
 
@@ -141,21 +128,19 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
                 lon = Double.parseDouble(consulta.getString(2));
 
                 //// VALIDA QUE TENGA AGREGADO ALGUN MATERIAL PARA MOSTRARLA EN EL MAPA ////
-                Cursor consultaMaterial = mat.rawQuery("select material from Materiales where usuario ='"+usuario+"'", null);
-                if(consultaMaterial.moveToFirst())
-                {
+                Cursor consultaMaterial = mat.rawQuery("select material from Materiales where usuario ='" + usuario + "'", null);
+                if (consultaMaterial.moveToFirst()) {
                     mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(nombreRecicladora));
                 }
-            }while(consulta.moveToNext());
+            } while (consulta.moveToNext());
             flujoRecicladora.close();
         }
         flujo.close();
         mat.close();
     }
 
-    private void busquedaMaterial()
-    {
-        getActivity().setTitle("Buscar: "+busqueda);
+    private void busquedaMaterial() {
+        getActivity().setTitle("Buscar: " + busqueda);
 
         BaseDeDatos bd = new BaseDeDatos(getContext(), "Materiales", null, 1);
         SQLiteDatabase flujo = bd.getWritableDatabase();
@@ -163,23 +148,21 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         BaseDeDatos bdUbicacion = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
         SQLiteDatabase flujoUbicacion = bdUbicacion.getWritableDatabase();
 
-        Cursor consulta = flujo.rawQuery("select usuario from Materiales where material ='"+busqueda+"'", null);
-        if(consulta.moveToFirst())
-        {
+        Cursor consulta = flujo.rawQuery("select usuario from Materiales where material ='" + busqueda + "'", null);
+        if (consulta.moveToFirst()) {
             String usuario, nombreRecicladora = "";
             Double lat, lon;
 
             BaseDeDatos bdRecicladora = new BaseDeDatos(getContext(), "Recicladoras", null, 1);
             SQLiteDatabase flujoRecicladora = bdRecicladora.getWritableDatabase();
 
-            do{
+            do {
                 usuario = consulta.getString(0);
 
-                Cursor consultaUbicacion = flujoUbicacion.rawQuery("select latitud, longitud from Ubicacion where usuario='"+usuario+"'", null);
-                if(consultaUbicacion.moveToFirst())
-                {
-                    Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario ='"+usuario+"'", null);
-                    if(consultaRecicladora.moveToFirst()){
+                Cursor consultaUbicacion = flujoUbicacion.rawQuery("select latitud, longitud from Ubicacion where usuario='" + usuario + "'", null);
+                if (consultaUbicacion.moveToFirst()) {
+                    Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario ='" + usuario + "'", null);
+                    if (consultaRecicladora.moveToFirst()) {
                         nombreRecicladora = consultaRecicladora.getString(0);
                     }
 
@@ -187,51 +170,45 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
                     lon = Double.parseDouble(consultaUbicacion.getString(1));
                     mapa.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(nombreRecicladora));
                 }
-            }while(consulta.moveToNext());
+            } while (consulta.moveToNext());
             flujoRecicladora.close();
         }
         flujo.close();
         flujoUbicacion.close();
     }
 
-    private void mejorPrecio()
-    {
+    private void mejorPrecio() {
         BaseDeDatos bd = new BaseDeDatos(getContext(), "Materiales", null, 1);
         SQLiteDatabase flujoBdMateriales = bd.getWritableDatabase();
 
         Cursor consultaMateriales = flujoBdMateriales.rawQuery("select precio from Materiales where material='" + materialPrecio + "'", null);
-        if(consultaMateriales.moveToFirst())
-        {
+        if (consultaMateriales.moveToFirst()) {
             double[] precios = new double[consultaMateriales.getCount()];
             int indicePrecios = 0;
 
-            do{
+            do {
                 double valorPrecio = consultaMateriales.getDouble(0);
                 precios[indicePrecios] = valorPrecio;
                 indicePrecios++;
-            }while(consultaMateriales.moveToNext());
-                //// Calcula el valor mayor de los precios ////
+            } while (consultaMateriales.moveToNext());
+            //// Calcula el valor mayor de los precios ////
             double mayor = 0.0;
             double valor;
             int indice = 0;
-            for (int i = 0; i < consultaMateriales.getCount(); i++)
-            {
+            for (int i = 0; i < consultaMateriales.getCount(); i++) {
                 mayor = precios[indice];
 
-                for (int j = indice + 1; j < consultaMateriales.getCount(); j++)
-                {
+                for (int j = indice + 1; j < consultaMateriales.getCount(); j++) {
                     valor = precios[j];
 
-                    if (valor > mayor)
-                    {
+                    if (valor > mayor) {
                         mayor = valor;
                     }
                 }
             }
-                //// Se saca el usuario de las recicladoras con el material buscado y con el mismo precio ////
-            Cursor consultaMaterialesUsuario = flujoBdMateriales.rawQuery("select usuario from Materiales where precio='" + mayor + "' and material='"+ materialPrecio + "'", null);
-            if(consultaMaterialesUsuario.moveToFirst())
-            {
+            //// Se saca el usuario de las recicladoras con el material buscado y con el mismo precio ////
+            Cursor consultaMaterialesUsuario = flujoBdMateriales.rawQuery("select usuario from Materiales where precio='" + mayor + "' and material='" + materialPrecio + "'", null);
+            if (consultaMaterialesUsuario.moveToFirst()) {
                 BaseDeDatos db = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
                 SQLiteDatabase flujo = db.getWritableDatabase();
 
@@ -240,17 +217,15 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
 
                 do {
                     Cursor consultaUbicacion = flujo.rawQuery("select latitud, longitud from Ubicacion where usuario='" + consultaMaterialesUsuario.getString(0) + "'", null);
-                    if (consultaUbicacion.moveToFirst())
-                    {
+                    if (consultaUbicacion.moveToFirst()) {
                         Cursor consultaRecicladora = flujoRecicladora.rawQuery("select nombre from Recicladoras where usuario='" + consultaMaterialesUsuario.getString(0) + "'", null);
-                        if (consultaRecicladora.moveToFirst())
-                        {
+                        if (consultaRecicladora.moveToFirst()) {
                             mapa.addMarker(new MarkerOptions().position(new LatLng(consultaUbicacion.getDouble(0), consultaUbicacion.getDouble(1)))
                                     .title(consultaRecicladora.getString(0)))
                                     .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                         }
                     }
-                }while (consultaMaterialesUsuario.moveToNext());
+                } while (consultaMaterialesUsuario.moveToNext());
                 flujo.close();
                 flujoRecicladora.close();
             }
@@ -258,10 +233,8 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
         flujoBdMateriales.close();
     }
 
-    private void cernano()
-    {
-        if(miUbicacion != null)
-        {
+    private void cernano() {
+        if (miUbicacion != null) {
             BaseDeDatos bd = new BaseDeDatos(getContext(), "Ubicacion", null, 1);
             SQLiteDatabase flujo = bd.getWritableDatabase();
 
@@ -273,8 +246,7 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
             LatLng[] ubicaciones = new LatLng[0];
 
             Cursor consulta = flujo.rawQuery("select usuario, latitud, longitud from Ubicacion", null);
-            if (consulta.moveToFirst())
-            {
+            if (consulta.moveToFirst()) {
                 ubicaciones = new LatLng[consulta.getCount()];
                 String usuario, nombreRecicladora = "";
                 Double lat, lon;
@@ -316,14 +288,12 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
             float distanciaMenor;
             //// CALCULA CUAL ES LA MENOR LONGITUD DSDE LA UBICACION ////
             menor = ubicaciones[0];
-            for (int i = 0; i < ubicaciones.length; i++)
-            {
+            for (int i = 0; i < ubicaciones.length; i++) {
                 locat.setLatitude(menor.latitude);
                 locat.setLongitude(menor.longitude);
                 distanciaMenor = miUbicacion.distanceTo(locat);
 
-                for (int j = i + 1; j < ubicaciones.length; j++)
-                {
+                for (int j = i + 1; j < ubicaciones.length; j++) {
                     valor = ubicaciones[j];
                     locat.setLatitude(valor.latitude);
                     locat.setLongitude(valor.longitude);
@@ -336,75 +306,8 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
             }
             CameraUpdate camara = CameraUpdateFactory.newLatLngZoom(menor, 14);
             mapa.animateCamera(camara);
-        }
-        else
-        {
+        } else {
             Toast.makeText(getContext(), "Problemas con su ubicacion", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private void permiso()
-    {
-        boolean permisoActivado;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            permisoActivado = estadoPermiso();
-            if(permisoActivado == false)
-            {
-                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION))
-                {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                }
-                else
-                {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-                }
-            }
-            else
-            {
-                mapa.setMyLocationEnabled(true);
-
-                LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                Criteria criteria = new Criteria();
-                miUbicacion = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-                try {
-                    double latitude = miUbicacion.getLatitude();
-                    double longitud = miUbicacion.getLongitude();
-
-                LatLng latlog = new LatLng(latitude, longitud);
-                mapa.moveCamera(CameraUpdateFactory.newLatLng(latlog));
-                }catch (Exception e){}
-            }
-        }
-        else
-        {
-            mapa.setMyLocationEnabled(true);
-
-            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            miUbicacion = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-            try {
-                double latitude = miUbicacion.getLatitude();
-                double longitud = miUbicacion.getLongitude();
-
-                LatLng latlog = new LatLng(latitude, longitud);
-                mapa.moveCamera(CameraUpdateFactory.newLatLng(latlog));
-            }catch (Exception e){ }
-        }
-    }
-
-    private boolean estadoPermiso()
-    {
-        int resultado = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-        if(resultado == PackageManager.PERMISSION_GRANTED)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 
@@ -476,6 +379,59 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
     }
 
     @SuppressLint("MissingPermission")
+    private void permiso() {
+        boolean permisoActivado;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            permisoActivado = estadoPermiso();
+
+            if (permisoActivado == false)
+            {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION))
+                {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                }
+            } else { // PERMISO YA DADO
+                mapa.setMyLocationEnabled(true);
+                camaraAubicacion();
+            }
+        } else {// VERSION MENOR A 6.0
+            mapa.setMyLocationEnabled(true);
+            camaraAubicacion();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void camaraAubicacion() {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        miUbicacion = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        try {
+            double latitude = miUbicacion.getLatitude();
+            double longitud = miUbicacion.getLongitude();
+
+            LatLng latlog = new LatLng(latitude, longitud);
+            mapa.moveCamera(CameraUpdateFactory.newLatLng(latlog));
+            mapa.setMinZoomPreference(11.0f);
+        }catch (Exception e){ }
+    }
+
+    private boolean estadoPermiso()
+    {
+        int resultado = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+        if(resultado == PackageManager.PERMISSION_GRANTED)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
     {
@@ -486,10 +442,10 @@ public class MapaInicio extends Fragment implements OnMapReadyCallback, GoogleMa
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
                 mapa.setMyLocationEnabled(true);
+                camaraAubicacion();
             }
         }
     }
-
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

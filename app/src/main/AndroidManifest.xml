@@ -64,7 +64,6 @@
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="false"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Inicio.zzz"></activity>
     </application>
 
 </manifest>

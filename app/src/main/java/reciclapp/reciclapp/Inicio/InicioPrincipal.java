@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -40,7 +42,7 @@ import reciclapp.reciclapp.SesionUsuario.SesionUsuario;
  * - Bug al puntuar la segunda recicladora
  * - Al guardar horarios como cerrado dos veces
  * el switch no sale como encendido
- *
+ * Al entrar a la app centrar en la ubicacion
  * REGISTROS
  * - Validar que sean minimo 3 caracteres
  * - No caracteres especiales
@@ -49,6 +51,8 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
 
     private DrawerLayout drawer;
     private boolean mapaInicio;
+
+    private MapaInicio mi = new MapaInicio();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,7 +76,6 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
         navigationView.setNavigationItemSelectedListener(this);
 
         Bundle bundle = new Bundle();
-        MapaInicio mi = new MapaInicio();
         bundle.putString("sesionUsuario", null);
         bundle.putString("material", null);
         mi.setArguments(bundle);
@@ -128,7 +131,6 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
             {
                 setTitle("Principal");
                 Bundle bundle = new Bundle();
-                MapaInicio mi = new MapaInicio();
                 bundle.putString("material", null);
                 mi.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi)
@@ -151,45 +153,36 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
 
         if (id == R.id.sesionRegistro_inicioPrin)
         {
-            Intent intent = new Intent(this, Inicio.class);
-            startActivity(intent);
-            finish();
+            hiloInicioSesion();
         }
         else if (id == R.id.buscarMaterial_inicioPrin)
         {
             ventanaMateriales();
-
         }
         else if (id == R.id.mejorPrecio_inicioPrin)
         {
             new AlertDialog.Builder(this).setMessage("Debes registrarte o iniciar sesion para usar esta funcion.")
                     .setPositiveButton("Registrarse", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(InicioPrincipal.this, Inicio.class);
-                            startActivity(intent);
-                            finish();
+                            hiloInicioSesion();
                         }
                     })
                     .setNegativeButton("Aceptar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) { }
             }).show();
-
         }
         else if (id == R.id.masCercano_inicioPrin)
         {
             new AlertDialog.Builder(this).setMessage("Debes registrarte o iniciar sesion para usar esta funcion.")
                     .setPositiveButton("Registrarse", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(InicioPrincipal.this, Inicio.class);
-                            startActivity(intent);
-                            finish();
+                            hiloInicioSesion();
                         }
                     })
                     .setNegativeButton("Aceptar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) { }
                     }).show();
         }
-
         else if (id == R.id.programador_inicioPrin)
         {
             Desarrollador d = new Desarrollador();
@@ -216,6 +209,17 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void hiloInicioSesion(){
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), Inicio.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void ventanaMateriales()
@@ -269,7 +273,6 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
                     mapaInicio = true;
 
                     Bundle bundle = new Bundle();
-                    MapaInicio mi = new MapaInicio();
                     bundle.putString("material", seleccion);
                     mi.setArguments(bundle);
                     getSupportFragmentManager().beginTransaction().replace(R.id.mainInicioPrincipal, mi).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
@@ -284,7 +287,5 @@ public class InicioPrincipal extends AppCompatActivity implements Inicio_InicioP
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
+    public void onFragmentInteraction(Uri uri) { }
 }
